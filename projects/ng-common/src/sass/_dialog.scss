@@ -1,0 +1,62 @@
+@import "variables";
+@import "mixins";
+
+.dialog-header {
+  position: relative;
+  height: 3rem;
+
+  .close-btn {
+    @include absolute((top: 0, right: 0));
+    @include box(2.4rem);
+    font-size: 2.4rem;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
+.dialog-body {
+  font-size: 1.6rem;
+  font-weight: bold;
+  position: relative;
+}
+
+.dialog-footer {
+  position: relative;
+  margin-top: 2rem;
+  height: 5rem;
+
+  .dialog-footer-controls {
+    width: 100%;
+    @include abs-middle();
+    text-align: center;
+    height: 3.5rem;
+
+    button {
+      width: 10rem;
+      @include hlh(3.5rem);
+      background-color: $accent;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      border-radius: .2rem;
+
+      &:hover {
+        background: darken($accent, 10%);
+      }
+
+      & + button {
+        margin-left: 1rem;
+      }
+
+      &.cancel-btn {
+        background-color: #b2b2b2;
+
+        &:hover {
+          background: darken(#b2b2b2, 10%);
+        }
+      }
+    }
+  }
+}
+
+

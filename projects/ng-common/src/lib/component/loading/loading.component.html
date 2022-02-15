@@ -1,0 +1,10 @@
+<div class="loading-overlay" [ngClass]="{
+    'active': backdrop && (!global || (loading$ && loading$.value)),
+    'loading': !global || (loading$ && loading$.value),
+    'global': global,
+    'fit': !global
+    }">
+  <div class="spinner-container">
+    <mat-progress-spinner *ngIf="!global || (loading$ | async)" mode="indeterminate" [diameter]="d"></mat-progress-spinner>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@import "../../../sass/dialog";
+@import "../../../sass/variables";
+
+.dialog-body-container {
+  text-align: center;
+  word-break: keep-all;
+
+  ::ng-deep {
+    .accent {
+      color: $accent;
+      font-weight: bold;
+    }
+  }
+}
+
+.cancel-btn {
+  background-color: #b2b2b2;
+}
+

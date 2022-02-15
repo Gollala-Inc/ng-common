@@ -1,0 +1,14 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <mat-icon class="close-btn" (click)="onCloseDialog()">close</mat-icon>
+  </div>
+  <div class="dialog-body">
+    <div class="dialog-body-container" [innerHTML]="data.message"></div>
+  </div>
+  <div class="dialog-footer">
+    <div class="dialog-footer-controls">
+      <button mat-flat-button (click)="onCloseDialog(true)">확인</button>
+      <button *ngIf="data.mode !== 'alert'" class="cancel-btn" mat-flat-button (click)="onCloseDialog(false)">취소</button>
+    </div>
+  </div>
+</div>

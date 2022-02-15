@@ -1,0 +1,158 @@
+@mixin single-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    @content
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    @content
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    @content
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    @content
+  }
+}
+
+@mixin abs-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin abs-middle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin abs-center-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin ellipsis-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@mixin position($position, $positionMap) {
+  @each $o in top right bottom left {
+    #{$o}: map_get($positionMap, $o);
+  }
+  position: $position;
+}
+
+// Positioning helpers
+@mixin absolute($positionMap: ()) {
+  @include position(absolute, $positionMap);
+}
+
+@mixin fixed($positionMap: ()) {
+  @include position(fixed, $positionMap);
+}
+
+@mixin relative($positionMap: ()) {
+  @include position(relative, $positionMap);
+}
+
+@mixin abs-fit-parent($offsetMap: ()) {
+  $defaultOffset: (top: 0, bottom: 0, left: 0, right: 0);
+  $mergedMap: map-merge($defaultOffset, $offsetMap);
+  @include absolute($mergedMap);
+}
+
+@mixin hlh($height) {
+  height: $height;
+  line-height: $height;
+}
+
+@mixin box($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+//
+// 아래와 같은 형태로 배열 하기 위해 사용
+//
+// ■ ■ ■ ■
+// ■ ■ ■ ■
+//
+//Usage Example:
+//
+//@include splitBy(app-product-item, 5, 10px) {
+//  position: relative;
+//  background-color: red;
+//}
+//
+//Result:
+//
+//app-product-item {
+//  width: calc((100% - 40px) / 5);
+//  vertical-align: top;
+//  position: relative;
+//  background-color: red;
+//  & + app-product-item {
+//    margin-left: 10px;
+//  }
+//  &:nth-child(5n + 1) {
+//    margin-left: 0;
+//  }
+//}
+//
+@mixin splitBy($selector, $n, $marginBetween: 0) {
+  #{$selector} {
+    display: inline-block;
+    width: calc((100% - #{$marginBetween * ($n - 1)}) / #{$n});
+    margin-top: $marginBetween;
+    vertical-align: top;
+    @content;
+
+    & + #{$selector} {
+      margin-left: $marginBetween;
+
+      &:nth-child(#{$n}n + 1) {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+//
+// Usage Example:
+//
+// @include pseudoContent(app-product-item) {
+//   border: 1px solid red;
+// }
+//
+// Result:
+//
+// app-product-item {
+//   &:before {
+//     position: absolute;
+//     content: '';
+//     top: 0;
+//     bottom: 0;
+//     left: 0;
+//     right: 0;
+//     border: 1px solid red;
+//   }
+// }
+//
+@mixin pseudoContent($selector) {
+  #{$selector} {
+    &:before {
+      @include abs-fit-parent();
+      content: '';
+      @content
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@import "../../../sass/variables";
+@import "../../../sass/mixins";
+
+.loading-overlay {
+  z-index: -10;
+
+  &.fit {
+    @include abs-fit-parent();
+  }
+
+  &.global {
+    @include fixed((top: 0, bottom: 0, right: 0, left: 0));
+  }
+
+  &.active {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+
+  &.loading {
+    z-index: 10000;
+  }
+
+  .spinner-container {
+    @include abs-center-middle();
+  }
+
+  mat-progress-spinner {
+  }
+}
+
+::ng-deep .mat-progress-spinner, .mat-spinner {
+  circle {
+    stroke: $accent;
+  }
+}

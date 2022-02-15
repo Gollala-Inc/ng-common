@@ -1,0 +1,83 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+.mat-dialog-container {
+  padding: 10px;
+}
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+// Define the default theme (same as the example above).
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent: mat-palette($mat-pink, A200, A100, A400);
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
+
+// Include the default theme styles.
+@include angular-material-theme($candy-app-theme);
+
+.cdk-overlay-container {
+  z-index: 100000;
+}
+
+.mat-button {
+  font-family: Roboto, Dotum, '돋움', 'Apple SD Gothic Neo', sans-serif;
+  font-size: 12px;
+}
+
+mat-icon {
+  font-family: 'Material Icons' !important;
+
+  &.flipV {
+    transform: scaleX(-1);
+  }
+
+  &.flipH {
+    transform: scaleY(-1);
+  }
+}
+
+.mat-tab-group, .mat-tab-body-wrapper {
+  height: 100%;
+}
+
+.dense-table {
+  .mat-header-row {
+    height: 40px;
+  }
+
+  .mat-row, .mat-footer-row {
+    height: 32px;
+  }
+}
+
+mat-form-field {
+  &.has-validation {
+    .mat-hint {
+      &.ng-star-inserted {
+        color: red;
+      }
+    }
+  }
+}
+
+.cdk-drag-preview {
+  &.column-info-item {
+    z-index: 10001 !important;
+  }
+}
+
+.cdk-overlay-backdrop {
+  &.wise-backdrop {
+    background-color: rgba(0, 0, 0, 0.32);
+  }
+}
+
+.cdk-overlay-pane {
+  &.wise-panel {
+    .mat-dialog-container {
+      padding: 15px;
+    }
+  }
+}

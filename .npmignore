@@ -1,0 +1,14 @@
+/.angular
+/.vscode
+/projects
+/src
+/.browserslistrc
+/.editorconfig
+/.gitlab-ci.yml
+/angular.json
+/karma.conf.js
+/README.md
+/tsconfig.app.json
+/tsconfig.json
+/tsconfig.spec.json
+
