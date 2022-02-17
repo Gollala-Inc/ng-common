@@ -10,8 +10,9 @@ import * as i8 from "@angular/material/dialog";
 import * as i9 from "@angular/common";
 import * as i10 from "@angular/material/icon";
 import * as i11 from "@angular/material/progress-spinner";
+import * as i12 from "@angular/material/button";
 export declare class NgCommonModule {
     static ɵfac: i0.ɵɵFactoryDeclaration<NgCommonModule, never>;
-    static ɵmod: i0.ɵɵNgModuleDeclaration<NgCommonModule, [typeof i1.CommaSeparateNumberPipe, typeof i2.ConfirmDialogComponent, typeof i3.ImageMagnifierDialogComponent, typeof i4.LoadingComponent, typeof i5.LazyImageDirective, typeof i6.IconComponent, typeof i7.RippleDirective], [typeof i8.MatDialogModule, typeof i9.CommonModule, typeof i10.MatIconModule, typeof i11.MatProgressSpinnerModule], [typeof i1.CommaSeparateNumberPipe, typeof i4.LoadingComponent, typeof i2.ConfirmDialogComponent, typeof i5.LazyImageDirective, typeof i6.IconComponent, typeof i7.RippleDirective, typeof i8.MatDialogModule]>;
+    static ɵmod: i0.ɵɵNgModuleDeclaration<NgCommonModule, [typeof i1.CommaSeparateNumberPipe, typeof i2.ConfirmDialogComponent, typeof i3.ImageMagnifierDialogComponent, typeof i4.LoadingComponent, typeof i5.LazyImageDirective, typeof i6.IconComponent, typeof i7.RippleDirective], [typeof i8.MatDialogModule, typeof i9.CommonModule, typeof i10.MatIconModule, typeof i11.MatProgressSpinnerModule, typeof i12.MatButtonModule], [typeof i1.CommaSeparateNumberPipe, typeof i4.LoadingComponent, typeof i2.ConfirmDialogComponent, typeof i5.LazyImageDirective, typeof i6.IconComponent, typeof i7.RippleDirective, typeof i8.MatDialogModule]>;
     static ɵinj: i0.ɵɵInjectorDeclaration<NgCommonModule>;
 }

@@ -10,6 +10,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { LazyImageDirective } from './directive/lazy-image.directive';
 import { IconComponent } from './component/icon/icon.component';
 import { RippleDirective } from './directive/ripple.directive';
+import {MatButtonModule} from '@angular/material/button';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { RippleDirective } from './directive/ripple.directive';
     MatDialogModule,
     CommonModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule
   ],
   providers: [
     CommaSeparateNumberPipe
