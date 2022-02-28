@@ -3,6 +3,7 @@ import {BehaviorSubject, iif, Observable, of, throwError} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {RestService} from '@gollala/ng-common';
 import * as CryptoJS from 'crypto-js';
+import {HttpHeaders} from "@angular/common/http";
 
 const SIGNIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/login';
 const SIGNEDIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/info';
@@ -33,8 +34,7 @@ export class SecurityService {
 
   constructor(
     private restService: RestService,
-  ) {
-  }
+  ) {}
 
   get signedIn(): any {
     return this._signedIn;
@@ -108,10 +108,10 @@ export class SecurityService {
         const gollalaToken = localStorage.getItem('gollala_token');
         if (!gollalaToken || (gollalaToken && this.isExpiredToken(gollalaToken))) {
           this._signedIn = false;
-          return of(false);
+          return false;
         }
         this._signedIn = signedIn;
-        return of(true);
+        return true;
       })
     );
   }
