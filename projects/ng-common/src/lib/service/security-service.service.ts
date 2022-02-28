@@ -111,7 +111,7 @@ export class SecurityService {
           return false;
         }
         this._signedIn = signedIn;
-        this.signedIn$.next(signedIn);
+        this.signedIn$.next({...signedIn});
         return true;
       })
     );
