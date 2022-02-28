@@ -16,6 +16,9 @@ import * as i1$1 from '@angular/common/http';
 import { HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import * as _ from 'lodash';
 import { NoopScrollStrategy } from '@angular/cdk/overlay';
+import { catchError as catchError$1, mergeMap as mergeMap$1, map as map$1 } from 'rxjs/operators';
+import * as CryptoJS from 'crypto-js';
+import * as i1$2 from '@gollala/ng-common';
 
 class CommaSeparateNumberPipe {
     transform(value, args) {
@@ -886,6 +889,177 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImpor
                 }]
         }], ctorParameters: function () { return []; } });
 
+const SIGNIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/login';
+const SIGNEDIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/info';
+const SEND_EMAIL = 'https://gollala-email-zaj3pqrsqq-du.a.run.app/api/email/send/verification/';
+const SIGNOUT_ENDPOINT = '/api/security/v3/signout';
+const SIGNUP_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/register';
+const CHANGE_USER_ENDPOINT = '/api/security/v3/changeUser';
+const GET_SERVICE_USER_ENDPOINT = '/api/account/serviceUser/get/';
+const cypher = {
+    initVector: 'wiseSecretVector',
+    secretKey: 'wise$billing$key'
+};
+class SecurityService {
+    constructor(restService) {
+        this.restService = restService;
+        this._signedIn = false;
+        this.signedIn$ = new BehaviorSubject(this._signedIn);
+    }
+    get signedIn() {
+        return this._signedIn;
+    }
+    signUpReqeust(body) {
+        return this.restService.POST(SIGNUP_ENDPOINT, {
+            body,
+            handleError: true,
+            responseType: 'text'
+        });
+    }
+    sendEmail(body) {
+        return this.restService.POST(SEND_EMAIL, {
+            body,
+            handleError: true
+        });
+    }
+    getUserInfo() {
+        return this.restService.GET(SIGNEDIN_ENDPOINT, {
+            handleError: true
+        });
+    }
+    isExpiredToken(token) {
+        const { date } = JSON.parse(token);
+        const current = +new Date();
+        const diff = current - date;
+        return diff > 604800000 ? true : false;
+    }
+    signInRequest(userId, password) {
+        return this.restService.POST(SIGNIN_ENDPOINT, {
+            body: {
+                userId,
+                password
+            },
+            handleError: true,
+            responseType: 'text'
+        }).pipe(catchError$1((e) => {
+            console.log(e);
+            return throwError(e);
+        }), mergeMap$1(token => {
+            const gollalaToken = {
+                token,
+                date: +new Date()
+            };
+            localStorage.setItem('gollala_token', JSON.stringify(gollalaToken));
+            return this.signedInRequest();
+        }));
+    }
+    signedInRequest() {
+        return this.restService.GET(SIGNEDIN_ENDPOINT, {
+            handleError: true
+        }).pipe(catchError$1(e => {
+            this._signedIn = false;
+            this.signedIn$.next(false);
+            return throwError(e);
+        }), map$1((signedIn) => {
+            const gollalaToken = localStorage.getItem('gollala_token');
+            if (!gollalaToken || (gollalaToken && this.isExpiredToken(gollalaToken))) {
+                this._signedIn = false;
+                return false;
+            }
+            this._signedIn = signedIn;
+            return true;
+        }));
+    }
+    signInWithGoogleRequest(idToken, provider) {
+        return this.restService.POST(`https://commerce-api.gollala.org/customer/auth/social`, {
+            params: {
+                idToken,
+                provider,
+            },
+            handleError: true,
+            responseType: 'text'
+        }).pipe(catchError$1((e) => {
+            console.log(e);
+            return throwError(e);
+        }), mergeMap$1(token => {
+            const gollalaToken = {
+                token,
+                date: +new Date()
+            };
+            localStorage.setItem('gollala_token', JSON.stringify(gollalaToken));
+            return this.signedInRequest();
+        }));
+    }
+    signout() {
+        localStorage.removeItem('gollala_token');
+        this._signedIn = false;
+        this.signedIn$.next(null);
+    }
+    /**
+     * This method will be deprecated after menus and paths are properly set.
+     */
+    signOutRequest() {
+        return this.restService.GET(SIGNOUT_ENDPOINT, {
+            responseType: 'text',
+            handleError: true,
+        }).pipe(catchError$1(e => {
+            return throwError(e);
+        }), mergeMap$1(result => {
+            this._signedIn = false;
+            return of(true);
+        }));
+    }
+    changeUser(body) {
+        return this.restService.POST(CHANGE_USER_ENDPOINT, {
+            body,
+            handleError: true,
+        });
+    }
+    fileUploadToPath(file) {
+        return this.restService.POST('/api/cdn/public/uploadFile', {
+            multipart: true,
+            params: {
+                file: file,
+            },
+            responseType: 'text'
+        });
+    }
+    getServiceUser() {
+        const serviceUserId = this.signedIn.activeUserId;
+        return this.restService.GET(`${GET_SERVICE_USER_ENDPOINT}/${serviceUserId}?b=true`);
+    }
+    encrypt(text) {
+        // 이미 암호화 코드 상태이면 반환
+        if (Number.isNaN(+text)) {
+            return text;
+        }
+        const iv = CryptoJS.enc.Utf8.parse(cypher.initVector);
+        const key = CryptoJS.enc.Utf8.parse(cypher.secretKey);
+        const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv, padding: CryptoJS.pad.Pkcs7 }).toString();
+        return encodeURIComponent(encrypted);
+    }
+    decrypt(text) {
+        let decodeText = text;
+        let decodeURI = decodeURIComponent(decodeText);
+        while (decodeURI != decodeText) {
+            decodeText = decodeURI;
+            decodeURI = decodeURIComponent(decodeText);
+        }
+        const iv = CryptoJS.enc.Utf8.parse(cypher.initVector);
+        const key = CryptoJS.enc.Utf8.parse(cypher.secretKey);
+        const decrypted = CryptoJS.AES.decrypt(decodeURI, key, { iv: iv, padding: CryptoJS.pad.Pkcs7 });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+}
+SecurityService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, deps: [{ token: i1$2.RestService }], target: i0.ɵɵFactoryTarget.Injectable });
+SecurityService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, providedIn: 'root' });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, decorators: [{
+            type: Injectable,
+            args: [{
+                    providedIn: 'root'
+                }]
+        }], ctorParameters: function () { return [{ type: i1$2.RestService }]; } });
+
 /*
  * Public API Surface of ng-common-module
  */
@@ -894,5 +1068,5 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImpor
  * Generated bundle index. Do not edit.
  */
 
-export { CommaSeparateNumberPipe, ConfirmDialogComponent, DialogService, IconComponent, LazyImageDirective, LoadingComponent, LoadingService, LocalStorageService, NgCommonModule, RestService, RippleDirective };
+export { CommaSeparateNumberPipe, ConfirmDialogComponent, DialogService, IconComponent, LazyImageDirective, LoadingComponent, LoadingService, LocalStorageService, NgCommonModule, RestService, RippleDirective, SecurityService };
 //# sourceMappingURL=ng-common.mjs.map
