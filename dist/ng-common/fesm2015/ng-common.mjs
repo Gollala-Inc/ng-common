@@ -967,6 +967,7 @@ class SecurityService {
                 return false;
             }
             this._signedIn = signedIn;
+            this.signedIn$.next(Object.assign({}, signedIn));
             return true;
         }));
     }

@@ -35,7 +35,7 @@
     "@angular/platform-browser": "~13.1.0",
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
-    "@gollala/ng-common": "git+https://wisedev:M8JKuGe7NznGX66mS1sh@gitlab.com/wisefashion/wise/frontend/npm/ng-common.git#0.0.8",
+    "@gollala/ng-common": "github:Gollala-Inc/ng-common",
     "@types/jasmine": "~3.10.0",
     "@types/lodash": "^4.14.178",
     "@types/node": "^12.11.1",
