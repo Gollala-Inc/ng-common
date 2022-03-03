@@ -20,6 +20,21 @@ export class DialogService {
     private dialog: MatDialog
   ) {}
 
+  getDialogRef(componentName: string) {
+    const dialogRefs = this.dialog.openDialogs;
+    let dialogRef:any = null;
+
+    for(let i=0; i<dialogRefs.length; i++) {
+      dialogRef = dialogRefs[i];
+
+      if (dialogRef.componentInstance.constructor.name === componentName) {
+        break;
+      }
+    }
+
+    return dialogRef;
+  }
+
   alert(message: string, options?: GollalaMatDialogConfig) {
     const defaultOptions = {
       width: '32rem',
