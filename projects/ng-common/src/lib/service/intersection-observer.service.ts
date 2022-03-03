@@ -7,7 +7,7 @@ export interface EntryAndObserver {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class IntersectionObserverService {
   private intersectionObserver: IntersectionObserver | undefined;

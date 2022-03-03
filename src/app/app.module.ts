@@ -10,7 +10,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
-import {NgCommonModule} from 'dist/ng-common';
+import {NgCommonModule} from '../../projects/ng-common/src/lib/ng-common.module';
 
 const materialModules = [
   MatButtonModule,

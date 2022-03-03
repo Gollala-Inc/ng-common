@@ -13,7 +13,7 @@ import {catchError, filter, map, of, throwError} from 'rxjs';
 import * as _ from 'lodash';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class RestService {
 

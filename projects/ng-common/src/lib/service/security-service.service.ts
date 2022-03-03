@@ -3,7 +3,6 @@ import {BehaviorSubject, iif, Observable, of, throwError} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {RestService} from '@gollala/ng-common';
 import * as CryptoJS from 'crypto-js';
-import {HttpHeaders} from "@angular/common/http";
 
 const SIGNIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/login';
 const SIGNEDIN_ENDPOINT = 'https://commerce-api.gollala.org/customer/auth/info';
@@ -24,7 +23,7 @@ const cypher: Cypher = {
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'any'
 })
 export class SecurityService {
 

@@ -1,7 +1,7 @@
 import * as i0 from '@angular/core';
 import { Pipe, Component, Inject, HostListener, Injectable, EventEmitter, Input, Output, Directive, ViewChild, NgModule } from '@angular/core';
 import * as i1 from '@angular/material/dialog';
-import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
 import * as i2 from '@angular/material/icon';
 import { MatIconModule } from '@angular/material/icon';
 import * as i3 from '@angular/material/button';
@@ -12,10 +12,10 @@ import { BehaviorSubject, of, delay, tap, Subject, filter, map, mergeMap, Observ
 import * as i2$1 from '@angular/material/progress-spinner';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ajax } from 'rxjs/ajax';
-import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import * as i1$1 from '@angular/common/http';
 import { HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import * as _ from 'lodash';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { catchError as catchError$1, mergeMap as mergeMap$1, map as map$1 } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import * as i1$2 from '@gollala/ng-common';
@@ -57,10 +57,10 @@ class ConfirmDialogComponent {
     }
 }
 ConfirmDialogComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: ConfirmDialogComponent, deps: [{ token: i1.MatDialogRef }, { token: MAT_DIALOG_DATA }], target: i0.ɵɵFactoryTarget.Component });
-ConfirmDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: ConfirmDialogComponent, selector: "lib-confirm-dialog", host: { listeners: { "document:keypress": "handleKeyboardEvent($event)" } }, ngImport: i0, template: "<div class=\"dialog-container\">\r\n  <div class=\"dialog-header\">\r\n    <mat-icon class=\"close-btn\" (click)=\"onCloseDialog()\">close</mat-icon>\r\n  </div>\r\n  <div class=\"dialog-body\">\r\n    <div class=\"dialog-body-container\" [innerHTML]=\"data.message\"></div>\r\n  </div>\r\n  <div class=\"dialog-footer\">\r\n    <div class=\"dialog-footer-controls\">\r\n      <button mat-flat-button (click)=\"onCloseDialog(true)\">\uD655\uC778</button>\r\n      <button *ngIf=\"data.mode !== 'alert'\" class=\"cancel-btn\" mat-flat-button (click)=\"onCloseDialog(false)\">\uCDE8\uC18C</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n", styles: [".dialog-header{position:relative;height:3rem}.dialog-header .close-btn{top:0;right:0;position:absolute;width:2.4rem;height:2.4rem;font-size:2.4rem;cursor:pointer;-webkit-user-select:none;user-select:none}.dialog-body{font-size:1.6rem;font-weight:700;position:relative}.dialog-footer{position:relative;margin-top:2rem;height:5rem}.dialog-footer .dialog-footer-controls{width:100%;position:absolute;top:50%;transform:translateY(-50%);text-align:center;height:3.5rem}.dialog-footer .dialog-footer-controls button{width:10rem;height:3.5rem;line-height:3.5rem;background-color:#ee2554;color:#fff;cursor:pointer;-webkit-user-select:none;user-select:none;border-radius:.2rem}.dialog-footer .dialog-footer-controls button:hover{background:#d0103d}.dialog-footer .dialog-footer-controls button+button{margin-left:1rem}.dialog-footer .dialog-footer-controls button.cancel-btn{background-color:#b2b2b2}.dialog-footer .dialog-footer-controls button.cancel-btn:hover{background:#999999}.dialog-body-container{text-align:center;word-break:keep-all}.dialog-body-container ::ng-deep .accent{color:#ee2554;font-weight:700}button{border:none}.cancel-btn{background-color:#b2b2b2}\n"], components: [{ type: i2.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { type: i3.MatButton, selector: "button[mat-button], button[mat-raised-button], button[mat-icon-button],             button[mat-fab], button[mat-mini-fab], button[mat-stroked-button],             button[mat-flat-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }], directives: [{ type: i3$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }] });
+ConfirmDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: ConfirmDialogComponent, selector: "lib-confirm-dialog", host: { listeners: { "document:keypress": "handleKeyboardEvent($event)" } }, ngImport: i0, template: "<div class=\"dialog-container\">\n  <div class=\"dialog-header\">\n    <mat-icon class=\"close-btn\" (click)=\"onCloseDialog()\">close</mat-icon>\n  </div>\n  <div class=\"dialog-body\">\n    <div class=\"dialog-body-container\" [innerHTML]=\"data.message\"></div>\n  </div>\n  <div class=\"dialog-footer\">\n    <div class=\"dialog-footer-controls\">\n      <button mat-flat-button (click)=\"onCloseDialog(true)\">\uD655\uC778</button>\n      <button *ngIf=\"data.mode !== 'alert'\" class=\"cancel-btn\" mat-flat-button (click)=\"onCloseDialog(false)\">\uCDE8\uC18C</button>\n    </div>\n  </div>\n</div>\n", styles: [".dialog-header{position:relative;height:3rem}.dialog-header .close-btn{top:0;right:0;position:absolute;width:2.4rem;height:2.4rem;font-size:2.4rem;cursor:pointer;-webkit-user-select:none;user-select:none}.dialog-body{font-size:1.6rem;font-weight:700;position:relative}.dialog-footer{position:relative;margin-top:2rem;height:5rem}.dialog-footer .dialog-footer-controls{width:100%;position:absolute;top:50%;transform:translateY(-50%);text-align:center;height:3.5rem}.dialog-footer .dialog-footer-controls button{width:10rem;height:3.5rem;line-height:3.5rem;background-color:#ee2554;color:#fff;cursor:pointer;-webkit-user-select:none;user-select:none;border-radius:.2rem}.dialog-footer .dialog-footer-controls button:hover{background:#d0103d}.dialog-footer .dialog-footer-controls button+button{margin-left:1rem}.dialog-footer .dialog-footer-controls button.cancel-btn{background-color:#b2b2b2}.dialog-footer .dialog-footer-controls button.cancel-btn:hover{background:#999999}.dialog-body-container{text-align:center;word-break:keep-all}.dialog-body-container ::ng-deep .accent{color:#ee2554;font-weight:700}button{border:none}.cancel-btn{background-color:#b2b2b2}\n"], components: [{ type: i2.MatIcon, selector: "mat-icon", inputs: ["color", "inline", "svgIcon", "fontSet", "fontIcon"], exportAs: ["matIcon"] }, { type: i3.MatButton, selector: "button[mat-button], button[mat-raised-button], button[mat-icon-button],             button[mat-fab], button[mat-mini-fab], button[mat-stroked-button],             button[mat-flat-button]", inputs: ["disabled", "disableRipple", "color"], exportAs: ["matButton"] }], directives: [{ type: i3$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: ConfirmDialogComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'lib-confirm-dialog', template: "<div class=\"dialog-container\">\r\n  <div class=\"dialog-header\">\r\n    <mat-icon class=\"close-btn\" (click)=\"onCloseDialog()\">close</mat-icon>\r\n  </div>\r\n  <div class=\"dialog-body\">\r\n    <div class=\"dialog-body-container\" [innerHTML]=\"data.message\"></div>\r\n  </div>\r\n  <div class=\"dialog-footer\">\r\n    <div class=\"dialog-footer-controls\">\r\n      <button mat-flat-button (click)=\"onCloseDialog(true)\">\uD655\uC778</button>\r\n      <button *ngIf=\"data.mode !== 'alert'\" class=\"cancel-btn\" mat-flat-button (click)=\"onCloseDialog(false)\">\uCDE8\uC18C</button>\r\n    </div>\r\n  </div>\r\n</div>\r\n", styles: [".dialog-header{position:relative;height:3rem}.dialog-header .close-btn{top:0;right:0;position:absolute;width:2.4rem;height:2.4rem;font-size:2.4rem;cursor:pointer;-webkit-user-select:none;user-select:none}.dialog-body{font-size:1.6rem;font-weight:700;position:relative}.dialog-footer{position:relative;margin-top:2rem;height:5rem}.dialog-footer .dialog-footer-controls{width:100%;position:absolute;top:50%;transform:translateY(-50%);text-align:center;height:3.5rem}.dialog-footer .dialog-footer-controls button{width:10rem;height:3.5rem;line-height:3.5rem;background-color:#ee2554;color:#fff;cursor:pointer;-webkit-user-select:none;user-select:none;border-radius:.2rem}.dialog-footer .dialog-footer-controls button:hover{background:#d0103d}.dialog-footer .dialog-footer-controls button+button{margin-left:1rem}.dialog-footer .dialog-footer-controls button.cancel-btn{background-color:#b2b2b2}.dialog-footer .dialog-footer-controls button.cancel-btn:hover{background:#999999}.dialog-body-container{text-align:center;word-break:keep-all}.dialog-body-container ::ng-deep .accent{color:#ee2554;font-weight:700}button{border:none}.cancel-btn{background-color:#b2b2b2}\n"] }]
+            args: [{ selector: 'lib-confirm-dialog', template: "<div class=\"dialog-container\">\n  <div class=\"dialog-header\">\n    <mat-icon class=\"close-btn\" (click)=\"onCloseDialog()\">close</mat-icon>\n  </div>\n  <div class=\"dialog-body\">\n    <div class=\"dialog-body-container\" [innerHTML]=\"data.message\"></div>\n  </div>\n  <div class=\"dialog-footer\">\n    <div class=\"dialog-footer-controls\">\n      <button mat-flat-button (click)=\"onCloseDialog(true)\">\uD655\uC778</button>\n      <button *ngIf=\"data.mode !== 'alert'\" class=\"cancel-btn\" mat-flat-button (click)=\"onCloseDialog(false)\">\uCDE8\uC18C</button>\n    </div>\n  </div>\n</div>\n", styles: [".dialog-header{position:relative;height:3rem}.dialog-header .close-btn{top:0;right:0;position:absolute;width:2.4rem;height:2.4rem;font-size:2.4rem;cursor:pointer;-webkit-user-select:none;user-select:none}.dialog-body{font-size:1.6rem;font-weight:700;position:relative}.dialog-footer{position:relative;margin-top:2rem;height:5rem}.dialog-footer .dialog-footer-controls{width:100%;position:absolute;top:50%;transform:translateY(-50%);text-align:center;height:3.5rem}.dialog-footer .dialog-footer-controls button{width:10rem;height:3.5rem;line-height:3.5rem;background-color:#ee2554;color:#fff;cursor:pointer;-webkit-user-select:none;user-select:none;border-radius:.2rem}.dialog-footer .dialog-footer-controls button:hover{background:#d0103d}.dialog-footer .dialog-footer-controls button+button{margin-left:1rem}.dialog-footer .dialog-footer-controls button.cancel-btn{background-color:#b2b2b2}.dialog-footer .dialog-footer-controls button.cancel-btn:hover{background:#999999}.dialog-body-container{text-align:center;word-break:keep-all}.dialog-body-container ::ng-deep .accent{color:#ee2554;font-weight:700}button{border:none}.cancel-btn{background-color:#b2b2b2}\n"] }]
         }], ctorParameters: function () {
         return [{ type: i1.MatDialogRef }, { type: undefined, decorators: [{
                         type: Inject,
@@ -83,10 +83,10 @@ class ImageMagnifierDialogComponent {
     }
 }
 ImageMagnifierDialogComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: ImageMagnifierDialogComponent, deps: [{ token: i1.MatDialogRef }, { token: MAT_DIALOG_DATA }], target: i0.ɵɵFactoryTarget.Component });
-ImageMagnifierDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: ImageMagnifierDialogComponent, selector: "lib-image-magnifier-dialog", ngImport: i0, template: "<img [src]=\"data.src\" (click)=\"dialogRef.close()\"/>\r\n", styles: ["img{width:100%;height:100%;max-width:100vw;max-height:100vh;cursor:pointer;object-fit:contain;object-position:center}\n"] });
+ImageMagnifierDialogComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: ImageMagnifierDialogComponent, selector: "lib-image-magnifier-dialog", ngImport: i0, template: "<img [src]=\"data.src\" (click)=\"dialogRef.close()\"/>\n", styles: ["img{width:100%;height:100%;max-width:100vw;max-height:100vh;cursor:pointer;object-fit:contain;object-position:center}\n"] });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: ImageMagnifierDialogComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'lib-image-magnifier-dialog', template: "<img [src]=\"data.src\" (click)=\"dialogRef.close()\"/>\r\n", styles: ["img{width:100%;height:100%;max-width:100vw;max-height:100vh;cursor:pointer;object-fit:contain;object-position:center}\n"] }]
+            args: [{ selector: 'lib-image-magnifier-dialog', template: "<img [src]=\"data.src\" (click)=\"dialogRef.close()\"/>\n", styles: ["img{width:100%;height:100%;max-width:100vw;max-height:100vh;cursor:pointer;object-fit:contain;object-position:center}\n"] }]
         }], ctorParameters: function () {
         return [{ type: i1.MatDialogRef }, { type: undefined, decorators: [{
                         type: Inject,
@@ -127,11 +127,11 @@ class LoadingService {
     }
 }
 LoadingService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-LoadingService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingService, providedIn: 'root' });
+LoadingService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return []; } });
 
@@ -169,10 +169,10 @@ class LoadingComponent {
     }
 }
 LoadingComponent.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingComponent, deps: [{ token: LoadingService }], target: i0.ɵɵFactoryTarget.Component });
-LoadingComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: LoadingComponent, selector: "gollala-loading", inputs: { global: "global", backdrop: "backdrop", d: "d" }, outputs: { start: "start", end: "end" }, ngImport: i0, template: "<div class=\"loading-overlay\" [ngClass]=\"{\r\n    'active': backdrop && (!global || (loading$ && loading$.value)),\r\n    'loading': !global || (loading$ && loading$.value),\r\n    'global': global,\r\n    'fit': !global\r\n    }\">\r\n  <div class=\"spinner-container\">\r\n    <mat-progress-spinner *ngIf=\"!global || (loading$ | async)\" mode=\"indeterminate\" [diameter]=\"d\"></mat-progress-spinner>\r\n  </div>\r\n</div>\r\n", styles: [".loading-overlay{z-index:-10}.loading-overlay.fit{top:0;right:0;bottom:0;left:0;position:absolute}.loading-overlay.global{top:0;right:0;bottom:0;left:0;position:fixed}.loading-overlay.active{background-color:#00000026}.loading-overlay.loading{z-index:10000}.loading-overlay .spinner-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}::ng-deep .mat-progress-spinner circle,.mat-spinner circle{stroke:#ee2554}\n"], components: [{ type: i2$1.MatProgressSpinner, selector: "mat-progress-spinner", inputs: ["color", "diameter", "strokeWidth", "mode", "value"], exportAs: ["matProgressSpinner"] }], directives: [{ type: i3$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { type: i3$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], pipes: { "async": i3$1.AsyncPipe } });
+LoadingComponent.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", version: "13.1.3", type: LoadingComponent, selector: "gollala-loading", inputs: { global: "global", backdrop: "backdrop", d: "d" }, outputs: { start: "start", end: "end" }, ngImport: i0, template: "<div class=\"loading-overlay\" [ngClass]=\"{\n    'active': backdrop && (!global || (loading$ && loading$.value)),\n    'loading': !global || (loading$ && loading$.value),\n    'global': global,\n    'fit': !global\n    }\">\n  <div class=\"spinner-container\">\n    <mat-progress-spinner *ngIf=\"!global || (loading$ | async)\" mode=\"indeterminate\" [diameter]=\"d\"></mat-progress-spinner>\n  </div>\n</div>\n", styles: [".loading-overlay{z-index:-10}.loading-overlay.fit{top:0;right:0;bottom:0;left:0;position:absolute}.loading-overlay.global{top:0;right:0;bottom:0;left:0;position:fixed}.loading-overlay.active{background-color:#00000026}.loading-overlay.loading{z-index:10000}.loading-overlay .spinner-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}::ng-deep .mat-progress-spinner circle,.mat-spinner circle{stroke:#ee2554}\n"], components: [{ type: i2$1.MatProgressSpinner, selector: "mat-progress-spinner", inputs: ["color", "diameter", "strokeWidth", "mode", "value"], exportAs: ["matProgressSpinner"] }], directives: [{ type: i3$1.NgClass, selector: "[ngClass]", inputs: ["class", "ngClass"] }, { type: i3$1.NgIf, selector: "[ngIf]", inputs: ["ngIf", "ngIfThen", "ngIfElse"] }], pipes: { "async": i3$1.AsyncPipe } });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LoadingComponent, decorators: [{
             type: Component,
-            args: [{ selector: 'gollala-loading', template: "<div class=\"loading-overlay\" [ngClass]=\"{\r\n    'active': backdrop && (!global || (loading$ && loading$.value)),\r\n    'loading': !global || (loading$ && loading$.value),\r\n    'global': global,\r\n    'fit': !global\r\n    }\">\r\n  <div class=\"spinner-container\">\r\n    <mat-progress-spinner *ngIf=\"!global || (loading$ | async)\" mode=\"indeterminate\" [diameter]=\"d\"></mat-progress-spinner>\r\n  </div>\r\n</div>\r\n", styles: [".loading-overlay{z-index:-10}.loading-overlay.fit{top:0;right:0;bottom:0;left:0;position:absolute}.loading-overlay.global{top:0;right:0;bottom:0;left:0;position:fixed}.loading-overlay.active{background-color:#00000026}.loading-overlay.loading{z-index:10000}.loading-overlay .spinner-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}::ng-deep .mat-progress-spinner circle,.mat-spinner circle{stroke:#ee2554}\n"] }]
+            args: [{ selector: 'gollala-loading', template: "<div class=\"loading-overlay\" [ngClass]=\"{\n    'active': backdrop && (!global || (loading$ && loading$.value)),\n    'loading': !global || (loading$ && loading$.value),\n    'global': global,\n    'fit': !global\n    }\">\n  <div class=\"spinner-container\">\n    <mat-progress-spinner *ngIf=\"!global || (loading$ | async)\" mode=\"indeterminate\" [diameter]=\"d\"></mat-progress-spinner>\n  </div>\n</div>\n", styles: [".loading-overlay{z-index:-10}.loading-overlay.fit{top:0;right:0;bottom:0;left:0;position:absolute}.loading-overlay.global{top:0;right:0;bottom:0;left:0;position:fixed}.loading-overlay.active{background-color:#00000026}.loading-overlay.loading{z-index:10000}.loading-overlay .spinner-container{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}::ng-deep .mat-progress-spinner circle,.mat-spinner circle{stroke:#ee2554}\n"] }]
         }], ctorParameters: function () { return [{ type: LoadingService }]; }, propDecorators: { global: [{
                 type: Input
             }], backdrop: [{
@@ -221,11 +221,11 @@ class IntersectionObserverService {
     }
 }
 IntersectionObserverService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: IntersectionObserverService, deps: [{ token: i0.NgZone }], target: i0.ɵɵFactoryTarget.Injectable });
-IntersectionObserverService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: IntersectionObserverService, providedIn: 'root' });
+IntersectionObserverService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: IntersectionObserverService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: IntersectionObserverService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return [{ type: i0.NgZone }]; } });
 
@@ -504,6 +504,73 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImpor
                 args: ['click', ['$event']]
             }] } });
 
+class NgCommonModule {
+}
+NgCommonModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+NgCommonModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, declarations: [CommaSeparateNumberPipe,
+        ConfirmDialogComponent,
+        ImageMagnifierDialogComponent,
+        LoadingComponent,
+        LazyImageDirective,
+        IconComponent,
+        RippleDirective], imports: [MatDialogModule,
+        CommonModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatButtonModule], exports: [CommaSeparateNumberPipe,
+        LoadingComponent,
+        ConfirmDialogComponent,
+        LazyImageDirective,
+        IconComponent,
+        RippleDirective,
+        MatDialogModule] });
+NgCommonModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, providers: [
+        CommaSeparateNumberPipe,
+    ], imports: [[
+            MatDialogModule,
+            CommonModule,
+            MatIconModule,
+            MatProgressSpinnerModule,
+            MatButtonModule
+        ], MatDialogModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        CommaSeparateNumberPipe,
+                        ConfirmDialogComponent,
+                        ImageMagnifierDialogComponent,
+                        LoadingComponent,
+                        LazyImageDirective,
+                        IconComponent,
+                        RippleDirective,
+                    ],
+                    imports: [
+                        MatDialogModule,
+                        CommonModule,
+                        MatIconModule,
+                        MatProgressSpinnerModule,
+                        MatButtonModule
+                    ],
+                    providers: [
+                        CommaSeparateNumberPipe,
+                    ],
+                    exports: [
+                        CommaSeparateNumberPipe,
+                        LoadingComponent,
+                        ConfirmDialogComponent,
+                        LazyImageDirective,
+                        IconComponent,
+                        RippleDirective,
+                        MatDialogModule
+                    ],
+                    entryComponents: [
+                        ConfirmDialogComponent,
+                        ImageMagnifierDialogComponent
+                    ]
+                }]
+        }] });
+
 class GollalaMatDialogConfig extends MatDialogConfig {
 }
 class DialogService {
@@ -572,82 +639,13 @@ class DialogService {
     }
 }
 DialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, deps: [{ token: i1.MatDialog }], target: i0.ɵɵFactoryTarget.Injectable });
-DialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, providedIn: NgCommonModule });
+DialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: NgCommonModule
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return [{ type: i1.MatDialog }]; } });
-
-class NgCommonModule {
-}
-NgCommonModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-NgCommonModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, declarations: [CommaSeparateNumberPipe,
-        ConfirmDialogComponent,
-        ImageMagnifierDialogComponent,
-        LoadingComponent,
-        LazyImageDirective,
-        IconComponent,
-        RippleDirective], imports: [MatDialogModule,
-        CommonModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatButtonModule], exports: [CommaSeparateNumberPipe,
-        LoadingComponent,
-        ConfirmDialogComponent,
-        LazyImageDirective,
-        IconComponent,
-        RippleDirective,
-        MatDialogModule] });
-NgCommonModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, providers: [
-        CommaSeparateNumberPipe,
-        DialogService
-    ], imports: [[
-            MatDialogModule,
-            CommonModule,
-            MatIconModule,
-            MatProgressSpinnerModule,
-            MatButtonModule
-        ], MatDialogModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    declarations: [
-                        CommaSeparateNumberPipe,
-                        ConfirmDialogComponent,
-                        ImageMagnifierDialogComponent,
-                        LoadingComponent,
-                        LazyImageDirective,
-                        IconComponent,
-                        RippleDirective,
-                    ],
-                    imports: [
-                        MatDialogModule,
-                        CommonModule,
-                        MatIconModule,
-                        MatProgressSpinnerModule,
-                        MatButtonModule
-                    ],
-                    providers: [
-                        CommaSeparateNumberPipe,
-                        DialogService
-                    ],
-                    exports: [
-                        CommaSeparateNumberPipe,
-                        LoadingComponent,
-                        ConfirmDialogComponent,
-                        LazyImageDirective,
-                        IconComponent,
-                        RippleDirective,
-                        MatDialogModule
-                    ],
-                    entryComponents: [
-                        ConfirmDialogComponent,
-                        ImageMagnifierDialogComponent
-                    ]
-                }]
-        }] });
 
 class RestService {
     constructor(http, dialogService, loadingService) {
@@ -813,11 +811,11 @@ class RestService {
     }
 }
 RestService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: RestService, deps: [{ token: i1$1.HttpClient }, { token: DialogService }, { token: LoadingService }], target: i0.ɵɵFactoryTarget.Injectable });
-RestService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: RestService, providedIn: 'root' });
+RestService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: RestService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: RestService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return [{ type: i1$1.HttpClient }, { type: DialogService }, { type: LoadingService }]; } });
 
@@ -883,11 +881,11 @@ class LocalStorageService {
     }
 }
 LocalStorageService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LocalStorageService, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-LocalStorageService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LocalStorageService, providedIn: 'root' });
+LocalStorageService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LocalStorageService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: LocalStorageService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return []; } });
 
@@ -1055,11 +1053,11 @@ class SecurityService {
     }
 }
 SecurityService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, deps: [{ token: i1$2.RestService }], target: i0.ɵɵFactoryTarget.Injectable });
-SecurityService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, providedIn: 'root' });
+SecurityService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, providedIn: 'any' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: 'any'
                 }]
         }], ctorParameters: function () { return [{ type: i1$2.RestService }]; } });
 
