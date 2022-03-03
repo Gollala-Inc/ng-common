@@ -11,6 +11,7 @@ import { LazyImageDirective } from './directive/lazy-image.directive';
 import { IconComponent } from './component/icon/icon.component';
 import { RippleDirective } from './directive/ripple.directive';
 import {MatButtonModule} from '@angular/material/button';
+import {DialogService} from "./service/dialog.service";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule
   ],
   providers: [
-    CommaSeparateNumberPipe
+    CommaSeparateNumberPipe,
+    DialogService
   ],
   exports: [
     CommaSeparateNumberPipe,

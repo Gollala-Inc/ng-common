@@ -4,20 +4,22 @@ import {Observable} from 'rxjs';
 import {ComponentType, NoopScrollStrategy} from '@angular/cdk/overlay';
 import {ConfirmDialogComponent} from '../component/confirm-dialog/confirm-dialog.component';
 import {ImageMagnifierDialogComponent} from '../component/image-magnifier-dialog/image-magnifier-dialog.component';
+import {NgCommonModule} from "../ng-common.module";
+
+
 
 class GollalaMatDialogConfig<D = any> extends MatDialogConfig {
   scrollBlock?: boolean;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: NgCommonModule
 })
 export class DialogService {
 
   constructor(
     private dialog: MatDialog
-  ) {
-  }
+  ) {}
 
   alert(message: string, options?: GollalaMatDialogConfig) {
     const defaultOptions = {

@@ -1,7 +1,7 @@
 import * as i0 from '@angular/core';
 import { Pipe, Component, Inject, HostListener, Injectable, EventEmitter, Input, Output, Directive, ViewChild, NgModule } from '@angular/core';
 import * as i1 from '@angular/material/dialog';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import * as i2 from '@angular/material/icon';
 import { MatIconModule } from '@angular/material/icon';
 import * as i3 from '@angular/material/button';
@@ -12,10 +12,10 @@ import { BehaviorSubject, of, delay, tap, Subject, filter, map, mergeMap, Observ
 import * as i2$1 from '@angular/material/progress-spinner';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ajax } from 'rxjs/ajax';
+import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import * as i1$1 from '@angular/common/http';
 import { HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import * as _ from 'lodash';
-import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { catchError as catchError$1, mergeMap as mergeMap$1, map as map$1 } from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import * as i1$2 from '@gollala/ng-common';
@@ -500,73 +500,6 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImpor
                 args: ['click', ['$event']]
             }] } });
 
-class NgCommonModule {
-}
-NgCommonModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
-NgCommonModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, declarations: [CommaSeparateNumberPipe,
-        ConfirmDialogComponent,
-        ImageMagnifierDialogComponent,
-        LoadingComponent,
-        LazyImageDirective,
-        IconComponent,
-        RippleDirective], imports: [MatDialogModule,
-        CommonModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MatButtonModule], exports: [CommaSeparateNumberPipe,
-        LoadingComponent,
-        ConfirmDialogComponent,
-        LazyImageDirective,
-        IconComponent,
-        RippleDirective,
-        MatDialogModule] });
-NgCommonModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, providers: [
-        CommaSeparateNumberPipe
-    ], imports: [[
-            MatDialogModule,
-            CommonModule,
-            MatIconModule,
-            MatProgressSpinnerModule,
-            MatButtonModule
-        ], MatDialogModule] });
-i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, decorators: [{
-            type: NgModule,
-            args: [{
-                    declarations: [
-                        CommaSeparateNumberPipe,
-                        ConfirmDialogComponent,
-                        ImageMagnifierDialogComponent,
-                        LoadingComponent,
-                        LazyImageDirective,
-                        IconComponent,
-                        RippleDirective,
-                    ],
-                    imports: [
-                        MatDialogModule,
-                        CommonModule,
-                        MatIconModule,
-                        MatProgressSpinnerModule,
-                        MatButtonModule
-                    ],
-                    providers: [
-                        CommaSeparateNumberPipe
-                    ],
-                    exports: [
-                        CommaSeparateNumberPipe,
-                        LoadingComponent,
-                        ConfirmDialogComponent,
-                        LazyImageDirective,
-                        IconComponent,
-                        RippleDirective,
-                        MatDialogModule
-                    ],
-                    entryComponents: [
-                        ConfirmDialogComponent,
-                        ImageMagnifierDialogComponent
-                    ]
-                }]
-        }] });
-
 class GollalaMatDialogConfig extends MatDialogConfig {
 }
 class DialogService {
@@ -635,13 +568,82 @@ class DialogService {
     }
 }
 DialogService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, deps: [{ token: i1.MatDialog }], target: i0.ɵɵFactoryTarget.Injectable });
-DialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, providedIn: 'root' });
+DialogService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, providedIn: NgCommonModule });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: DialogService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'root'
+                    providedIn: NgCommonModule
                 }]
         }], ctorParameters: function () { return [{ type: i1.MatDialog }]; } });
+
+class NgCommonModule {
+}
+NgCommonModule.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, deps: [], target: i0.ɵɵFactoryTarget.NgModule });
+NgCommonModule.ɵmod = i0.ɵɵngDeclareNgModule({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, declarations: [CommaSeparateNumberPipe,
+        ConfirmDialogComponent,
+        ImageMagnifierDialogComponent,
+        LoadingComponent,
+        LazyImageDirective,
+        IconComponent,
+        RippleDirective], imports: [MatDialogModule,
+        CommonModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatButtonModule], exports: [CommaSeparateNumberPipe,
+        LoadingComponent,
+        ConfirmDialogComponent,
+        LazyImageDirective,
+        IconComponent,
+        RippleDirective,
+        MatDialogModule] });
+NgCommonModule.ɵinj = i0.ɵɵngDeclareInjector({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, providers: [
+        CommaSeparateNumberPipe,
+        DialogService
+    ], imports: [[
+            MatDialogModule,
+            CommonModule,
+            MatIconModule,
+            MatProgressSpinnerModule,
+            MatButtonModule
+        ], MatDialogModule] });
+i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: NgCommonModule, decorators: [{
+            type: NgModule,
+            args: [{
+                    declarations: [
+                        CommaSeparateNumberPipe,
+                        ConfirmDialogComponent,
+                        ImageMagnifierDialogComponent,
+                        LoadingComponent,
+                        LazyImageDirective,
+                        IconComponent,
+                        RippleDirective,
+                    ],
+                    imports: [
+                        MatDialogModule,
+                        CommonModule,
+                        MatIconModule,
+                        MatProgressSpinnerModule,
+                        MatButtonModule
+                    ],
+                    providers: [
+                        CommaSeparateNumberPipe,
+                        DialogService
+                    ],
+                    exports: [
+                        CommaSeparateNumberPipe,
+                        LoadingComponent,
+                        ConfirmDialogComponent,
+                        LazyImageDirective,
+                        IconComponent,
+                        RippleDirective,
+                        MatDialogModule
+                    ],
+                    entryComponents: [
+                        ConfirmDialogComponent,
+                        ImageMagnifierDialogComponent
+                    ]
+                }]
+        }] });
 
 class RestService {
     constructor(http, dialogService, loadingService) {
