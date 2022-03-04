@@ -23,7 +23,7 @@ const cypher: Cypher = {
 };
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 export class SecurityService {
 
