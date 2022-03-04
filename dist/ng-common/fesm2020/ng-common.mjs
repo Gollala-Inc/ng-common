@@ -1063,11 +1063,11 @@ class SecurityService {
     }
 }
 SecurityService.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, deps: [{ token: i1$2.RestService }], target: i0.ɵɵFactoryTarget.Injectable });
-SecurityService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, providedIn: 'any' });
+SecurityService.ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, providedIn: 'root' });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.1.3", ngImport: i0, type: SecurityService, decorators: [{
             type: Injectable,
             args: [{
-                    providedIn: 'any'
+                    providedIn: 'root'
                 }]
         }], ctorParameters: function () { return [{ type: i1$2.RestService }]; } });
 
