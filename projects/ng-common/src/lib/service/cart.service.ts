@@ -175,7 +175,7 @@ export class CartService {
 
   putExcelCart(items: any[]) {
     const body = {
-      _id: this._customCartId;
+      _id: this._customCartId,
       items
     }
     return this.restService.PUT('https://commerce-api.gollala.org/custom_cart/', {
