@@ -418,7 +418,7 @@ export class CartService {
 
               this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
 
-              this._memoExcelsInfo = {
+              this._selectedExcelsInfo = {
                 totalPrice: 0,
                 noPriceNum: 0,
                 num: 0,
