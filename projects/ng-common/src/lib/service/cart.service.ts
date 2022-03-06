@@ -393,7 +393,7 @@ export class CartService {
 
   deleteExcelCart() {
     const memo  = {...this._memoExcelsInfo};
-    const ids = Object.keys(this._memoExcelsInfo.ids);
+    const ids = Object.keys(this._selectedExcelsInfo.ids);
 
     for(let i=0; i<ids.length; i++) {
       const id = ids[i];
@@ -433,7 +433,7 @@ export class CartService {
 
               this.cartInfo$.next({...this.cartInfo});
             },
-      (error) => {
+          (error) => {
               console.log(error);
               this.dialogService.alert('[에러] 엑셀 상품 삭제에 실패하였습니다.');
           });
