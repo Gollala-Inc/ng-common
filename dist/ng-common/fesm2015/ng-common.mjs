@@ -1385,15 +1385,11 @@ class CartService {
         const ids = Object.keys(this._selectedExcelsInfo.ids);
         for (let i = 0; i < ids.length; i++) {
             const id = ids[i];
-            if (this._memoExcelsInfo.ids[id]) {
+            if (this._selectedExcelsInfo.ids[id]) {
                 delete memo[id];
             }
         }
         const toDeleteItems = Object.values(memo);
-        const body = {
-            _id: this._customCartId,
-            items: toDeleteItems
-        };
         this.putExcelCart(toDeleteItems).subscribe((customCartInfo) => {
             this._customCartId = customCartInfo._id;
             this.cartInfo.excels = customCartInfo.items;
