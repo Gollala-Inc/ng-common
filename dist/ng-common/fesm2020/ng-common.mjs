@@ -1149,7 +1149,7 @@ class CartService {
             _id: this._cartId,
             items
         };
-        return this.restService.POST('https://dev-commerce-api.gollala.org/cart/add', {
+        return this.restService.POST('https://commerce-api.gollala.org/cart/add', {
             body,
             handleError: true
         });
