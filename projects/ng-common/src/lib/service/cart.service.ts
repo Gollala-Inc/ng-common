@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
-import {DialogService, LoadingService, RestService} from '@gollala/ng-common';
 import {BehaviorSubject, catchError, mergeMap, throwError} from 'rxjs';
 import {forkJoin, of} from "rxjs";
 import {
   CartInfo, CartItem, SelectedExcelsInfo, SelectedProductsInfo
 } from "../interface/cart.model";
 import {Observable} from "rxjs";
+import {RestService} from './rest.service';
+import {DialogService} from './dialog.service';
+import {LoadingService} from './loading.service';
 
 @Injectable({
   providedIn: 'root'
