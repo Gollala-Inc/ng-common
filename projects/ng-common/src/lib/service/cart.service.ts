@@ -588,6 +588,16 @@ export class CartService {
     );
   }
 
+  cartCheckout(body: any) {
+    return this.restService.POST('https://commerce-api.gollala.org/cart/checkout', {
+      body: {
+        cartId: this._cartId,
+        ...body
+      },
+      handleError: true
+    })
+  }
+
 
   setPrimaryAddress(id: string) {
     return this.restService.POST('https://commerce-api.gollala.org/customer/auth/address/primary', {
