@@ -18,7 +18,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm install
       - run: npm run build
-      - run: cd dist/ng-common
       - run: npm publish
+        working-directory: ./dist/ng-common
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
