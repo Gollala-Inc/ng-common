@@ -104,7 +104,7 @@ export class CartService {
       items
     }
 
-    return this.restService.POST('https://dev-commerce-api.gollala.org/cart/add', {
+    return this.restService.POST('https://commerce-api.gollala.org/cart/add', {
       body,
       handleError: true
     });
@@ -119,7 +119,7 @@ export class CartService {
       items
     }
 
-    return this.restService.POST('https://dev-commerce-api.gollala.org/cart/subtract', {
+    return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
       body,
       handleError: true
     });
@@ -393,21 +393,16 @@ export class CartService {
 
   deleteExcelCart() {
     const memo  = {...this._memoExcelsInfo};
-    const ids = Object.keys(this._memoExcelsInfo.ids);
+    const ids = Object.keys(this._selectedExcelsInfo.ids);
 
     for(let i=0; i<ids.length; i++) {
       const id = ids[i];
-      if(this._memoExcelsInfo.ids[id]) {
+      if(this._selectedExcelsInfo.ids[id]) {
         delete memo[id];
       }
     }
 
     const toDeleteItems = Object.values(memo);
-
-    const body = {
-      _id: this._customCartId,
-      items: toDeleteItems
-    }
 
     this.putExcelCart(toDeleteItems).subscribe(
       (customCartInfo) => {
@@ -423,7 +418,7 @@ export class CartService {
 
               this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
 
-              this._memoExcelsInfo = {
+              this._selectedExcelsInfo = {
                 totalPrice: 0,
                 noPriceNum: 0,
                 num: 0,
@@ -433,7 +428,7 @@ export class CartService {
 
               this.cartInfo$.next({...this.cartInfo});
             },
-      (error) => {
+          (error) => {
               console.log(error);
               this.dialogService.alert('[에러] 엑셀 상품 삭제에 실패하였습니다.');
           });
