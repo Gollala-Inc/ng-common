@@ -50,6 +50,7 @@ export declare class CartService {
     addAddress(body: any): Observable<any>;
     updateAddress(id: string, body: any): Observable<any>;
     deleteAddress(id: string): Observable<any>;
+    cartCheckout(body: any): Observable<any>;
     setPrimaryAddress(id: string): Observable<any>;
     private cleanProductCart;
     static ɵfac: i0.ɵɵFactoryDeclaration<CartService, never>;
