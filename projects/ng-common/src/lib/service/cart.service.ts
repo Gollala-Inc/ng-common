@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +31,10 @@ export class CartService {
   * error: 데이터를 가져오는데 에러가 났을 경우
   * payment: 원스톱 결제 선택 후 결제 페이지에 있는 경우
   * complete-store-order: 매장 주문을 완료했을 경우
-  * complete-one-stop: 원스톱 주문을 완료했을 경우
+  * complete-card-payment: 국내 카드 결제를 완료했을 경우
+  * complete-v-account: 가상 계좌 결제를 완료했을 경우
   * */
-  private _step: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-one-stop' = 'pending';
+  private _step: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-card-payment' | 'complete-v-account' = 'pending';
 
   private _customCartId!: string;
   private _cartId!: string;
@@ -61,7 +63,7 @@ export class CartService {
   constructor(
     private restService: RestService,
     private dialogService: DialogService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ) { }
 
   get step() {
@@ -127,7 +129,7 @@ export class CartService {
     });
   }
 
-  setStep(value: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-one-stop'): void {
+  setStep(value: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-card-payment' | 'complete-v-account'): void {
     /*
       * 카트 결제 단계
       * pending: 데이터 불러오는 중
@@ -325,9 +327,6 @@ export class CartService {
           // 4. productCnt, totalCnt 업데이트
           // 5 cartInfo next
           this.cleanProductCart();
-          if(isPayment) {
-            this.setStep('complete-one-stop');
-          }
         },
   (error: any) => {
           console.log(error);
@@ -406,6 +405,26 @@ export class CartService {
           }
       )
     }
+  }
+
+  deleteProductsAfterPayment() {
+    /*
+    * 카드 결제 후, 상품을 삭제하는 함수
+    * */
+    const items: any[] = Object.keys(this.selectedProductsInfo.cartIds).map((id) => {
+      const cartItem = this.memoProductsInfo[id];
+      return {
+        product: cartItem.product.id,
+        options: cartItem.options,
+        quantity: cartItem.quantity
+      }
+    });
+
+    return this.subtractCart(items).pipe(
+      tap(() => {
+        this.setStep('complete-card-payment');
+        this.cleanProductCart(true);
+      }));
   }
 
   deleteExcelCart() {
@@ -642,7 +661,7 @@ export class CartService {
     });
   }
 
-  private cleanProductCart() {
+  private cleanProductCart(isPayment?: boolean) {
     const deletedIds = Object.keys(this._selectedProductsInfo.cartIds);
 
     for(let i=0; i < deletedIds.length; i++) {
@@ -664,7 +683,15 @@ export class CartService {
 
     this.cartInfo.productsCnt = this.cartInfo.products.length;
     this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
-    this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
+
+    if (isPayment) {
+      /*
+      * 결제 이후에 상품을 삭제하는지 물어봄
+      * */
+      this._step = 'complete-card-payment';
+    } else {
+      this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
+    }
     this.cartInfo$.next({...this.cartInfo});
   }
 }
