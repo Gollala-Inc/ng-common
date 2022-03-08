@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {RestService} from "./rest.service";
+import {tap} from "rxjs/operators";
 
 export interface CustomOrder {
   customer: string;
@@ -30,12 +31,15 @@ export class OrderService {
   }
 
   getOrderInfo() {
-    this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').subscribe((orders: CustomOrder[]) => {
-      this._orders = orders;
-      if (orders.length) {
-        this._latestUnclePhone = orders.slice(-1)[0].unclePhone;
-      }
-    });
+    this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').pipe(
+      tap((orders: CustomOrder[]) => {
+          this._orders = orders;
+          if (orders.length) {
+            this._latestUnclePhone = orders.slice(-1)[0].unclePhone;
+          }
+        }
+      )
+    )
   }
 
   getOrderItem(id:string) {
