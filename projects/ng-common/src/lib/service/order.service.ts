@@ -36,7 +36,7 @@ export class OrderService {
   }
 
   getOrders(params?: {limit?: number; page?:number; sort?: string}) {
-    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order?limit=12&page=1&sort=-createdAt', {
+    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order', {
       params
     }).pipe(
       tap((orders) => {
