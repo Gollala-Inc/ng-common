@@ -350,16 +350,25 @@ export class CartService {
       product
     };
 
-    const body = {
-      _id: this._cartId,
-      items: [cartItem]
-    }
-
     if (hasOneOption) {
       // 상품을 삭제한다.
       this.subtractCart([cartItem]).subscribe(
     () => {
-            this.cleanProductCart();
+            // this.cleanProductCart();
+            const index = this.cartInfo.products.findIndex((cart: any) => cart.productId === product);
+            const productCart = this.cartInfo.products[index] as any;
+            const { totalPrice, quantity: pcs } = productCart.options[0];
+
+            productCart.splice(index, 1);
+
+            delete this._memoProductsInfo[cartItemId];
+
+            if (this._selectedProductsInfo.cartIds[cartItemId]) {
+              this._selectedProductsInfo.totalPrice -= totalPrice;
+              this._selectedProductsInfo.pcs -= pcs;
+            }
+
+            this.cartInfo$.next({...this.cartInfo});
           },
     (error: any) => {
               console.log(error);
