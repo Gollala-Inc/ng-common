@@ -369,6 +369,9 @@ export class CartService {
               this._selectedProductsInfo.pcs -= pcs;
             }
 
+            this.cartInfo.productsCnt -= 1;
+            this.cartInfo.totalCnt -= 1;
+
             this.cartInfo$.next({...this.cartInfo});
           },
     (error: any) => {
