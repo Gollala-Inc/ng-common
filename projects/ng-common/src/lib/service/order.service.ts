@@ -35,16 +35,18 @@ export class OrderService {
     return this._latestUnclePhone;
   }
 
-  getOrders() {
-    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order?limit=12&page=1&sort=-createdAt').pipe(
+  getOrders(params?: {limit?: number; page?:number; sort?: string}) {
+    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order?limit=12&page=1&sort=-createdAt', {
+      params
+    }).pipe(
       tap((orders) => {
         this._orders = orders;
       })
     );
   }
 
-  getOrderItem(params?: {limit?: number; page?: number; sort?: string}) {
-    return this.restService.GET(`https://commerce-api.gollala.org/customer/auth/order-item`, {
+  getOrderItem(params?: {limit?: number; page?: number; sort?: string; order: string}) {
+    return this.restService.GET(`https://commerce-api.gollala.org/order_item`, {
       params
     });
   }
