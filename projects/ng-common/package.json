@@ -1,8 +1,10 @@
 {
-  "name": "ng-common",
-  "version": "1.3.14",
+  "name": "@gollala/ng-common",
+  "version": "13.0.1",
   "peerDependencies": {
     "@types/lodash": "^4.14.178",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1"
   }
 }
