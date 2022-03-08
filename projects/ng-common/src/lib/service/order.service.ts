@@ -44,7 +44,7 @@ export class OrderService {
   }
 
   getOrderItem(params?: {limit?: number; page?: number; sort?: string}) {
-    this.restService.GET(`https://commerce-api.gollala.org/customer/auth/order-item`, {
+    return this.restService.GET(`https://commerce-api.gollala.org/customer/auth/order-item`, {
       params
     });
   }
