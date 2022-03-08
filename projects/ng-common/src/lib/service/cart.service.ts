@@ -306,7 +306,7 @@ export class CartService {
     );
   }
 
-  deleteProductInCart() {
+  deleteProductInCart(isPayment?: boolean) {
     const items: any[] = Object.keys(this._selectedProductsInfo.cartIds).map((id) => {
       const cartItem = this._memoProductsInfo[id];
       return {
@@ -325,6 +325,9 @@ export class CartService {
           // 4. productCnt, totalCnt 업데이트
           // 5 cartInfo next
           this.cleanProductCart();
+          if(isPayment) {
+            this.setStep('complete-one-stop');
+          }
         },
   (error: any) => {
           console.log(error);
@@ -354,7 +357,6 @@ export class CartService {
       // 상품을 삭제한다.
       this.subtractCart([cartItem]).subscribe(
     () => {
-            // this.cleanProductCart();
             const index = this.cartInfo.products.findIndex((cart: any) => cart.productId === product);
             const products = this.cartInfo.products as any;
             const { totalPrice, quantity: pcs } = products[index].options[0];
