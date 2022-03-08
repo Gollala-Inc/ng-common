@@ -31,7 +31,7 @@ export class OrderService {
   }
 
   getOrderInfo() {
-    this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').pipe(
+    return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').pipe(
       tap((orders: CustomOrder[]) => {
           this._orders = orders;
           if (orders.length) {
