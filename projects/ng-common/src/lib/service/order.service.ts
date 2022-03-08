@@ -15,25 +15,40 @@ export interface CustomOrder {
   providedIn: 'root'
 })
 export class OrderService {
-  private _orders: CustomOrder[] = [];
+  private _orders: any[] = [];
+  private _customOrders: CustomOrder[] = [];
   private _latestUnclePhone: string | null = null;
 
   constructor(
     private restService: RestService
   ) { }
 
-  get orders(): CustomOrder[] {
-    return this._orders;
+  get customOrders(): CustomOrder[] {
+    return this._customOrders;
   }
 
   get latestUnclePhone(): string | null {
     return this._latestUnclePhone;
   }
 
-  getOrderInfo() {
+  getOrders() {
+    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order?limit=12&page=1&sort=-createdAt').pipe(
+      tap((orders) => {
+        this._orders = orders;
+      })
+    );
+  }
+
+  getOrderItem(params?: {limit?: number; page?: number; sort?: string}) {
+    this.restService.GET(`https://commerce-api.gollala.org/customer/auth/order-item`, {
+      params
+    });
+  }
+
+  getCustomOrders() {
     return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').pipe(
       tap((orders: CustomOrder[]) => {
-          this._orders = orders;
+          this._customOrders = orders;
           if (orders.length) {
             this._latestUnclePhone = orders.slice(-1)[0].unclePhone;
           }
@@ -42,7 +57,9 @@ export class OrderService {
     )
   }
 
-  getOrderItem(id:string) {
+  getCustomOrderItem(id:string) {
     return this.restService.GET(`https://commerce-api.gollala.org/custom_order_item/${id}`);
   }
+
+
 }
