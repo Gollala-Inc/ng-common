@@ -356,10 +356,11 @@ export class CartService {
     () => {
             // this.cleanProductCart();
             const index = this.cartInfo.products.findIndex((cart: any) => cart.productId === product);
-            const productCart = this.cartInfo.products[index] as any;
-            const { totalPrice, quantity: pcs } = productCart.options[0];
+            const products = this.cartInfo.products as any;
+            const { totalPrice, quantity: pcs } = products[index].options[0];
 
-            productCart.splice(index, 1);
+
+            products.splice(index, 1);
 
             delete this._memoProductsInfo[cartItemId];
 
