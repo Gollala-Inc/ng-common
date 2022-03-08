@@ -540,6 +540,19 @@ export class CartService {
     )
   }
 
+  addBillingAddress(body: any) {
+    return this.restService.POST('https://commerce-api.gollala.org/customer/auth/billing_address/', {
+      body
+    }).pipe(mergeMap(({billingAddresses: {secondaries}}) => {
+      const {_id} = secondaries.slice(-1)[0];
+      return this.restService.POST('https://commerce-api.gollala.org/customer/auth/billing_address/primary', {
+        body: {
+          _id
+        }
+      });
+    }))
+  }
+
   addAddress(body: any) {
     return this.restService.POST('https://commerce-api.gollala.org/customer/auth/address', {
       body: body
