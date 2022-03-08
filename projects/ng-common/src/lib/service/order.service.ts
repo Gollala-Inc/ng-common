@@ -23,6 +23,10 @@ export class OrderService {
     private restService: RestService
   ) { }
 
+  get orders(): any {
+    return this._orders;
+  }
+
   get customOrders(): CustomOrder[] {
     return this._customOrders;
   }
