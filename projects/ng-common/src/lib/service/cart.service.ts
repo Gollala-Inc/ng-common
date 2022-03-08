@@ -422,6 +422,11 @@ export class CartService {
 
     return this.subtractCart(items).pipe(
       tap(() => {
+        const firstKey =  Object.keys(this.selectedProductsInfo.cartIds)[0];
+        const firstSelectCart = this.memoProductsInfo[firstKey];
+        this.completedOrderInCart = {
+          cartOrders: firstSelectCart
+        };
         this.setStep('complete-card-payment');
         this.cleanProductCart(true);
       }));
