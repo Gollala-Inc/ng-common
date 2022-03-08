@@ -618,6 +618,15 @@ export class CartService {
     });
   }
 
+  setPrimaryBillingAddress(id: string) {
+    return this.restService.POST('https://commerce-api.gollala.org/customer/auth/billing_address/primary', {
+      body: {
+        _id: id
+      },
+      handleError: true
+    });
+  }
+
   private cleanProductCart() {
     const deletedIds = Object.keys(this._selectedProductsInfo.cartIds);
 
