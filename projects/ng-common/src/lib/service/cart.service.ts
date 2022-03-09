@@ -57,8 +57,6 @@ export class CartService {
   };
 
   cartInfo$ =  new BehaviorSubject<CartInfo>(this.cartInfo);
-  completedCartItemsOrder: any = null;
-  completedOrderInCart: any = null;
 
   constructor(
     private restService: RestService,
@@ -193,7 +191,6 @@ export class CartService {
     let cartItems:any[] = [];
     this.loadingService.start();
     this._step = 'pending';
-    this.completedOrderInCart = null;
 
     this.getAuthCart().pipe(
       catchError((e) => {
@@ -424,9 +421,6 @@ export class CartService {
       tap(() => {
         const firstKey =  Object.keys(this.selectedProductsInfo.cartIds)[0];
         const firstSelectCart = this.memoProductsInfo[firstKey];
-        this.completedOrderInCart = {
-          cartOrders: firstSelectCart
-        };
         this.setStep(step);
         this.cleanProductCart(true);
       }));
@@ -505,15 +499,6 @@ export class CartService {
     forkJoin(this.createCustomOrderUsingCartItems(cartItems, phone), this.createCustomCartOrder(idsInCustomCartItems, phone)).subscribe(
       (response) => {
         this.cleanProductCart();
-
-        /*
-        * 매장 주문 후, 생성된 주문 데이터를 저장하기 위해
-        * */
-        this.completedOrderInCart = {
-          cartOrders: this.completedCartItemsOrder || null,
-          customOrders: response[1] || null
-        };
-
         this._step = 'complete-store-order';
         this.cartInfo$.next({...this.cartInfo});
       },
@@ -567,8 +552,6 @@ export class CartService {
             product: this._memoProductsInfo[id].product.id
           }
         });
-
-        this.completedCartItemsOrder = response;
 
         return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
           body: {
