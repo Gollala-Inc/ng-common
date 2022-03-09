@@ -501,7 +501,7 @@ export class CartService {
         return this.createCustomOrderUsingCartItems(cartItems, phone).pipe(
           mergeMap(
             ({items}) => {
-              const customItems = [...items, idsInCustomCartItems]
+              const customItems = [...items, ...idsInCustomCartItems]
               return this.createCustomCartOrder(customItems, phone);
             }
           ),
