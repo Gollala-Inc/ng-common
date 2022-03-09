@@ -1,6 +1,6 @@
 {
   "name": "@gollala/ng-common",
-  "version": "13.0.19",
+  "version": "13.0.20",
   "peerDependencies": {
     "@types/lodash": "^4.14.178",
     "lodash": "^4.17.21",
