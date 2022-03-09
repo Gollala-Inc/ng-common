@@ -469,7 +469,7 @@ export class CartService {
 
   orderToStore(phone: string) {
     const idsInCartItems = Object.keys(this._selectedProductsInfo.cartIds);
-    const idsInCustomCartItems = Object.keys(this._selectedExcelsInfo.ids).filter((id) => !!this._memoExcelsInfo[id].quantity && !!this._memoExcelsInfo[id].quantity.wholesaleName);
+    const idsInCustomCartItems = Object.keys(this._selectedExcelsInfo.ids).filter((id) => !!this._memoExcelsInfo[id].quantity && !!this._memoExcelsInfo[id].wholesaleName);
 
     const cartItems = idsInCartItems.map((id) => {
       const {options, product, productName, quantity} = this._memoProductsInfo[id];
