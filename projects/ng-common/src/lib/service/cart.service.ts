@@ -527,6 +527,19 @@ export class CartService {
         /* 매장방문 - 카트 아이템만 있을 경우*/
 
         return this.createCustomOrderUsingCartItems(cartItems, phone).pipe(
+          mergeMap(
+            () => {
+              /* 상품 삭제 */
+
+              const items = idsInCartItems.map((id) => {
+                return {
+                  ...this._memoProductsInfo[id],
+                  product: this._memoProductsInfo[id].product.id
+                }
+              });
+              return this.subtractCart(items);
+            }
+          ),
           tap(() => {
             this.cleanProductCart(true);
             this.setStep('complete-store-order');
