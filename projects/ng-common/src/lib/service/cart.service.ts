@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, mergeMap, throwError} from 'rxjs';
-import {forkJoin, of} from "rxjs";
+import {BehaviorSubject, catchError, mergeMap, throwError, of, tap} from 'rxjs';
 import {
   CartInfo, CartItem, SelectedExcelsInfo, SelectedProductsInfo
 } from "../interface/cart.model";
@@ -8,7 +7,6 @@ import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
-import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -325,7 +323,7 @@ export class CartService {
           // 5 cartInfo next
           this.cleanProductCart();
         },
-  (error: any) => {
+        (error: any) => {
           console.log(error);
           this.dialogService.alert('[에러] 상품 삭제에 실패하였습니다.');
         }
@@ -372,7 +370,7 @@ export class CartService {
 
             this.cartInfo$.next({...this.cartInfo});
           },
-    (error: any) => {
+          (error: any) => {
               console.log(error);
               this.dialogService.alert('[에러] 상품 삭제에 실패하였습니다.');
           }
@@ -472,6 +470,7 @@ export class CartService {
   orderToStore(phone: string) {
     const idsInCartItems = Object.keys(this._selectedProductsInfo.cartIds);
     const idsInCustomCartItems = Object.keys(this._selectedExcelsInfo.ids).filter((id) => !!this._memoExcelsInfo[id].quantity);
+
     const cartItems = idsInCartItems.map((id) => {
       const {options, product, productName, quantity} = this._memoProductsInfo[id];
       return {
@@ -495,19 +494,56 @@ export class CartService {
       }
     });
 
+    if (cartItems.length) {
+      if(idsInCustomCartItems.length) {
+        /* 매장방문 - 엑셀 아이템, 상품 아이템 같이 있을 경우 */
 
-    forkJoin(this.createCustomOrderUsingCartItems(cartItems, phone), this.createCustomCartOrder(idsInCustomCartItems, phone)).subscribe(
-      (response) => {
-        this.cleanProductCart();
-        this._step = 'complete-store-order';
-        this.cartInfo$.next({...this.cartInfo});
-      },
-      (error: any) => {
-        console.log(error);
-        this.dialogService.alert('[에러] 매장 주문에 실패하였습니다.');
+        return this.createCustomOrderUsingCartItems(cartItems, phone).pipe(
+          mergeMap(
+            ({items}) => {
+              const customItems = [...items, idsInCustomCartItems]
+              return this.createCustomCartOrder(customItems, phone);
+            }
+          ),
+          mergeMap(
+            () => {
+              /* 상품 삭제 */
+
+              const items = idsInCartItems.map((id) => {
+                return {
+                  ...this._memoProductsInfo[id],
+                  product: this._memoProductsInfo[id].product.id
+                }
+              });
+              return this.subtractCart(items);
+            }
+          ),
+          tap(() => {
+            this.cleanProductCart(true);
+            this.setStep('complete-store-order');
+          })
+        )
+      } else {
+        /* 매장방문 - 카트 아이템만 있을 경우*/
+
+        return this.createCustomOrderUsingCartItems(cartItems, phone).pipe(
+          tap(() => {
+            this.cleanProductCart(true);
+            this.setStep('complete-store-order');
+          })
+        )
       }
-    )
+    } else {
+      /* 매장방문 - 엑셀 아이템만 있을 경우*/
+
+      return this.createCustomCartOrder(idsInCustomCartItems, phone).pipe(
+        tap(() => {
+          this.setStep('complete-store-order');
+        })
+      )
+    }
   }
+
 
   private createCustomCartOrder(items: any[], phone: string) {
     if(items.length === 0) return of(null);
@@ -528,9 +564,6 @@ export class CartService {
 
 
   private createCustomOrderUsingCartItems(items: any[], phone: string) {
-    if(items.length === 0) return of(null);
-
-    const idsInCartItems = Object.keys(this._selectedProductsInfo.cartIds);
     const body = {
       _id: this._customCartId,
       customer: this._customerId,
@@ -544,24 +577,7 @@ export class CartService {
         ...body,
         items
       }
-    }).pipe(
-      mergeMap((response) => {
-        const items = idsInCartItems.map((id) => {
-          return {
-            ...this._memoProductsInfo[id],
-            product: this._memoProductsInfo[id].product.id
-          }
-        });
-
-        return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
-          body: {
-            _id: this._cartId,
-            items
-          },
-          handleError: true
-        })
-      })
-    )
+    });
   }
 
   addBillingAddress(body: any) {
