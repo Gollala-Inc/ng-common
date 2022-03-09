@@ -37,7 +37,8 @@ export class OrderService {
 
   getOrders(params?: {limit?: number; page?:number; sort?: string}) {
     return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order', {
-      params
+      params,
+      handleError: true
     }).pipe(
       tap((orders) => {
         this._orders = orders;
@@ -47,12 +48,13 @@ export class OrderService {
 
   getOrderItem(params?: {limit?: number; page?: number; sort?: string; order: string}) {
     return this.restService.GET(`https://commerce-api.gollala.org/order_item`, {
-      params
+      params,
+      handleError: true
     });
   }
 
   getCustomOrders() {
-    return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me').pipe(
+    return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me', {handleError: true}).pipe(
       tap((orders: CustomOrder[]) => {
           this._customOrders = orders;
           if (orders.length) {
@@ -63,8 +65,11 @@ export class OrderService {
     )
   }
 
-  getCustomOrderItem(id:string) {
-    return this.restService.GET(`https://commerce-api.gollala.org/custom_order_item/${id}`);
+  getCustomOrderItem(params?: {limit?: number; page: number; sort: string; custom_order: string; date: string;}) {
+    return this.restService.GET(`https://commerce-api.gollala.org/custom_order_item`, {
+      params,
+      handleError: true
+    });
   }
 
 
