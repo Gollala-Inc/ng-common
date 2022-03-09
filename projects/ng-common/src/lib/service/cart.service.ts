@@ -407,7 +407,7 @@ export class CartService {
     }
   }
 
-  deleteProductsAfterPayment() {
+  deleteProductsAfterPayment(step: 'complete-card-payment' | 'complete-v-account') {
     /*
     * 카드 결제 후, 상품을 삭제하는 함수
     * */
@@ -427,7 +427,7 @@ export class CartService {
         this.completedOrderInCart = {
           cartOrders: firstSelectCart
         };
-        this.setStep('complete-card-payment');
+        this.setStep(step);
         this.cleanProductCart(true);
       }));
   }
@@ -689,14 +689,10 @@ export class CartService {
     this.cartInfo.productsCnt = this.cartInfo.products.length;
     this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
 
-    if (isPayment) {
-      /*
-      * 결제 이후에 상품을 삭제하는지 물어봄
-      * */
-      this._step = 'complete-card-payment';
-    } else {
+    if (!isPayment) {
       this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
     }
+
     this.cartInfo$.next({...this.cartInfo});
   }
 }
