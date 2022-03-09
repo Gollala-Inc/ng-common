@@ -420,7 +420,6 @@ export class CartService {
     return this.subtractCart(items).pipe(
       tap(() => {
         const firstKey =  Object.keys(this.selectedProductsInfo.cartIds)[0];
-        const firstSelectCart = this.memoProductsInfo[firstKey];
         this.setStep(step);
         this.cleanProductCart(true);
       }));
