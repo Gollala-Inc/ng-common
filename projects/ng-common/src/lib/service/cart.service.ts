@@ -7,6 +7,7 @@ import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
+import {OrderService} from './order.service';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,7 @@ export class CartService {
     private restService: RestService,
     private dialogService: DialogService,
     private loadingService: LoadingService,
+    private orderService: OrderService
   ) { }
 
   get step() {
@@ -508,7 +510,6 @@ export class CartService {
           mergeMap(
             () => {
               /* 상품 삭제 */
-
               const items = idsInCartItems.map((id) => {
                 return {
                   ...this._memoProductsInfo[id],
@@ -519,6 +520,8 @@ export class CartService {
             }
           ),
           tap(() => {
+            const orderNum = idsInCustomCartItems.length + cartItems.length;
+            this.orderService.setOrderNumInStore(orderNum);
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
             this._memoExcelsInfo = {};
@@ -546,6 +549,8 @@ export class CartService {
             }
           ),
           tap(() => {
+            const orderNum = cartItems.length;
+            this.orderService.setOrderNumInStore(orderNum);
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
             this._memoExcelsInfo = {};
@@ -561,6 +566,9 @@ export class CartService {
         tap(() => {
           this.cartInfo.excelsCnt = 0;
           this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
+
+          const orderNum = idsInCustomCartItems.length;
+          this.orderService.setOrderNumInStore(orderNum);
 
           this._memoExcelsInfo = {};
           this.resetSelectedExcelInfo();

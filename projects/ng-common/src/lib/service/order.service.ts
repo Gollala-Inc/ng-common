@@ -18,6 +18,7 @@ export class OrderService {
   private _orders: any[] = [];
   private _customOrders: CustomOrder[] = [];
   private _latestUnclePhone: string | null = null;
+  private _orderNumInStore: number = 0;
 
   constructor(
     private restService: RestService
@@ -33,6 +34,10 @@ export class OrderService {
 
   get latestUnclePhone(): string | null {
     return this._latestUnclePhone;
+  }
+
+  get orderNumInStore(): number {
+    return this._orderNumInStore;
   }
 
   getOrders(params?: {limit?: number; page?:number; sort?: string}) {
@@ -72,5 +77,7 @@ export class OrderService {
     });
   }
 
-
+  setOrderNumInStore(num: number) {
+    this._orderNumInStore = num;
+  }
 }
