@@ -519,7 +519,12 @@ export class CartService {
             }
           ),
           tap(() => {
+            this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
+            this._memoExcelsInfo = {};
+            this.resetSelectedExcelInfo();
+
+            this.cartInfo$.next({...this.cartInfo});
             this.setStep('complete-store-order');
           })
         )
@@ -541,7 +546,10 @@ export class CartService {
             }
           ),
           tap(() => {
+            this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
+            this._memoExcelsInfo = {};
+            this.resetSelectedExcelInfo();
             this.setStep('complete-store-order');
           })
         )
@@ -551,6 +559,11 @@ export class CartService {
 
       return this.createCustomCartOrder(idsInCustomCartItems, phone).pipe(
         tap(() => {
+          this.cartInfo.excelsCnt = 0;
+          this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
+
+          this._memoExcelsInfo = {};
+          this.resetSelectedExcelInfo();
           this.setStep('complete-store-order');
         })
       )
