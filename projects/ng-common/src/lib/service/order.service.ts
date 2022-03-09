@@ -65,7 +65,7 @@ export class OrderService {
     )
   }
 
-  getCustomOrderItem(params?: {limit?: number; page: number; sort: string; custom_order: string; date: string;}) {
+  getCustomOrderItem(params?: {limit?: number; page?: number; sort?: string; custom_order: string; date?: string;}) {
     return this.restService.GET(`https://commerce-api.gollala.org/custom_order_item`, {
       params,
       handleError: true
