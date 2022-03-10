@@ -1,5 +1,4 @@
-<div class="loading-overlay" [ngClass]="{
-    'active': backdrop && (!global || (loading$ && loading$.value)),
+<div class="loading-overlay active" [ngClass]="{
     'loading': !global || (loading$ && loading$.value),
     'global': global,
     'fit': !global

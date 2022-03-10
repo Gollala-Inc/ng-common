@@ -3,7 +3,6 @@
 
 .loading-overlay {
   z-index: -10;
-  background: rgba(0, 0, 0, 0.8);
 
   &.fit {
     @include abs-fit-parent();
@@ -14,7 +13,7 @@
   }
 
   &.active {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.55);
   }
 
   &.loading {
