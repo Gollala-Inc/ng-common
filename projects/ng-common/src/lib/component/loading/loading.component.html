@@ -4,7 +4,10 @@
     'global': global,
     'fit': !global
     }">
-  <div class="spinner-container">
-    <mat-progress-spinner *ngIf="!global || (loading$ | async)" mode="indeterminate" [diameter]="d"></mat-progress-spinner>
+  <div class="logo-container">
+    <gollala-icon *ngIf="!global || (loading$ | async)">white-logo</gollala-icon>
+<!--    <mat-progress-spinner *ngIf="!global || (loading$ | async)" mode="indeterminate" [diameter]="d"></mat-progress-spinner>-->
   </div>
 </div>
+
+

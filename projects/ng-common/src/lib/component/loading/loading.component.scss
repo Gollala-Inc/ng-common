@@ -3,6 +3,7 @@
 
 .loading-overlay {
   z-index: -10;
+  background: rgba(0, 0, 0, 0.8);
 
   &.fit {
     @include abs-fit-parent();
@@ -20,8 +21,27 @@
     z-index: 10000;
   }
 
-  .spinner-container {
+  .logo-container {
     @include abs-center-middle();
+    ::ng-deep gollala-icon {
+      animation: da-pulse 1.5s ease-in-out 0s infinite;
+      svg {
+        width: 11rem;
+      }
+    }
+
+    @keyframes da-pulse {
+      0%,
+      100% {
+        transform: scale(1.25);
+        opacity: 0;
+      }
+      48%,
+      52% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
   }
 
   mat-progress-spinner {
