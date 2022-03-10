@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, delay, of, tap} from 'rxjs';
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'root'
 })
 export class LoadingService {
 
   loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor() {
-  }
+  constructor() {}
 
   start() {
     this.loading$.next(true);
