@@ -1,4 +1,6 @@
+@use '~@angular/material' as mat;
 @import '~@angular/material/theming';
+@import './variables';
 // Plus imports for other components in your app.
 .mat-dialog-container {
   padding: 10px;
@@ -17,12 +19,16 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
 // Include the default theme styles.
 @include angular-material-theme($candy-app-theme);
 
+$noto-typography: mat.define-typography-config($font-family: $font-notoSans);
+// Now we have sweet buttons with noto
+@include mat.button-typography($noto-typography);
+
 .cdk-overlay-container {
   z-index: 100000;
 }
 
 .mat-button {
-  font-family: Roboto, Dotum, '돋움', 'Apple SD Gothic Neo', sans-serif;
+  font-family: $font-notoSans;
   font-size: 12px;
 }
 
