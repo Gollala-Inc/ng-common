@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, mergeMap, throwError, of, tap} from 'rxjs';
+import {BehaviorSubject, catchError, mergeMap, throwError, of, tap, map} from 'rxjs';
 import {
   CartInfo, CartItem, SelectedExcelsInfo, SelectedProductsInfo
 } from "../interface/cart.model";
@@ -8,7 +8,6 @@ import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
 import {OrderService} from './order.service';
-import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -318,11 +317,6 @@ export class CartService {
       mergeMap(cartDoc => {
         cartItems = cartDoc.items;
         const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
-        return this.requestProductList(productIds);
-      }),
-      mergeMap(cartDoc => {
-        const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
-
         return this.requestProductList(productIds);
       }),
       mergeMap(products => {
