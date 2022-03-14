@@ -8,6 +8,7 @@ import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
 import {OrderService} from './order.service';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -303,6 +304,35 @@ export class CartService {
         });
       }
     );
+  }
+
+  getCartCounts() {
+    let cartItems:any[] = [];
+    let productsCnt = 0;
+
+    return this.getAuthCart().pipe(
+      catchError((e) => {
+        console.log(e);
+        return throwError(e);
+      }),
+      mergeMap(cartDoc => {
+        cartItems = cartDoc.items;
+        const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
+        return this.requestProductList(productIds);
+      }),
+      mergeMap(cartDoc => {
+        const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
+
+        return this.requestProductList(productIds);
+      }),
+      mergeMap(products => {
+        productsCnt = products.length;
+        return this.getAuthExcelCart();
+      }),
+      map((customCartInfo: any) => {
+        return productsCnt + customCartInfo.items.length;
+      })
+    )
   }
 
   deleteProductInCart(isPayment?: boolean) {
