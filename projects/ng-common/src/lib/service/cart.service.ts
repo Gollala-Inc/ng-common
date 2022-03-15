@@ -56,6 +56,7 @@ export class CartService {
   };
 
   cartInfo$ =  new BehaviorSubject<CartInfo>(this.cartInfo);
+  error: any = null;
 
   constructor(
     private restService: RestService,
@@ -195,6 +196,7 @@ export class CartService {
     this.getAuthCart().pipe(
       catchError((e) => {
         console.log(e);
+        this.error = e;
         return throwError(e);
       }),
       mergeMap(cartDoc => {
