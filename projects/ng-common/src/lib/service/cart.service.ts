@@ -315,6 +315,8 @@ export class CartService {
         return throwError(e);
       }),
       mergeMap(cartDoc => {
+        this._customerId = cartDoc.customer;
+        this._cartId = cartDoc._id;
         cartItems = cartDoc.items;
         const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
         return this.requestProductList(productIds);
@@ -324,6 +326,7 @@ export class CartService {
         return this.getAuthExcelCart();
       }),
       map((customCartInfo: any) => {
+        this._customCartId = customCartInfo._id;
         return productsCnt + customCartInfo.items.length;
       })
     )
