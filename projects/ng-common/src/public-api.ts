@@ -16,4 +16,5 @@ export * from './lib/directive/ripple.directive';
 export * from './lib/service/security-service.service';
 export * from './lib/service/cart.service';
 export * from './lib/service/order.service';
+export * from './lib/service/router.service';
 
