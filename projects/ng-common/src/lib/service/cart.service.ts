@@ -389,10 +389,15 @@ export class CartService {
             if (this._selectedProductsInfo.cartIds[cartItemId]) {
               this._selectedProductsInfo.totalPrice -= totalPrice;
               this._selectedProductsInfo.pcs -= pcs;
+              delete this._selectedProductsInfo.cartIds[cartItemId];
             }
 
             this.cartInfo.productsCnt -= 1;
             this.cartInfo.totalCnt -= 1;
+
+            if(this.cartInfo.totalCnt === 0) {
+              this.setStep('empty');
+            }
 
             this.cartInfo$.next({...this.cartInfo});
           },
