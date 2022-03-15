@@ -14,7 +14,7 @@ export class RouterService {
     router.events
       .pipe(filter(event => event instanceof RoutesRecognized), pairwise())
       .subscribe((event: any) => {
-        this.urlRedirects = event.map(d => d.urlAfterRedirects);
+        this.urlRedirects = event.map((d: any) => d.urlAfterRedirects);
       });
   }
 }
