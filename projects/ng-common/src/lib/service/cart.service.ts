@@ -379,8 +379,8 @@ export class CartService {
     () => {
             const index = this.cartInfo.products.findIndex((cart: any) => cart.productId === product);
             const products = this.cartInfo.products as any;
+            const productId = products[index].productId;
             const { totalPrice, quantity: pcs } = products[index].options[0];
-
 
             products.splice(index, 1);
 
@@ -389,10 +389,17 @@ export class CartService {
             if (this._selectedProductsInfo.cartIds[cartItemId]) {
               this._selectedProductsInfo.totalPrice -= totalPrice;
               this._selectedProductsInfo.pcs -= pcs;
+              this._selectedProductsInfo.num -= 1;
+              delete this._selectedProductsInfo.productIds[productId];
+              delete this._selectedProductsInfo.cartIds[cartItemId];
             }
 
             this.cartInfo.productsCnt -= 1;
             this.cartInfo.totalCnt -= 1;
+
+            if(this.cartInfo.totalCnt === 0) {
+              this.setStep('empty');
+            }
 
             this.cartInfo$.next({...this.cartInfo});
           },
