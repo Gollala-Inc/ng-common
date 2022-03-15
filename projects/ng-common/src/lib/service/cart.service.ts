@@ -379,6 +379,7 @@ export class CartService {
     () => {
             const index = this.cartInfo.products.findIndex((cart: any) => cart.productId === product);
             const products = this.cartInfo.products as any;
+            const productId = products[index].id;
             const { totalPrice, quantity: pcs } = products[index].options[0];
 
 
@@ -389,6 +390,7 @@ export class CartService {
             if (this._selectedProductsInfo.cartIds[cartItemId]) {
               this._selectedProductsInfo.totalPrice -= totalPrice;
               this._selectedProductsInfo.pcs -= pcs;
+              delete this._selectedProductsInfo.productIds[productId];
               delete this._selectedProductsInfo.cartIds[cartItemId];
             }
 
