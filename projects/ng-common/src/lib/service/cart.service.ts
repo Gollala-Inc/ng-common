@@ -742,7 +742,9 @@ export class CartService {
       const deletedProductId: any = this._memoProductsInfo[deletedCartId].product.id;
       const index = this.cartInfo.products.findIndex((item: any) => item.productId === deletedProductId);
 
-      this.cartInfo.products.splice(index, 1);
+      if(index > -1) {
+        this.cartInfo.products.splice(index, 1);
+      }
       delete this._memoProductsInfo[deletedCartId];
     }
 
