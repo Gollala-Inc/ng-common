@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
 import {NgCommonModule} from '../../projects/ng-common/src/lib/ng-common.module';
 import {FormsModule} from "@angular/forms";
+import {RouterModule} from "@angular/router";
 
 const materialModules = [
   MatButtonModule,
@@ -32,7 +33,8 @@ const materialModules = [
     ...materialModules,
     NgCommonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

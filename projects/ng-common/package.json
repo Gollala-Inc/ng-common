@@ -6,6 +6,6 @@
     "lodash": "^4.17.21",
     "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
-    "@gollala/retail-shared": "^1.0.10"
+가    "@gollala/retail-shared": "^1.0.11"
   }
 }

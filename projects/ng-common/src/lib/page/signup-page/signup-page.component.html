@@ -1,0 +1,47 @@
+<div class="title">골라라 회원가입</div>
+<form [formGroup]="customer" (submit)="signup($event)">
+  <div class="body">
+    <!--이메일 (아이디)-->
+    <div class="row">
+      <div class="row-title required">이메일 (아이디)</div>
+      <input class="row-input" formControlName="email" autocomplete="username" placeholder="아이디 (4~20자)">
+    </div>
+    <!--비밀번호-->
+    <div class="row">
+      <div class="row-title required">비밀번호</div>
+      <input class="row-input" formControlName="password" autocomplete="current-password" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+    </div>
+    <!--비밀번호 확인-->
+    <div class="row">
+      <div class="row-title required">비밀번호 확인</div>
+      <input class="row-input" formControlName="passwordConfirm" autocomplete="username" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+    </div>
+    <!--휴대폰 인증-->
+    <div class="row">
+      <div class="row-title required">휴대폰 인증</div>
+      <input class="row-input" formControlName="phone" autocomplete="tel-national" placeholder="휴대폰 번호 (숫자만 입력)">
+    </div>
+    <!--상호명-->
+    <div class="row">
+      <div class="row-title">상호명 <span class="option">(선택)</span></div>
+      <input class="row-input" formControlName="company" autocomplete="organization" placeholder="상호명 입력">
+    </div>
+    <!--추천인아이디-->
+    <div class="row">
+      <div class="row-title">추천인 아이디 <span class="option">(선택)</span></div>
+      <input class="row-input" formControlName="email" autocomplete="username" placeholder="추천인 아이디 (아이디, 이메일 형식)">
+    </div>
+
+    <div class="check-wrap">
+      <div>
+        <mat-checkbox formControlName="agree"></mat-checkbox>
+        [필수] 서비스 이용약관 및 개인정보 처리방침에 동의합니다.
+      </div>
+      <div>
+        <mat-checkbox formControlName="agree"></mat-checkbox>
+        [필수] 서비스 이용약관 및 개인정보 처리방침에 동의합니다.
+      </div>
+    </div>
+  </div>
+  <button class="sign-up" [ngClass]="{'invalid': !customer.valid}">회원가입</button>
+</form>

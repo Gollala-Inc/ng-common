@@ -11,6 +11,10 @@ import { LazyImageDirective } from './directive/lazy-image.directive';
 import { IconComponent } from './component/icon/icon.component';
 import { RippleDirective } from './directive/ripple.directive';
 import {MatButtonModule} from '@angular/material/button';
+import { LoginDialogComponent } from './component/login-dialog/login-dialog.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { SignupPageComponent } from './page/signup-page/signup-page.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
@@ -22,13 +26,19 @@ import {MatButtonModule} from '@angular/material/button';
     LazyImageDirective,
     IconComponent,
     RippleDirective,
+    LoginDialogComponent,
+    SignupPageComponent,
   ],
   imports: [
     MatDialogModule,
+    MatIconModule,
     CommonModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatCheckboxModule
   ],
   providers: [
     CommaSeparateNumberPipe,

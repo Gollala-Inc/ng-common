@@ -4,10 +4,5 @@
 <div *ngIf="signedIn">
   userName: 'asfasd'
 </div>
-<div>
-  id: <input type="text" [(ngModel)]="id">
-</div>
-<div>
-  pwd: <input type="password" [(ngModel)]="password">
-</div>
-<button (click)="login()">로그인</button>
+<button (click)="login()" *ngIf="!signedIn">로그인</button>
+<button (click)="logOut()" *ngIf="signedIn">로그아웃</button>

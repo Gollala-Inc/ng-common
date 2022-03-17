@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {SecurityService} from "../../projects/ng-common/src/public-api";
+import {DialogService, SecurityService} from "../../projects/ng-common/src/public-api";
 import {SharedSecurityService} from "@gollala/retail-shared";
-import {reject} from "lodash";
+import {LoginDialogComponent} from "../../projects/ng-common/src/lib/component/login-dialog/login-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -19,49 +19,31 @@ export class AppComponent {
   subscriptions: Subscription[] = [];
 
   constructor(
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private dialogService: DialogService
   ) {
-    SharedSecurityService.signedIn$((signedIn: any) => {
-      this.signedIn = signedIn;
-      console.log(this.signedIn);
-    });
-
-    this.restService = SharedSecurityService['restService'];
-    console.log(this.restService);
-
+    this.securityService.signedIn$.subscribe(signedin => this.signedIn = signedin);
     this.securityService.signedInRequest().subscribe(res => {
-      console.log(res);
-    }, error => {
-      console.log(error);
-    })
-
-    fetch('https://commerce-api.gollala.org/customer/auth/info')
-      .then((response: any) => {
-        if (!response.ok) {
-
-          throw response;
-        }
-        return response;
-      }).then(res => {
-        return res.json();
-    }).catch(error => {
-      error.json().then((res: any) => {console.warn(res.message)});
-      return Promise.reject(error);
-    })
-      .then(res => {
-        console.log(res);
-      }).catch(error => {
-      console.log('afdsfa');
-      console.log(error);
+      this.signedIn = res;
     })
   }
 
   login() {
-    //SharedSecurityService.signInRequest(this.id, this.password);
-    console.log('login');
-    this.securityService.signInRequest(this.id, this.password).subscribe(res => {
-      console.log(res);
-    })
+    this.dialogService.open(LoginDialogComponent, {
+      width: 'auto',
+      panelClass: 'login',
+      disableClose: true,
+      scrollBlock: true,
+    }).afterClosed().subscribe((response) => {
+      if (response) {
+        /* 로그인 됐을 때만 새로고침 */
+        window.location.reload();
+        return;
+      }
+    });
+  }
 
+  logOut() {
+    this.securityService.signout();
   }
 }

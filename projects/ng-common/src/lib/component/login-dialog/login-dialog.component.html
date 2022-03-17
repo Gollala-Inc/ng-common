@@ -1,0 +1,49 @@
+<gollala-loading [global]="false" [backdrop]="false" [d]="50" *ngIf="loader"></gollala-loading>
+<div class="dialog-wrapper" #dialog>
+  <mat-icon class="close-btn" (click)="onCloseDialog()">close</mat-icon>
+  <div class="signin-box" *ngIf="type === 'signin'">
+    <!-- 로그인 로고 -->
+    <section class="signin-logo-wrapper">
+      <img class="signin-logo"  src="assets/images/black_logo.png" alt="signin-logo"/>
+      <img class="m-siginin-logo" src="assets/images/black_logo@2x.png" alt="m-signin-logo"/>
+    </section>
+
+
+    <!--
+      로그인 주의사항 메세지
+    -->
+    <div class="signin-message">
+      <p>
+        골라라는 한국 동대문 패션 도매 B2B 플랫폼입니다.
+        <br/>
+        저희는 소매회원에게만 접속을 제공하고 있으니
+        <br/>
+        로그인하셔야 합니다.
+      </p>
+    </div>
+
+    <!-- 로그인 폼(form) -->
+    <form (submit)="signin($event)">
+      <div class="login-input-wrapper">
+        <div class="login-input">
+          <input matInput [formControl]="accountId" autocomplete="username" placeholder="아이디" >
+        </div>
+        <div class="login-input">
+          <input matInput type="password" autocomplete="current-password" [formControl]="accountPassword" placeholder="비밀번호">
+        </div>
+        <button class="sign-in" type="submit" mat-flat-button>
+          로그인
+        </button>
+        <button class="sign-up" mat-flat-button (click)="clickSignUp($event)">
+          회원가입
+        </button>
+      </div>
+    </form>
+  </div>
+  <lib-signup-page *ngIf="type === 'signup'"></lib-signup-page>
+</div>
+
+<section *ngIf="errorMessage" class="login-error-message" [@fadeIn]>
+  {{errorMessage}}
+</section>
+
