@@ -40,7 +40,7 @@ export class OrderService {
     return this._orderNumInStore;
   }
 
-  getOrders(params?: {limit?: number; page?:number; sort?: string}) {
+  getOrders(params?: {limit?: number; page?:number; sort?: string; populate?: boolean}) {
     return this.restService.GET('https://commerce-api.gollala.org/customer/auth/order', {
       params,
       handleError: true
