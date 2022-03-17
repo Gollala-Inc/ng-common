@@ -57,8 +57,8 @@ export class OrderService {
     });
   }
 
-  getCustomOrders() {
-    return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me', {handleError: true}).pipe(
+  getCustomOrders(params?: {populate?: boolean}) {
+    return this.restService.GET('https://commerce-api.gollala.org/custom_order/auth/me', {params, handleError: true}).pipe(
       tap((orders: CustomOrder[]) => {
           this._customOrders = orders;
           if (orders.length) {
