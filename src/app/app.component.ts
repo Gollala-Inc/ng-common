@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {SecurityService} from "../../projects/ng-common/src/public-api";
 import {SharedSecurityService} from "@gollala/retail-shared";
+import {reject} from "lodash";
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,26 @@ export class AppComponent {
     this.securityService.signedInRequest().subscribe(res => {
       console.log(res);
     }, error => {
+      console.log(error);
+    })
+
+    fetch('https://commerce-api.gollala.org/customer/auth/info')
+      .then((response: any) => {
+        if (!response.ok) {
+
+          throw response;
+        }
+        return response;
+      }).then(res => {
+        return res.json();
+    }).catch(error => {
+      error.json().then((res: any) => {console.warn(res.message)});
+      return Promise.reject(error);
+    })
+      .then(res => {
+        console.log(res);
+      }).catch(error => {
+      console.log('afdsfa');
       console.log(error);
     })
   }

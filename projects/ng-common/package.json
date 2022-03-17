@@ -1,11 +1,11 @@
 {
   "name": "@gollala/ng-common",
-  "version": "13.2.4",
+  "version": "13.2.5",
   "peerDependencies": {
     "@types/lodash": "^4.14.178",
     "lodash": "^4.17.21",
     "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
-    "@gollala/retail-shared": "^1.0.9"
+    "@gollala/retail-shared": "^1.0.10"
   }
 }
