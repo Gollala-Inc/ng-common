@@ -1,8 +1,11 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 import {RestService} from './rest.service';
 import {SharedSecurityService} from "@gollala/retail-shared";
 
+const CHANGE_USER_ENDPOINT = '/api/security/v3/changeUser';
+const GET_SERVICE_USER_ENDPOINT = '/api/account/serviceUser/get/';
 
 interface Cypher {
     initVector: string;
@@ -104,5 +107,46 @@ export class SecurityService {
 
   public signout() {
     this.sharedService.signout();
+  }
+
+  /**
+   * This method will be deprecated after menus and paths are properly set.
+   */
+
+  public changeUser(body: any) {
+    return this.restService.POST(CHANGE_USER_ENDPOINT, {
+      body,
+      handleError: true,
+    });
+  }
+
+  getServiceUser() {
+    const serviceUserId = this.signedIn.activeUserId;
+    return this.restService.GET(`${GET_SERVICE_USER_ENDPOINT}/${serviceUserId}?b=true`);
+  }
+
+  encrypt(text: string) {
+    // 이미 암호화 코드 상태이면 반환
+    if (Number.isNaN(+text)) {
+      return text;
+    }
+    const iv = CryptoJS.enc.Utf8.parse(cypher.initVector);
+    const key = CryptoJS.enc.Utf8.parse(cypher.secretKey);
+    const encrypted = CryptoJS.AES.encrypt(text, key, {iv: iv, padding: CryptoJS.pad.Pkcs7}).toString();
+    return encodeURIComponent(encrypted);
+  }
+
+  decrypt(text: string) {
+    let decodeText = text;
+    let decodeURI = decodeURIComponent(decodeText);
+    while (decodeURI != decodeText) {
+      decodeText = decodeURI;
+      decodeURI = decodeURIComponent(decodeText);
+    }
+    const iv = CryptoJS.enc.Utf8.parse(cypher.initVector);
+    const key = CryptoJS.enc.Utf8.parse(cypher.secretKey);
+    const decrypted = CryptoJS.AES.decrypt(decodeURI, key, {iv: iv, padding: CryptoJS.pad.Pkcs7});
+
+    return decrypted.toString(CryptoJS.enc.Utf8);
   }
 }
