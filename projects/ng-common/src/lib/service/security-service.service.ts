@@ -91,7 +91,7 @@ export class SecurityService {
 
   public signInRequest(userId: string, password: string): Observable<boolean> {
     return new Observable(subscriber => {
-      this.sharedService.signInRequest(userId, password).then(res => {
+      this.sharedService.signInRequest(userId, password).then((res: any) => {
         subscriber.next(res);
       }, error => {
         subscriber.error(error);
@@ -101,7 +101,7 @@ export class SecurityService {
 
   public signedInRequest(): Observable<boolean> {
     return new Observable(subscriber => {
-      this.sharedService.signedInRequest().then(res => {
+      this.sharedService.signedInRequest().then((res: any) => {
         subscriber.next(res);
       }, error => {
         subscriber.error(error);
