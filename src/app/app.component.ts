@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {AlertComponent} from './component/alert/alert.component';
-import {DialogService, RestService} from 'ng-common';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Subscription} from 'rxjs';
+import {DialogService, RestService, SecurityService} from "../../projects/ng-common/src/public-api";
+import {SharedSecurityService} from "@gollala/retail-shared";
 
 @Component({
   selector: 'app-root',
@@ -12,6 +12,10 @@ import {Subscription} from 'rxjs';
 })
 export class AppComponent {
 
+  id: string = '';
+  password: string = '';
+  signedIn: any;
+
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -19,30 +23,20 @@ export class AppComponent {
     private dialogService: DialogService,
     private restService: RestService,
     private httpClient: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private securityService: SecurityService
   ) {
-    //this.matDialog.open(AlertComponent);
-    const headers = new HttpHeaders(
-      {
-        'x-api-key':  '123a',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWU0ZDIzMTc4ZWNjMGE3ZTY2NTllOGIiLCJ1c2VySWQiOiJtYXNvbkBnb2xsYWxhLmNvbSIsImxhc3RMb2dnZWRJbkF0IjoiMjAyMi0wMS0xOFQwNjo0MzoyMS40ODVaIiwiaWF0IjoxNjQyNDg4MjAxLCJpc3MiOiJnb2xsYWxhLmNvbSIsInN1YiI6ImN1c3RvbWVyIn0.ZcCaAOwk2HH74h8AUyiW2XLUlUuCAbBB3xzH0iW9gnI'
-      });
-
-    const aaa = this.httpClient.get('https://commerce-api.gollala.org/customer/auth/info', {headers}).subscribe(res => {
-      console.log(res);
+    SharedSecurityService.signedIn$((signedIn: any) => {
+      this.signedIn = signedIn;
+      console.log(this.signedIn);
     });
+  }
 
-    const bbb = this.restService.GET('https://commerce-api.gollala.org/customer/auth/info', {headers}).subscribe(res => {
+  login() {
+    //SharedSecurityService.signInRequest(this.id, this.password);
+    console.log('login');
+    this.securityService.signInRequest(this.id, this.password).subscribe(res => {
       console.log(res);
-    });
-
-    this.subscriptions.push(aaa, bbb);
-
-    this.dialogService.alert('안녕하세요');
-    console.log(this.dialog.openDialogs, this.dialog.openDialogs.find(d => d.componentInstance instanceof AppComponent));
-
-
-
-
+    })
   }
 }

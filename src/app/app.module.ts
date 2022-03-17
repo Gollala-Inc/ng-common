@@ -11,6 +11,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
 import {NgCommonModule} from '../../projects/ng-common/src/lib/ng-common.module';
+import {FormsModule} from "@angular/forms";
 
 const materialModules = [
   MatButtonModule,
@@ -31,6 +32,7 @@ const materialModules = [
     ...materialModules,
     NgCommonModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

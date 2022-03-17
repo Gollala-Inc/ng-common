@@ -1,2 +1,13 @@
 <div>abcd</div>
 <span>{{12312312 | commaSeparateNumberPipe}}</span>
+
+<div *ngIf="signedIn">
+  userName: 'asfasd'
+</div>
+<div>
+  id: <input type="text" [(ngModel)]="id">
+</div>
+<div>
+  pwd: <input type="password" [(ngModel)]="password">
+</div>
+<button (click)="login()">로그인</button>
