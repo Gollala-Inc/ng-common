@@ -35,6 +35,10 @@ export class SecurityService {
     })
   }
 
+  setSignedIn(signedIn: any) {
+    this._signedIn = signedIn;
+  }
+
   get signedIn(): any {
     return this._signedIn;
   }
