@@ -27,6 +27,12 @@ export class AppComponent {
 
     this.restService = SharedSecurityService['restService'];
     console.log(this.restService);
+
+    this.securityService.signedInRequest().subscribe(res => {
+      console.log(res);
+    }, error => {
+      console.log(error);
+    })
   }
 
   login() {
