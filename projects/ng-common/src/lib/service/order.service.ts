@@ -51,9 +51,8 @@ export class OrderService {
     );
   }
 
-  getOrderItem(params?: {limit?: number; page?: number; sort?: string; order: string}) {
-    return this.restService.GET(`https://commerce-api.gollala.org/order_item`, {
-      params,
+  getOrderItem(id: string) {
+    return this.restService.GET(`https://commerce-api.gollala.org/order_item/${id}`, {
       handleError: true
     });
   }
