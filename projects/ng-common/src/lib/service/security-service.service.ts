@@ -45,13 +45,9 @@ export class SecurityService {
 
   public signUpReqeust(body: any) {
     return new Observable(subscriber => {
-      this.sharedService.signUpReqeust({
-        body,
-        handleError: true,
-        responseType: 'text'
-      }).then(res => {
+      this.sharedService.signUpReqeust(body).then(res => {
         subscriber.next(res);
-      }, error => {
+      }).catch(error => {
         subscriber.error(error);
       });
     });

@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RestService} from "../../service/rest.service";
 import {DialogService} from "../../service/dialog.service";
 import {timer} from "rxjs";
+import {SecurityService} from "../../service/security-service.service";
+import {LoadingService} from "../../service/loading.service";
+import {SharedSecurityService} from "@gollala/retail-shared";
 
 @Component({
   selector: 'lib-signup-page',
@@ -23,11 +26,14 @@ export class SignupPageComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private restService: RestService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private securityService: SecurityService,
+    private loadingService: LoadingService
   ) { }
 
   ngOnInit(): void {
     this.customer = this.formBuilder.group({
+      userId: [''],
       email: ['', [
         Validators.required,
         Validators.min(4),
@@ -40,8 +46,7 @@ export class SignupPageComponent implements OnInit {
       ]],
       passwordConfirm : ['', [
         Validators.required,
-        Validators.min(4),
-        Validators.max(18)
+        Validators.pattern('(?=.*[a-zA-Z])(?=.*?[0-9]).{4,18}'),
       ]],
       company: [''],
       phone: ['', [
@@ -57,11 +62,58 @@ export class SignupPageComponent implements OnInit {
       agree: [false, [
         Validators.requiredTrue
       ]],
+      recommender: ['', []],
+      marketingConsent: [false, []]
     });
   }
 
   signup(event: any) {
-    console.log(this.customer);
+    if (!this.customer.valid || !this.authorized) {
+      return ;
+    }
+    // userId 에 email 값 추가
+    this.customer.get('userId')?.setValue(this.customer.get('email')?.value);
+
+    const body = this.customer.value;
+    // 인증용 필드 제거
+    delete body.agree;
+    delete body.passwordConfirm;
+    delete body.authToken;
+
+    this.loadingService.start();
+    SharedSecurityService.validationEmail(body.email)
+      .then((valid) => {
+        if (!valid) {
+          this.dialogService.alert('이미 가입된 이메일 입니다.');
+          return ;
+        }
+        this.securityService.signUpReqeust(body).subscribe(
+          (token) => {
+            if (token) {
+              const message = '가입이 성공적으로 처리되었습니다.';
+              this.loadingService.stop();
+              const gollalaToken = {
+                token,
+                date: +new Date()
+              };
+
+              localStorage.setItem('gollala_token', JSON.stringify(gollalaToken));
+              this.dialogService.alert(message).subscribe(
+                () => {
+                  window.location.reload();
+                });
+            }
+          },
+          (error) => {
+            this.loadingService.stop();
+            this.dialogService.alert('회원 가입에 실패하였습니다. 골라라로 문의바랍니다.');
+          }
+        );
+      })
+      .catch(error => {
+        this.loadingService.stop();
+        this.dialogService.alert('회원 가입에 실패하였습니다. 골라라로 문의바랍니다.');
+      });
   }
 
   checkValid(type: string) {
