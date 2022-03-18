@@ -51,6 +51,10 @@ export class OrderService {
     );
   }
 
+  getOrder(id: string) {
+    return this.restService.GET(`https://commerce-api.gollala.org/order/${id}`, {handleError: true});
+  }
+
   getOrderItem(id: string) {
     return this.restService.GET(`https://commerce-api.gollala.org/order_item/${id}`, {
       handleError: true
@@ -67,6 +71,10 @@ export class OrderService {
         }
       )
     )
+  }
+
+  getCustomOrder(id: string) {
+    return this.restService.GET(`https://commerce-api.gollala.org/custom_order/${id}`, {handleError: true});
   }
 
   getCustomOrderItem(id: string) {
