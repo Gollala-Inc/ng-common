@@ -34,7 +34,7 @@ const materialModules = [
     NgCommonModule,
     HttpClientModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

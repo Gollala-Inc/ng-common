@@ -4,22 +4,56 @@
     <!--이메일 (아이디)-->
     <div class="row">
       <div class="row-title required">이메일 (아이디)</div>
-      <input class="row-input" formControlName="email" autocomplete="username" placeholder="아이디 (4~20자)">
+      <div class="row-input-wrap">
+        <input class="row-input" [ngClass]="{'error': !checkValid('email') && checkValue('email')}" type="email" formControlName="email" autocomplete="username" placeholder="아이디 (4~20자)">
+        <div *ngIf="checkValid('email'); then CheckICon"></div>
+      </div>
+      <div class="error-msg" *ngIf="!checkValid('email') && checkValue('email')">사용 불가능한 아이디입니다.</div>
     </div>
     <!--비밀번호-->
     <div class="row">
       <div class="row-title required">비밀번호</div>
-      <input class="row-input" formControlName="password" autocomplete="current-password" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+      <div class="row-input-wrap">
+        <input class="row-input" [ngClass]="{'error': !checkValid('password') && checkValue('password')}" type="password" formControlName="password" autocomplete="current-password" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+        <div *ngIf="checkValid('password'); then CheckICon"></div>
+      </div>
+      <div class="error-msg" *ngIf="!checkValid('password') && checkValue('password')">비밀번호는 영문/숫자를 혼합하여 4~18자리로 입력해주세요</div>
     </div>
     <!--비밀번호 확인-->
     <div class="row">
       <div class="row-title required">비밀번호 확인</div>
-      <input class="row-input" formControlName="passwordConfirm" autocomplete="username" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+      <div class="row-input-wrap">
+        <input class="row-input"  [ngClass]="{'error': !checkValid('passwordConfirm') && checkValue('passwordConfirm')}"  type="password" formControlName="passwordConfirm" autocomplete="username" placeholder="비밀번호 확인 (영문, 숫자 4~18자리)">
+        <div *ngIf="checkValid('passwordConfirm'); then CheckICon"></div>
+      </div>
+      <div class="error-msg" *ngIf="!checkValid('passwordConfirm') && checkValue('passwordConfirm')">비밀번호를 동일하게 입력해주세요.</div>
     </div>
     <!--휴대폰 인증-->
     <div class="row">
       <div class="row-title required">휴대폰 인증</div>
-      <input class="row-input" formControlName="phone" autocomplete="tel-national" placeholder="휴대폰 번호 (숫자만 입력)">
+      <div class="sub-row">
+        <div class="row-input-wrap">
+          <input class="row-input" [ngClass]="{'error': !checkValid('phone') && checkValue('phone')}" type="string" formControlName="phone" autocomplete="tel-national" placeholder="휴대폰 번호 (숫자만 입력)">
+          <div *ngIf="checkValid('phone'); then CheckICon"></div>
+        </div>
+        <button class="btn" [ngClass]="{'active': authorizing || authorized}" (click)="requestAuthorize()">
+          {{isFirstToken ? '인증하기' : '재발송'}}
+        </button>
+      </div>
+      <ng-container *ngIf="authorizing || authorized">
+        <div class="sub-row" >
+          <div class="row-input-wrap">
+            <input class="row-input" [ngClass]="{'error': authInValid}" formControlName="authToken" autocomplete="tel-national" placeholder="인증번호 입력">
+            <div *ngIf="!checkValid('authToken'); else CheckICon">
+              <div class="check">
+                {{timeParser(timer)}}
+              </div>
+            </div>
+          </div>
+          <button class="btn" [ngClass]="{'done': authorized}" (click)="authorizeToken()">확인</button>
+        </div>
+        <div class="error-msg" *ngIf="authInValid">인증번호가 틀립니다. 다시 시도해주세요.</div>
+      </ng-container>
     </div>
     <!--상호명-->
     <div class="row">
@@ -33,15 +67,24 @@
     </div>
 
     <div class="check-wrap">
-      <div>
-        <mat-checkbox formControlName="agree"></mat-checkbox>
-        [필수] 서비스 이용약관 및 개인정보 처리방침에 동의합니다.
+      <div class="check-row">
+        <mat-checkbox formControlName="agree">
+          <span>[필수] <a href="/terms-privacy" (click)="toLink($event, '/terms-privacy')">서비스 이용약관</a> 및
+            <a href="/terms-privacy?privacy=true" (click)="toLink($event, '/terms-privacy?privacy=true')">개인정보 처리방침</a>에 동의합니다.</span>
+        </mat-checkbox>
       </div>
-      <div>
-        <mat-checkbox formControlName="agree"></mat-checkbox>
-        [필수] 서비스 이용약관 및 개인정보 처리방침에 동의합니다.
+      <div class="check-row">
+        <mat-checkbox formControlName="agree">
+          <span>[선택] 이벤트, 프로모션 알림 메일 및 SMS 수신</span>
+        </mat-checkbox>
       </div>
     </div>
   </div>
-  <button class="sign-up" [ngClass]="{'invalid': !customer.valid}">회원가입</button>
+  <button class="sign-up" type="submit" [ngClass]="{'valid': customer.valid && authorized}">회원가입</button>
 </form>
+
+<ng-template #CheckICon >
+  <svg class="check" width="2rem" height="1.6rem" viewBox="0 0 2rem 1.6rem" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.95865 14.0487L1.23865 7.31866C1.16306 7.24423 1.10305 7.1555 1.06207 7.05765C1.0211 6.95979 1 6.85478 1 6.74869C1 6.6426 1.0211 6.53755 1.06207 6.4397C1.10305 6.34184 1.16306 6.25312 1.23865 6.17868L2.53867 4.87866C2.61311 4.80307 2.70183 4.74306 2.79968 4.70209C2.89754 4.66111 3.00258 4.64001 3.10867 4.64001C3.21476 4.64001 3.31978 4.66111 3.41763 4.70209C3.51549 4.74306 3.60421 4.80307 3.67865 4.87866L8.52866 9.72867L16.0186 2.23868C16.0931 2.16309 16.1818 2.10305 16.2797 2.06207C16.3776 2.0211 16.4826 2 16.5887 2C16.6947 2 16.7998 2.0211 16.8976 2.06207C16.9955 2.10305 17.0842 2.16309 17.1587 2.23868L18.4586 3.53867C18.5342 3.61311 18.5943 3.70186 18.6353 3.79971C18.6762 3.89757 18.6973 4.00258 18.6973 4.10867C18.6973 4.21476 18.6762 4.31978 18.6353 4.41763C18.5943 4.51549 18.5342 4.60424 18.4586 4.67868L9.09866 14.0487C8.94699 14.1989 8.74213 14.2832 8.52866 14.2832C8.31518 14.2832 8.11032 14.1989 7.95865 14.0487Z" fill="#20965D"/>
+  </svg>
+</ng-template>

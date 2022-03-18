@@ -15,7 +15,18 @@ import { LoginDialogComponent } from './component/login-dialog/login-dialog.comp
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SignupPageComponent } from './page/signup-page/signup-page.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
+const materialModules = [
+  MatButtonModule,
+  MatIconModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule,
+  MatProgressSpinnerModule,
+  MatCheckboxModule
+];
 
 @NgModule({
   declarations: [
@@ -30,15 +41,10 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     SignupPageComponent,
   ],
   imports: [
-    MatDialogModule,
-    MatIconModule,
     CommonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatCheckboxModule
+    ...materialModules
   ],
   providers: [
     CommaSeparateNumberPipe,
@@ -50,7 +56,11 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     LazyImageDirective,
     IconComponent,
     RippleDirective,
-    MatDialogModule
+    FormsModule,
+    ReactiveFormsModule,
+    ...materialModules,
+    LoginDialogComponent,
+    SignupPageComponent
   ],
   entryComponents: [
     ConfirmDialogComponent,
