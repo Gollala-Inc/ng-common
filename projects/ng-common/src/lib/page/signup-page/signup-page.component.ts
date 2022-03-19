@@ -85,6 +85,7 @@ export class SignupPageComponent implements OnInit {
       .then((valid) => {
         if (!valid) {
           this.dialogService.alert('이미 가입된 이메일 입니다.');
+          this.loadingService.stop();
           return ;
         }
         this.securityService.signUpReqeust(body).subscribe(
