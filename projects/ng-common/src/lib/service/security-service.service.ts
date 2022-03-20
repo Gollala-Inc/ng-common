@@ -32,11 +32,13 @@ export class SecurityService {
   ) {
     this.sharedService.signedIn$((signedIn: any) => {
       this.signedIn$.next(signedIn);
+      this._signedIn = signedIn;
     })
   }
 
   setSignedIn(signedIn: any) {
     this._signedIn = signedIn;
+    this.signedIn$.next(signedIn);
   }
 
   get signedIn(): any {
