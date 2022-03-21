@@ -18,7 +18,6 @@ export class OrderService {
   private _orders: any[] = [];
   private _customOrders: CustomOrder[] = [];
   private _latestUnclePhone: string | null = null;
-  private _orderNumInStore: number = 0;
 
   constructor(
     private restService: RestService
@@ -34,10 +33,6 @@ export class OrderService {
 
   get latestUnclePhone(): string | null {
     return this._latestUnclePhone;
-  }
-
-  get orderNumInStore(): number {
-    return this._orderNumInStore;
   }
 
   getOrders(params?: {limit?: number; page?:number; sort?: string; populate?: boolean}) {
@@ -81,9 +76,5 @@ export class OrderService {
     return this.restService.GET(`https://commerce-api.gollala.org/custom_order_item/${id}`, {
       handleError: true
     });
-  }
-
-  setOrderNumInStore(num: number) {
-    this._orderNumInStore = num;
   }
 }
