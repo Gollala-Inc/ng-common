@@ -574,7 +574,6 @@ export class CartService {
           ),
           tap(() => {
             const orderNum = idsInCustomCartItems.length + cartItems.length;
-            this.orderService.setOrderNumInStore(orderNum);
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
             this._memoExcelsInfo = {};
@@ -610,7 +609,6 @@ export class CartService {
           ),
           tap(() => {
             const orderNum = cartItems.length;
-            this.orderService.setOrderNumInStore(orderNum);
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
             this._memoExcelsInfo = {};
@@ -628,7 +626,6 @@ export class CartService {
           this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
 
           const orderNum = idsInCustomCartItems.length;
-          this.orderService.setOrderNumInStore(orderNum);
 
           this._memoExcelsInfo = {};
           this.resetSelectedExcelInfo();
