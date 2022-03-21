@@ -555,7 +555,8 @@ export class CartService {
         return this.createCustomCart(cartItems).pipe(
           mergeMap(
             ({items}) => {
-              const customItems = [...items, ...idsInCustomCartItems]
+              const ids = items.map((i:any) => i._id);
+              const customItems = [...ids, ...idsInCustomCartItems]
               return this.checkoutCustomCart(customItems, phone);
             }
           ),
@@ -589,7 +590,8 @@ export class CartService {
         return this.createCustomCart(cartItems).pipe(
           mergeMap(
             ({items}) => {
-              const customItems = [...items];
+              const ids = items.map((i:any) => i._id);
+              const customItems = [...ids];
               return this.checkoutCustomCart(customItems, phone);
             }
           ),
