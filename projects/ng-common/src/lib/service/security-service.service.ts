@@ -23,8 +23,8 @@ export class SecurityService {
 
   private _signedIn = false;
   private sharedService = SharedSecurityService;
-  private _oldPassword: Subject<string | null> = new Subject<string | null>();
 
+  oldPassword$: Subject<string | null> = new Subject<string | null>();
   signedIn$ = new BehaviorSubject<any>(this._signedIn);
 
   constructor(
@@ -43,10 +43,6 @@ export class SecurityService {
 
   get signedIn(): any {
     return this._signedIn;
-  }
-
-  get oldPassword(): Observable<string | null> {
-    return this._oldPassword;
   }
 
   public signUpReqeust(body: any) {
