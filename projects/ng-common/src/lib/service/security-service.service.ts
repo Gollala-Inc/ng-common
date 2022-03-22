@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import {RestService} from './rest.service';
 import {SharedSecurityService} from "@gollala/retail-shared";
-
 const CHANGE_USER_ENDPOINT = '/api/security/v3/changeUser';
 const GET_SERVICE_USER_ENDPOINT = '/api/account/serviceUser/get/';
 
@@ -24,6 +23,7 @@ export class SecurityService {
 
   private _signedIn = false;
   private sharedService = SharedSecurityService;
+  private _oldPassword: Subject<string | null> = new Subject<string | null>();
 
   signedIn$ = new BehaviorSubject<any>(this._signedIn);
 
@@ -43,6 +43,10 @@ export class SecurityService {
 
   get signedIn(): any {
     return this._signedIn;
+  }
+
+  get oldPassword(): Observable<string | null> {
+    return this._oldPassword;
   }
 
   public signUpReqeust(body: any) {
