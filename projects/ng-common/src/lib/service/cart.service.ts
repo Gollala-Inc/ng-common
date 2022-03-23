@@ -573,7 +573,6 @@ export class CartService {
             }
           ),
           tap(() => {
-            const orderNum = idsInCustomCartItems.length + cartItems.length;
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
             this._memoExcelsInfo = {};
