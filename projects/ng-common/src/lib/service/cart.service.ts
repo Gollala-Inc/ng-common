@@ -534,6 +534,8 @@ export class CartService {
           id: product.wholesaleStoreId,
           name: product.wholesale.name
         },
+        product: product.id,
+        productImage: product.imgPaths[0],
         building: product.wholesale.building,
         floor: product.wholesale.floor,
         room: product.wholesale.section,
