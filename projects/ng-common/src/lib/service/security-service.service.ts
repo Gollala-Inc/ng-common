@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import {RestService} from './rest.service';
 import {SharedSecurityService} from "@gollala/retail-shared";
@@ -24,7 +24,7 @@ export class SecurityService {
   private _signedIn = false;
   private sharedService = SharedSecurityService;
 
-  oldPassword$: Subject<string | null> = new Subject<string | null>();
+  oldPassword$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
   signedIn$ = new BehaviorSubject<any>(this._signedIn);
 
   constructor(
