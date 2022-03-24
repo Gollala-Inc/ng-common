@@ -526,32 +526,7 @@ export class CartService {
     const idsInCartItems = Object.keys(this._selectedProductsInfo.cartIds);
     const idsInCustomCartItems = Object.keys(this._selectedExcelsInfo.ids).filter((id) => !!this._memoExcelsInfo[id].quantity && !!this._memoExcelsInfo[id].wholesaleName);
 
-    const cartItems = idsInCartItems.map((id) => {
-      const {options, product, productName, quantity} = this._memoProductsInfo[id];
-      return {
-        wholesaleName: product.wholesale.name,
-        wholesale: {
-          type: '',
-          id: product.wholesaleStoreId,
-          name: product.wholesale.name
-        },
-        product: product.id,
-        productImage: product.imgPaths[0],
-        building: product.wholesale.building,
-        floor: product.wholesale.floor,
-        room: product.wholesale.section,
-        address: `${product.wholesale.building}, ${product.wholesale.floor}, ${product.wholesale.section}`,
-        phone: product.wholesale.phone,
-        productName: productName,
-        color: options.color,
-        size: options.size,
-        options: `${options.color} / ${options.size} / ${quantity}개`,
-        price: `${product.price}`,
-        quantity: `${quantity}`
-      }
-    });
-
-    if (cartItems.length) {
+    if (idsInCartItems.length) {
       if(idsInCustomCartItems.length) {
         /* 매장방문 - 엑셀 아이템, 상품 아이템 같이 있을 경우 */
 
@@ -559,17 +534,28 @@ export class CartService {
           mergeMap(
             ({items}) => {
               const ids = items.map((i:any) => i._id);
-              const customItems = [...ids, ...idsInCustomCartItems]
+              const customItems = [...ids, ...idsInCustomCartItems];
+
+              for(let i=0; i<idsInCartItems.length; i++) {
+                /* 카트 아이템 삭제 */
+                const id = idsInCartItems[i];
+                delete this._memoProductsInfo[id];
+              }
+              this.resetSelectedProductsInfo(); // select Cart 초기화
+
               return this.checkoutCustomCart(customItems, phone);
             }
           ),
           tap(() => {
-            this.cartInfo.excelsCnt = 0;
-            this.cleanProductCart(true);
-            this._memoExcelsInfo = {};
-            this.resetSelectedExcelInfo();
+            /*
+            * 추가한 만큼 엑셀 카트 delete
+            * */
+            for(let i = 0; i < idsInCustomCartItems.length; i++) {
+              const id = idsInCustomCartItems[i];
+              delete this._memoExcelsInfo[id];
+            }
+            this.resetSelectedExcelInfo(); // select excel cart 초기화
 
-            this.cartInfo$.next({...this.cartInfo});
             this.setStep('complete-store-order');
           })
         )
@@ -580,15 +566,18 @@ export class CartService {
           mergeMap(
             ({items}) => {
               const ids = items.map((i:any) => i._id);
+
+              for(let i=0; i<idsInCartItems.length; i++) {
+                /* 카트 아이템 삭제 */
+                const id = idsInCartItems[i];
+                delete this._memoProductsInfo[id];
+              }
+              this.resetSelectedProductsInfo(); // select Cart 초기화
+
               return this.checkoutCustomCart(ids, phone);
             }
           ),
           tap(() => {
-            const orderNum = cartItems.length;
-            this.cartInfo.excelsCnt = 0;
-            this.cleanProductCart(true);
-            this._memoExcelsInfo = {};
-            this.resetSelectedExcelInfo();
             this.setStep('complete-store-order');
           })
         )
@@ -598,10 +587,15 @@ export class CartService {
 
       return this.checkoutCustomCart(idsInCustomCartItems, phone).pipe(
         tap(() => {
-          this.cartInfo.excelsCnt = 0;
-          this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
-          this._memoExcelsInfo = {};
-          this.resetSelectedExcelInfo();
+          /*
+          * 추가한 만큼 엑셀 카트 delete
+          * */
+          for(let i = 0; i < idsInCustomCartItems.length; i++) {
+            const id = idsInCustomCartItems[i];
+            delete this._memoExcelsInfo[id];
+          }
+          this.resetSelectedExcelInfo(); // select excel cart 초기화
+
           this.setStep('complete-store-order');
         })
       )
