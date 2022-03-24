@@ -178,11 +178,12 @@ export class CartService {
 
   createCustomCart(items: any[]) {
     const body = {
-      _id: this._customCartId,
+      customCartId: this._customCartId,
+      cartId: this._cartId,
       items
     };
 
-    return this.restService.POST('https://commerce-api.gollala.org/custom_cart/', {
+    return this.restService.POST('https://commerce-api.gollala.org/custom_cart/add_from_cart', {
       body,
       handleError: true
     })
@@ -554,7 +555,7 @@ export class CartService {
       if(idsInCustomCartItems.length) {
         /* 매장방문 - 엑셀 아이템, 상품 아이템 같이 있을 경우 */
 
-        return this.createCustomCart(cartItems).pipe(
+        return this.createCustomCart(idsInCartItems).pipe(
           mergeMap(
             ({items}) => {
               const ids = items.map((i:any) => i._id);
@@ -587,16 +588,10 @@ export class CartService {
       } else {
         /* 매장방문 - 카트 아이템만 있을 경우*/
 
-        return this.createCustomCart(cartItems).pipe(
+        return this.createCustomCart(idsInCartItems).pipe(
           mergeMap(
             ({items}) => {
-              const ids = items.reduce((result: string[], i:any) => {
-                const id = i._id;
-                if(i.product) {
-                  result.push(id);
-                }
-                return result;
-              }, []);
+              const ids = items.map((i:any) => i._id);
               return this.checkoutCustomCart(ids, phone);
             }
           ),
