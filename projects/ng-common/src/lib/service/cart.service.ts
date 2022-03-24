@@ -563,18 +563,6 @@ export class CartService {
               return this.checkoutCustomCart(customItems, phone);
             }
           ),
-          mergeMap(
-            () => {
-              /* 상품 삭제 */
-              const items = idsInCartItems.map((id) => {
-                return {
-                  ...this._memoProductsInfo[id],
-                  product: this._memoProductsInfo[id].product.id
-                }
-              });
-              return this.subtractCart(items);
-            }
-          ),
           tap(() => {
             this.cartInfo.excelsCnt = 0;
             this.cleanProductCart(true);
@@ -595,19 +583,6 @@ export class CartService {
               return this.checkoutCustomCart(ids, phone);
             }
           ),
-          mergeMap(
-            () => {
-              /* 상품 삭제 */
-
-              const items = idsInCartItems.map((id) => {
-                return {
-                  ...this._memoProductsInfo[id],
-                  product: this._memoProductsInfo[id].product.id
-                }
-              });
-              return this.subtractCart(items);
-            }
-          ),
           tap(() => {
             const orderNum = cartItems.length;
             this.cartInfo.excelsCnt = 0;
@@ -625,9 +600,6 @@ export class CartService {
         tap(() => {
           this.cartInfo.excelsCnt = 0;
           this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
-
-          const orderNum = idsInCustomCartItems.length;
-
           this._memoExcelsInfo = {};
           this.resetSelectedExcelInfo();
           this.setStep('complete-store-order');
