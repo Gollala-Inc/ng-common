@@ -544,6 +544,8 @@ export class CartService {
                 this.cartInfo.products.splice(index, 1);
                 delete this._memoProductsInfo[id];
               }
+
+              this.cartInfo.productsCnt -= idsInCartItems.length;
               this.resetSelectedProductsInfo(); // select Cart 초기화
 
               return this.checkoutCustomCart(customItems, phone);
@@ -559,8 +561,11 @@ export class CartService {
               this.cartInfo.excels.splice(index, 1);
               delete this._memoExcelsInfo[id];
             }
-            this.resetSelectedExcelInfo(); // select excel cart 초기화
 
+            this.cartInfo.excelsCnt -= idsInCustomCartItems.length;
+            this.cartInfo.totalCnt = this.cartInfo.productsCnt + this.cartInfo.excelsCnt;
+            this.resetSelectedExcelInfo(); // select excel cart 초기화
+            this.cartInfo$.next({...this.cartInfo});
             this.setStep('complete-store-order');
           })
         )
@@ -580,6 +585,10 @@ export class CartService {
                 this.cartInfo.products.splice(index, 1);
                 delete this._memoProductsInfo[id];
               }
+
+              this.cartInfo.productsCnt -= idsInCartItems.length;
+              this.cartInfo.totalCnt = this.cartInfo.productsCnt + this.cartInfo.excelsCnt;
+              this.cartInfo$.next({...this.cartInfo});
               this.resetSelectedProductsInfo(); // select Cart 초기화
 
               return this.checkoutCustomCart(ids, phone);
@@ -604,6 +613,10 @@ export class CartService {
             this.cartInfo.excels.splice(index, 1);
             delete this._memoExcelsInfo[id];
           }
+
+          this.cartInfo.excelsCnt -= idsInCustomCartItems.length;
+          this.cartInfo.totalCnt = this.cartInfo.productsCnt + this.cartInfo.excelsCnt;
+          this.cartInfo$.next({...this.cartInfo});
           this.resetSelectedExcelInfo(); // select excel cart 초기화
 
           this.setStep('complete-store-order');
