@@ -590,9 +590,14 @@ export class CartService {
         return this.createCustomCart(cartItems).pipe(
           mergeMap(
             ({items}) => {
-              const ids = items.map((i:any) => i._id);
-              const customItems = [...ids];
-              return this.checkoutCustomCart(customItems, phone);
+              const ids = items.reduce((result: string[], i:any) => {
+                const id = i._id;
+                if(i.product) {
+                  result.push(id);
+                }
+                return result;
+              }, []);
+              return this.checkoutCustomCart(ids, phone);
             }
           ),
           mergeMap(
