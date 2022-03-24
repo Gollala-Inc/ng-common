@@ -539,6 +539,9 @@ export class CartService {
               for(let i=0; i<idsInCartItems.length; i++) {
                 /* 카트 아이템 삭제 */
                 const id = idsInCartItems[i];
+                const deletedProductId: any = this._memoProductsInfo[id].product.id;
+                const index = this.cartInfo.products.findIndex((item: any) => item.productId === deletedProductId);
+                this.cartInfo.products.splice(index, 1);
                 delete this._memoProductsInfo[id];
               }
               this.resetSelectedProductsInfo(); // select Cart 초기화
@@ -552,6 +555,8 @@ export class CartService {
             * */
             for(let i = 0; i < idsInCustomCartItems.length; i++) {
               const id = idsInCustomCartItems[i];
+              const index = this.cartInfo.excels.findIndex((item: any) => item._id === id);
+              this.cartInfo.excels.splice(index, 1);
               delete this._memoExcelsInfo[id];
             }
             this.resetSelectedExcelInfo(); // select excel cart 초기화
@@ -570,6 +575,9 @@ export class CartService {
               for(let i=0; i<idsInCartItems.length; i++) {
                 /* 카트 아이템 삭제 */
                 const id = idsInCartItems[i];
+                const deletedProductId: any = this._memoProductsInfo[id].product.id;
+                const index = this.cartInfo.products.findIndex((item: any) => item.productId === deletedProductId);
+                this.cartInfo.products.splice(index, 1);
                 delete this._memoProductsInfo[id];
               }
               this.resetSelectedProductsInfo(); // select Cart 초기화
@@ -592,6 +600,8 @@ export class CartService {
           * */
           for(let i = 0; i < idsInCustomCartItems.length; i++) {
             const id = idsInCustomCartItems[i];
+            const index = this.cartInfo.excels.findIndex((item: any) => item._id === id);
+            this.cartInfo.excels.splice(index, 1);
             delete this._memoExcelsInfo[id];
           }
           this.resetSelectedExcelInfo(); // select excel cart 초기화
