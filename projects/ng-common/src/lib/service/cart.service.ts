@@ -532,7 +532,7 @@ export class CartService {
 
         return this.createCustomCart(idsInCartItems).pipe(
           mergeMap(
-            ({items}) => {
+            (items: any) => {
               const ids = items.map((i:any) => i._id);
               const customItems = [...ids, ...idsInCustomCartItems];
 
@@ -569,7 +569,7 @@ export class CartService {
 
         return this.createCustomCart(idsInCartItems).pipe(
           mergeMap(
-            ({items}) => {
+            (items: any) => {
               const ids = items.map((i:any) => i._id);
 
               for(let i=0; i<idsInCartItems.length; i++) {
