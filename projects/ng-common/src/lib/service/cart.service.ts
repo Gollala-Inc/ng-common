@@ -313,6 +313,7 @@ export class CartService {
       },
       (error) => {
         console.log(error);
+        this.loadingService.stop();
         this.dialogService.alert('[에러] 상품 정보를 가져오는데 실패하였습니다.').subscribe(() => {
           this._step = 'error';
         });
