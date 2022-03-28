@@ -105,7 +105,7 @@ export class LoginDialogComponent implements OnInit {
     this.type = 'signup';
   }
 
-  onCloseDialog() {
-    this.dialogRef.close();
+  onCloseDialog(goLinkType?: string) {
+    this.dialogRef.close(goLinkType);
   }
 }

@@ -176,6 +176,47 @@ input:focus {
     }
   }
 
+  .find-links {
+    ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 2.4rem;
+      margin: 0;
+
+      li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+
+        &.divider {
+          width: 0.1rem;
+          background:  #bbb;
+          margin: 0 0.8rem;
+        }
+
+        &.link {
+          a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            cursor: pointer;
+            color: #1c1c1c;
+            font-size: 1.4rem;
+            line-height: 2.027rem;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+
   .divider {
     display: flex;
     align-items: center;

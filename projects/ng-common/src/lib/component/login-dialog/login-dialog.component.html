@@ -34,6 +34,17 @@
         <button class="sign-in" type="submit" mat-flat-button>
           로그인
         </button>
+        <div class="find-links">
+          <ul>
+            <li class="link">
+              <a (click)="onCloseDialog('find-userid')">아이디 찾기</a>
+            </li>
+            <li class="divider"></li>
+            <li class="link">
+              <a (click)="onCloseDialog('find-password')">비밀번호 찾기</a>
+            </li>
+          </ul>
+        </div>
         <button class="sign-up" mat-flat-button (click)="clickSignUp($event)">
           회원가입
         </button>
