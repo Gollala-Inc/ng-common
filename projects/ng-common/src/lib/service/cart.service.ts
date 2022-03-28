@@ -202,7 +202,7 @@ export class CartService {
 
 
   getCartInfo() {
-    let cartItems:any[] = [];
+    let cartItems: any[] = [];
     this.loadingService.start();
     this._step = 'pending';
 
@@ -241,6 +241,15 @@ export class CartService {
             product: productInfo
           }
 
+          const option = {
+            cartItemId: cartItem._id,
+            color: cartItem.options.color,
+            size: cartItem.options.size,
+            quantity: cartItem.quantity,
+            price: productInfo.price,
+            totalPrice: totalProductPrice
+          };
+
           if(result.hasOwnProperty(productId)) {
             result[productId].totalPrice += totalProductPrice;
 
@@ -249,25 +258,10 @@ export class CartService {
               result[productId].options[cartItem._id].quantity += cartItem.quantity;
               result[productId].options[cartItem._id].quantity += totalProductPrice;
             } else {
-              const option = {
-                cartItemId: cartItem._id,
-                color: cartItem.options.color,
-                size: cartItem.options.size,
-                quantity: cartItem.quantity,
-                totalPrice: totalProductPrice
-              };
               result[productId].options[cartItem._id] = option;
             }
           } else {
             const {wholesale: {name, building, floor, section}} = productInfo;
-            const option = {
-              cartItemId: cartItem._id,
-              color: cartItem.options.color,
-              size: cartItem.options.size,
-              quantity: cartItem.quantity,
-              price: productInfo.price,
-              totalPrice: totalProductPrice
-            };
 
             result[productId] = {
               name: cartItem.productName,
