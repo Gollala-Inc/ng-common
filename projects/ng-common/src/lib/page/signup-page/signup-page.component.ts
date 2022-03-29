@@ -74,7 +74,11 @@ export class SignupPageComponent implements OnInit {
     // userId 에 email 값 추가
     this.customer.get('userId')?.setValue(this.customer.get('email')?.value);
 
-    const body = this.customer.value;
+    const body = {
+      ...this.customer.value,
+      mobile: this.customer.value.phone
+    };
+
     // 인증용 필드 제거
     delete body.agree;
     delete body.passwordConfirm;
