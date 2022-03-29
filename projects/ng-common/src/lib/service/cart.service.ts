@@ -568,6 +568,12 @@ export class CartService {
         /* 매장방문 - 카트 아이템만 있을 경우*/
 
         return this.createCustomCart(idsInCartItems).pipe(
+          catchError(
+            (error: any) => {
+              console.log(error);
+              return throwError(error);
+            }
+          ),
           mergeMap(
             (items: any) => {
               const ids = items.map((i:any) => i._id);
