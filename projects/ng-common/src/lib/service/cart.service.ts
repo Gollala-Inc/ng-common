@@ -530,17 +530,21 @@ export class CartService {
             (items: any) => {
               const ids = items.map((i:any) => i._id);
               const customItems = [...ids, ...idsInCustomCartItems];
+              let count = 0;
 
               for(let i=0; i<idsInCartItems.length; i++) {
                 /* 카트 아이템 삭제 */
                 const id = idsInCartItems[i];
                 const deletedProductId: any = this._memoProductsInfo[id].product.id;
                 const index = this.cartInfo.products.findIndex((item: any) => item.productId === deletedProductId);
-                this.cartInfo.products.splice(index, 1);
+                if(index > -1){
+                  this.cartInfo.products.splice(index, 1);
+                  count += 1;
+                }
                 delete this._memoProductsInfo[id];
               }
 
-              this.cartInfo.productsCnt -= idsInCartItems.length;
+              this.cartInfo.productsCnt -= count;
               this.resetSelectedProductsInfo(); // select Cart 초기화
 
               return this.checkoutCustomCart(customItems, phone);
@@ -577,17 +581,21 @@ export class CartService {
           mergeMap(
             (items: any) => {
               const ids = items.map((i:any) => i._id);
+              let count = 0;
 
               for(let i=0; i<idsInCartItems.length; i++) {
                 /* 카트 아이템 삭제 */
                 const id = idsInCartItems[i];
                 const deletedProductId: any = this._memoProductsInfo[id].product.id;
                 const index = this.cartInfo.products.findIndex((item: any) => item.productId === deletedProductId);
-                this.cartInfo.products.splice(index, 1);
+                if(index > -1){
+                  this.cartInfo.products.splice(index, 1);
+                  count += 1;
+                }
                 delete this._memoProductsInfo[id];
               }
 
-              this.cartInfo.productsCnt -= idsInCartItems.length;
+              this.cartInfo.productsCnt -= count;
               this.cartInfo.totalCnt = this.cartInfo.productsCnt + this.cartInfo.excelsCnt;
               this.cartInfo$.next({...this.cartInfo});
               this.resetSelectedProductsInfo(); // select Cart 초기화
@@ -617,6 +625,7 @@ export class CartService {
 
           this.cartInfo.excelsCnt -= idsInCustomCartItems.length;
           this.cartInfo.totalCnt = this.cartInfo.productsCnt + this.cartInfo.excelsCnt;
+          this.cartInfo.totalCnt =  this.cartInfo.totalCnt < 0 ? 0 : this.cartInfo.totalCnt;
           this.cartInfo$.next({...this.cartInfo});
           this.resetSelectedExcelInfo(); // select excel cart 초기화
 
