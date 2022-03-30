@@ -526,6 +526,12 @@ export class CartService {
         /* 매장방문 - 엑셀 아이템, 상품 아이템 같이 있을 경우 */
 
         return this.createCustomCart(idsInCartItems).pipe(
+          catchError(
+            (error: any) => {
+              console.log('커스텀 카트 생성 에러', error);
+              return throwError(error);
+            }
+          ),
           mergeMap(
             (items: any) => {
               const ids = items.map((i:any) => i._id);
@@ -547,9 +553,13 @@ export class CartService {
               this.cartInfo.productsCnt -= count;
               this.resetSelectedProductsInfo(); // select Cart 초기화
 
-              return this.checkoutCustomCart(customItems, phone);
+              return this.checkoutCustomCart(customItems, phone, 'general');
             }
           ),
+          catchError((error) => {
+            console.log('체크아웃 에러', error);
+            return throwError(error);
+          }),
           tap(() => {
             /*
             * 추가한 만큼 엑셀 카트 delete
@@ -574,7 +584,7 @@ export class CartService {
         return this.createCustomCart(idsInCartItems).pipe(
           catchError(
             (error: any) => {
-              console.log(error);
+              console.log('커스텀 카트 생성 에러', error);
               return throwError(error);
             }
           ),
@@ -600,9 +610,13 @@ export class CartService {
               this.cartInfo$.next({...this.cartInfo});
               this.resetSelectedProductsInfo(); // select Cart 초기화
 
-              return this.checkoutCustomCart(ids, phone);
+              return this.checkoutCustomCart(ids, phone, 'general');
             }
           ),
+          catchError((error) => {
+            console.log('체크아웃 에러', error);
+            return throwError(error);
+          }),
           tap(() => {
             this.setStep('complete-store-order');
           })
@@ -611,7 +625,11 @@ export class CartService {
     } else {
       /* 매장방문 - 엑셀 아이템만 있을 경우*/
 
-      return this.checkoutCustomCart(idsInCustomCartItems, phone).pipe(
+      return this.checkoutCustomCart(idsInCustomCartItems, phone, 'excel').pipe(
+        catchError((error) => {
+          console.log('체크아웃 에러', error);
+          return throwError(error);
+        }),
         tap(() => {
           /*
           * 추가한 만큼 엑셀 카트 delete
@@ -636,13 +654,13 @@ export class CartService {
   }
 
 
-  private checkoutCustomCart(items: any[], phone: string) {
+  private checkoutCustomCart(items: any[], phone: string, type: 'general' | 'excel') {
     if(items.length === 0) return of(null);
 
     const body = {
       _id: this._customCartId,
       customer: this._customerId,
-      type: 'general',
+      type,
       unclePhone: phone,
       items
     }
