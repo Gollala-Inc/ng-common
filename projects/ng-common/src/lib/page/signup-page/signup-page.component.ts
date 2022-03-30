@@ -92,6 +92,8 @@ export class SignupPageComponent implements OnInit {
           this.loadingService.stop();
           return ;
         }
+
+        delete body.email;
         this.securityService.signUpReqeust(body).subscribe(
           (token) => {
             if (token) {
