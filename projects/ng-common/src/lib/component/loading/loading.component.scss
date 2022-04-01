@@ -32,12 +32,10 @@
     @keyframes da-pulse {
       0%,
       100% {
-        transform: scale(1.25);
         opacity: 0;
       }
       48%,
       52% {
-        transform: scale(1);
         opacity: 1;
       }
     }
