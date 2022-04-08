@@ -49,6 +49,9 @@ export class LoginDialogComponent implements OnInit {
   }
 
   ngOnInit() {
+    if ((window as any)['dataLayer']) {
+      (window as any)['dataLayer'].push({ event: 'loginPopupOpenedTrigger'});
+    }
     this.errorMessage$.subscribe((msg) => {
       this.errorMessage = msg;
 
@@ -64,6 +67,10 @@ export class LoginDialogComponent implements OnInit {
 
   signin(event: any) {
     event.preventDefault();
+
+    if ((window as any)['dataLayer']) {
+      (window as any)['dataLayer'].push({ event: 'loginButtonClickedTrigger'});
+    }
 
     if (this.accountId.value === '') {
       // this.dialogService.alert('<div class="dialog-l-text bold">아이디를 입력해주세요.</div>');
@@ -104,6 +111,9 @@ export class LoginDialogComponent implements OnInit {
   clickSignUp(event: any) {
     event.stopPropagation();
     event.preventDefault();
+    if ((window as any)['dataLayer']) {
+      (window as any)['dataLayer'].push({ event: 'registerButtonClickedTrigger'});
+    }
 
     // 추천인 코드 입력 창을 제거해서 바로 회원 가입 팝업이 뜰 수 있도록 구현한다.
     this.type = 'signup';
@@ -115,6 +125,9 @@ export class LoginDialogComponent implements OnInit {
 
   isCompleteSignup(complete: boolean) {
     if(complete) {
+      if ((window as any)['dataLayer']) {
+        (window as any)['dataLayer'].push({ event: 'registerCompletedTrigger'});
+      }
       this.onCloseDialog('signin-complete');
     }
   }
