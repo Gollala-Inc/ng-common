@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RestService} from "../../service/rest.service";
 import {DialogService} from "../../service/dialog.service";
@@ -7,6 +7,8 @@ import {SecurityService} from "../../service/security-service.service";
 import {LoadingService} from "../../service/loading.service";
 import {SharedSecurityService} from "@gollala/retail-shared";
 import {Router} from "@angular/router";
+import {MatDialogRef} from "@angular/material/dialog";
+import {LoginDialogComponent} from "../../component/login-dialog/login-dialog.component";
 
 @Component({
   selector: 'lib-signup-page',
@@ -15,6 +17,7 @@ import {Router} from "@angular/router";
 })
 export class SignupPageComponent implements OnInit {
   @Input() url = '';
+  @Output() onCompleteSingup!: EventEmitter<boolean>;
 
   customer: FormGroup = this.formBuilder.group({});
   authorizing = false;
@@ -32,7 +35,7 @@ export class SignupPageComponent implements OnInit {
     private securityService: SecurityService,
     private loadingService: LoadingService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.customer = this.formBuilder.group({
@@ -111,6 +114,7 @@ export class SignupPageComponent implements OnInit {
               this.dialogService.alert(message).subscribe(
                 () => {
                   this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
+                  this.onCompleteSingup.emit(true);
                 });
             }
           },

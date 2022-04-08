@@ -43,7 +43,7 @@ export class LoginDialogComponent implements OnInit {
     private securityService: SecurityService,
     private dialogService: DialogService,
   ) {
-    this.url = data.url || '';
+    this.url = data ? data.url : '';
   }
 
   ngOnInit() {
@@ -109,5 +109,11 @@ export class LoginDialogComponent implements OnInit {
 
   onCloseDialog(goLinkType?: string) {
     this.dialogRef.close(goLinkType);
+  }
+
+  isCompleteSignup(complete: boolean) {
+    if(complete) {
+      this.dialogRef.close();
+    }
   }
 }
