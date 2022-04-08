@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RestService} from "../../service/rest.service";
 import {DialogService} from "../../service/dialog.service";
@@ -6,6 +6,7 @@ import {timer} from "rxjs";
 import {SecurityService} from "../../service/security-service.service";
 import {LoadingService} from "../../service/loading.service";
 import {SharedSecurityService} from "@gollala/retail-shared";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'lib-signup-page',
@@ -13,6 +14,7 @@ import {SharedSecurityService} from "@gollala/retail-shared";
   styleUrls: ['./signup-page.component.scss']
 })
 export class SignupPageComponent implements OnInit {
+  @Input() url = '';
 
   customer: FormGroup = this.formBuilder.group({});
   authorizing = false;
@@ -28,7 +30,8 @@ export class SignupPageComponent implements OnInit {
     private restService: RestService,
     private dialogService: DialogService,
     private securityService: SecurityService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -107,6 +110,7 @@ export class SignupPageComponent implements OnInit {
               localStorage.setItem('gollala_token', JSON.stringify(gollalaToken));
               this.dialogService.alert(message).subscribe(
                 () => {
+                  this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
                   window.location.reload();
                 });
             }
