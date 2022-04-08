@@ -111,7 +111,6 @@ export class SignupPageComponent implements OnInit {
               this.dialogService.alert(message).subscribe(
                 () => {
                   this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
-                  window.location.reload();
                 });
             }
           },
