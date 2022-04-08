@@ -14,7 +14,7 @@ import {SharedSecurityService} from "@gollala/retail-shared";
 })
 export class SignupPageComponent implements OnInit {
   @Input() url = '';
-  @Output() onCompleteSignup!: EventEmitter<boolean>;
+  @Output() onCompleteSignup: EventEmitter<boolean> = new EventEmitter();
 
   customer: FormGroup = this.formBuilder.group({});
   authorizing = false;
