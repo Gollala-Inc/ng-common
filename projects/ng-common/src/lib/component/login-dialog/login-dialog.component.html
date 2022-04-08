@@ -51,7 +51,7 @@
       </div>
     </form>
   </div>
-  <lib-signup-page *ngIf="type === 'signup'" [url]="data.url"></lib-signup-page>
+  <lib-signup-page *ngIf="type === 'signup'" [url]="url"></lib-signup-page>
 </div>
 
 <section *ngIf="errorMessage" class="login-error-message" [@fadeIn]>

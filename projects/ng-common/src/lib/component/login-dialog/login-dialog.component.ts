@@ -35,13 +35,15 @@ export class LoginDialogComponent implements OnInit {
   errorMessage$: Subject<string> = new Subject<string>();
   errorMessage = '';
   loginErrorTimer: any;
+  url = '';
 
   constructor(
     public dialogRef: MatDialogRef<LoginDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private securityService: SecurityService,
     private dialogService: DialogService,
   ) {
+    this.url = data.url || '';
   }
 
   ngOnInit() {
