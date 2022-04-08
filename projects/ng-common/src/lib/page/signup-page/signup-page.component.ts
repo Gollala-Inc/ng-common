@@ -6,9 +6,6 @@ import {timer} from "rxjs";
 import {SecurityService} from "../../service/security-service.service";
 import {LoadingService} from "../../service/loading.service";
 import {SharedSecurityService} from "@gollala/retail-shared";
-import {Router} from "@angular/router";
-import {MatDialogRef} from "@angular/material/dialog";
-import {LoginDialogComponent} from "../../component/login-dialog/login-dialog.component";
 
 @Component({
   selector: 'lib-signup-page',
@@ -17,7 +14,7 @@ import {LoginDialogComponent} from "../../component/login-dialog/login-dialog.co
 })
 export class SignupPageComponent implements OnInit {
   @Input() url = '';
-  @Output() onCompleteSingup!: EventEmitter<boolean>;
+  @Output() onCompleteSignup!: EventEmitter<boolean>;
 
   customer: FormGroup = this.formBuilder.group({});
   authorizing = false;
@@ -34,7 +31,6 @@ export class SignupPageComponent implements OnInit {
     private dialogService: DialogService,
     private securityService: SecurityService,
     private loadingService: LoadingService,
-    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -113,8 +109,7 @@ export class SignupPageComponent implements OnInit {
               localStorage.setItem('gollala_token', JSON.stringify(gollalaToken));
               this.dialogService.alert(message).subscribe(
                 () => {
-                  this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
-                  this.onCompleteSingup.emit(true);
+                  this.onCompleteSignup.emit(true);
                 });
             }
           },

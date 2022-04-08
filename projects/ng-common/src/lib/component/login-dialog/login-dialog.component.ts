@@ -6,6 +6,7 @@ import {Subject} from 'rxjs';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {SecurityService} from "../../service/security-service.service";
 import {DialogService} from "../../service/dialog.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-dialog',
@@ -42,6 +43,7 @@ export class LoginDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private securityService: SecurityService,
     private dialogService: DialogService,
+    private router: Router
   ) {
     this.url = data ? data.url : '';
   }
@@ -113,7 +115,8 @@ export class LoginDialogComponent implements OnInit {
 
   isCompleteSignup(complete: boolean) {
     if(complete) {
-      this.dialogRef.close();
+      this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
+      this.onCloseDialog();
     }
   }
 }
