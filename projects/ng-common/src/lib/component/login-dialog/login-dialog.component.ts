@@ -115,8 +115,7 @@ export class LoginDialogComponent implements OnInit {
 
   isCompleteSignup(complete: boolean) {
     if(complete) {
-      this.router.navigate(['/main/commerce/domestic/signup/complete'], {state: {url: this.url || '/'}});
-      this.onCloseDialog();
+      this.onCloseDialog('/main/commerce/domestic/signup/complete');
     }
   }
 }
