@@ -115,7 +115,7 @@ export class LoginDialogComponent implements OnInit {
 
   isCompleteSignup(complete: boolean) {
     if(complete) {
-      this.onCloseDialog('/main/commerce/domestic/signup/complete');
+      this.onCloseDialog('signin-complete');
     }
   }
 }
