@@ -1,8 +1,24 @@
-<div>abcd</div>
-<span>{{12312312 | commaSeparateNumberPipe}}</span>
+<section class="container">
+  <header>
+    <h1>
+      로그인 테스트
+    </h1>
+    <ul>
+      <li>
+        <button (click)="login()" *ngIf="!signedIn">로그인</button>
+      </li>
+      <li>
+        <button (click)="logOut()" *ngIf="signedIn">로그아웃</button>
+      </li>
+    </ul>
+  </header>
 
-<div *ngIf="signedIn">
-  userName: 'asfasd'
-</div>
-<button (click)="login()" *ngIf="!signedIn">로그인</button>
-<button (click)="logOut()" *ngIf="signedIn">로그아웃</button>
+  <main>
+    <section class="section">
+      <h3>
+        카트 서비스
+      </h3>
+      <button (click)="getCartInfo()">카트 정보<br/>가져오기</button>
+    </section>
+  </main>
+</section>

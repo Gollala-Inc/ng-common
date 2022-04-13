@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {DialogService, SecurityService} from "../../projects/ng-common/src/public-api";
+import {DialogService, SecurityService, CartService} from "../../projects/ng-common/src/public-api";
 import {SharedSecurityService} from "@gollala/retail-shared";
 import {LoginDialogComponent} from "../../projects/ng-common/src/lib/component/login-dialog/login-dialog.component";
 
@@ -20,12 +20,13 @@ export class AppComponent {
 
   constructor(
     private securityService: SecurityService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private cartService: CartService
   ) {
-    this.securityService.signedIn$.subscribe(signedin => this.signedIn = signedin);
-    this.securityService.signedInRequest().subscribe(res => {
-      this.signedIn = res;
-    })
+  }
+
+  getCartInfo() {
+    this.cartService.getCartInfo();
   }
 
   login() {
