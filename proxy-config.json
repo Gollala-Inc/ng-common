@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "http://localhost:3100",
+    "secure": "false"
+  },
+  "/postcode": {
+    "target": "http://localhost:3900",
+    "secure": "false"
+  }
+}
+
