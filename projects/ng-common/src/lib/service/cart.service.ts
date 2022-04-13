@@ -233,7 +233,7 @@ export class CartService {
           const productId = cartItem.product;
           const productInfo = memoProducts[productId];
           const totalProductPrice = cartItem.quantity * productInfo.price;
-          const wholesaleStoreId = productInfo.wholesaleStoreId;
+          const wsSeq = productInfo.wsSeq;
 
           /* 카트 아이템에 대한 메모제이션 저장 */
           this._memoProductsInfo[cartItem._id] = {
@@ -267,7 +267,7 @@ export class CartService {
               name: cartItem.productName,
               productId,
               wholesaleName: `${name}(${building} ${floor}층 ${section})`,
-              wholesaleStoreId,
+              wsSeq,
               options: {
                 [cartItem._id]: option
               },
