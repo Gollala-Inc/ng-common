@@ -1,12 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import {SecurityService} from "../../projects/ng-common/src/lib/service/security-service.service";
+import {DialogService} from "../../projects/ng-common/src/lib/service/dialog.service";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {MatDialogModule} from "@angular/material/dialog";
+import {CommaSeparateNumberPipe} from "../../projects/ng-common/src/lib/pipe/comma-separate-number.pipe";
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        CommaSeparateNumberPipe
       ],
+      imports: [
+          HttpClientTestingModule,
+          MatDialogModule
+      ],
+      providers: [
+        SecurityService,
+        DialogService,
+        CommaSeparateNumberPipe
+      ]
     }).compileComponents();
   });
 
@@ -14,18 +29,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'ng-common-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ng-common-app');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('ng-common-app app is running!');
   });
 });
