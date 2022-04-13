@@ -9,10 +9,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgCommonModule} from '../../projects/ng-common/src/lib/ng-common.module';
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
+import {HttpInterceptorService} from "./service/http-interceptor.service";
 
 const materialModules = [
   MatButtonModule,
@@ -36,7 +37,13 @@ const materialModules = [
     FormsModule,
     RouterModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
