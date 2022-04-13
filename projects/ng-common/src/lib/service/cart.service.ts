@@ -62,7 +62,6 @@ export class CartService {
     private restService: RestService,
     private dialogService: DialogService,
     private loadingService: LoadingService,
-    private orderService: OrderService
   ) { }
 
   get step() {
@@ -234,6 +233,7 @@ export class CartService {
           const productId = cartItem.product;
           const productInfo = memoProducts[productId];
           const totalProductPrice = cartItem.quantity * productInfo.price;
+          const wholesaleStoreId = productInfo.wholesaleStoreId;
 
           /* 카트 아이템에 대한 메모제이션 저장 */
           this._memoProductsInfo[cartItem._id] = {
@@ -247,7 +247,7 @@ export class CartService {
             size: cartItem.options.size,
             quantity: cartItem.quantity,
             price: productInfo.price,
-            totalPrice: totalProductPrice
+            totalPrice: totalProductPrice,
           };
 
           if(result.hasOwnProperty(productId)) {
@@ -267,6 +267,7 @@ export class CartService {
               name: cartItem.productName,
               productId,
               wholesaleName: `${name}(${building} ${floor}층 ${section})`,
+              wholesaleStoreId,
               options: {
                 [cartItem._id]: option
               },
