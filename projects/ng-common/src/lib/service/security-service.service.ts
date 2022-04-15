@@ -33,6 +33,8 @@ export class SecurityService {
     @Inject('environmentName') private environmentName: EnvironmentName
   ) {
     this.sharedService.environmentName = this.environmentName;
+    this.sharedService.updateEndpoint(this.environmentName);
+
     this.sharedService.signedIn$((signedIn: any) => {
       this.signedIn$.next(signedIn);
       this._signedIn = signedIn;
