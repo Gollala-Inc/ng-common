@@ -92,6 +92,18 @@ export class SecurityService {
     return diff > 604800000 ? true : false;
   }
 
+  public loginRequest(userId: string, password: string): Observable<boolean> {
+    return new Observable(subscriber => {
+      this.sharedService.loginRequest(userId, password).then(
+(res:any) => {
+          subscriber.next(!!res);
+        },
+        error => {
+          subscriber.error(error);
+        })
+    });
+  }
+
   public signInRequest(userId: string, password: string): Observable<boolean> {
     return new Observable(subscriber => {
       this.sharedService.signInRequest(userId, password).then((res: any) => {
