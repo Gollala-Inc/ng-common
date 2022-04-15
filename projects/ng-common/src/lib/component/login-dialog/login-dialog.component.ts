@@ -43,7 +43,6 @@ export class LoginDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private securityService: SecurityService,
     private dialogService: DialogService,
-    private router: Router
   ) {
     this.url = data ? data.url : '';
   }
