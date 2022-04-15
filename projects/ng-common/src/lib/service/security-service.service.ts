@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import {RestService} from './rest.service';
 import {SharedSecurityService} from "@gollala/retail-shared";
+import {EnvironmentName} from "../interface/inh-config.model";
 const CHANGE_USER_ENDPOINT = '/api/security/v3/changeUser';
 const GET_SERVICE_USER_ENDPOINT = '/api/account/serviceUser/get/';
 
@@ -29,7 +30,9 @@ export class SecurityService {
 
   constructor(
     private restService: RestService,
+    @Inject('environmentName') private environmentName: EnvironmentName
   ) {
+    this.sharedService.environmentName = this.environmentName;
     this.sharedService.signedIn$((signedIn: any) => {
       this.signedIn$.next(signedIn);
       this._signedIn = signedIn;
