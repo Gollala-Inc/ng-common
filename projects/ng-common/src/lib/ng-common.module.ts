@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, ModuleWithProviders, NgModule} from '@angular/core';
 import {CommaSeparateNumberPipe} from './pipe/comma-separate-number.pipe';
 import {ConfirmDialogComponent} from './component/confirm-dialog/confirm-dialog.component';
 import {ImageMagnifierDialogComponent} from './component/image-magnifier-dialog/image-magnifier-dialog.component';
@@ -17,6 +17,18 @@ import { SignupPageComponent } from './page/signup-page/signup-page.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {SecurityService} from "./service/security-service.service";
+import {InhConfigModel} from "./interface/inh-config.model";
+
+const createPvdersInForRoot = (config: InhConfigModel) => {
+  const result = [];
+
+  if(config.hasOwnProperty('environmentName') && config.environmentName) {
+    result.push({provide: 'environmentName', useValue: config.environmentName});
+  }
+
+  return result;
+}
 
 const materialModules = [
   MatButtonModule,
@@ -67,4 +79,17 @@ const materialModules = [
     ImageMagnifierDialogComponent
   ]
 })
-export class NgCommonModule { }
+export class NgCommonModule {
+  static forRoot(config?: InhConfigModel): ModuleWithProviders<NgCommonModule> {
+    let providers: any[] = [];
+
+    if(config) {
+      providers = createPvdersInForRoot(config);
+    }
+
+    return {
+      ngModule: NgCommonModule,
+      providers
+    };
+  }
+}
