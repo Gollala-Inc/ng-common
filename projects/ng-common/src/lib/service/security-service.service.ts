@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, Optional} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import * as CryptoJS from 'crypto-js';
 import {RestService} from './rest.service';
@@ -30,10 +30,12 @@ export class SecurityService {
 
   constructor(
     private restService: RestService,
-    @Inject('environmentName') private environmentName: EnvironmentName
+    @Optional() @Inject('environmentName') private environmentName: EnvironmentName
   ) {
-    this.sharedService.environmentName = this.environmentName;
-    this.sharedService.updateEndpoint(this.environmentName);
+    if(this.environmentName) {
+      this.sharedService.environmentName = this.environmentName;
+      this.sharedService.updateEndpoint(this.environmentName);
+    }
 
     this.sharedService.signedIn$((signedIn: any) => {
       this.signedIn$.next(signedIn);
