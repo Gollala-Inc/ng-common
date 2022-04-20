@@ -1,20 +1,17 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, mergeMap, throwError, of, tap, map} from 'rxjs';
-import {
-  CartInfo, CartItem, SelectedExcelsInfo, SelectedProductsInfo
-} from "../interface/cart.model";
 import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
-import {OrderService} from './order.service';
+import {Cart} from "../interface/cart.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  cartInfo: CartInfo = {
+  cartInfo: any = {
     products: [],
     excels: [],
     productsCnt: 0,
@@ -40,14 +37,14 @@ export class CartService {
   private _customerId!: string;
   private _memoExcelsInfo: any = {};
   private _memoProductsInfo: any = {};
-  private _selectedProductsInfo: SelectedProductsInfo = {
+  private _selectedProductsInfo: any = {
     totalPrice: 0,
     num: 0,
     pcs: 0,
     cartIds: {},
     productIds: {}
   };
-  private _selectedExcelsInfo: SelectedExcelsInfo = {
+  private _selectedExcelsInfo: any = {
     totalPrice: 0,
     noPriceNum: 0,
     num: 0,
@@ -55,7 +52,7 @@ export class CartService {
     ids: {}
   };
 
-  cartInfo$ =  new BehaviorSubject<CartInfo>(this.cartInfo);
+  cartInfo$ =  new BehaviorSubject<any>(this.cartInfo);
   error: any = null;
 
   constructor(
@@ -97,7 +94,7 @@ export class CartService {
   }
 
 
-  addCart(items: CartItem[]): Observable<{_id: string; items: CartItem[]}> {
+  addCart(items: any[]): Observable<{_id: string; items: any[]}> {
     /*
     * 카트에 상품 추가 (프로덕트 상품만, 엑셀 상품은 추가 못함)
     * */
@@ -112,7 +109,7 @@ export class CartService {
     });
   }
 
-  subtractCart(items: CartItem[]): Observable<{_id: string; items: CartItem[]}>  {
+  subtractCart(items: any[]): Observable<{_id: string; items: any[]}>  {
     /*
     * 카트에 상품 뺴기 (프로덕트 상품만, 엑셀 상품은 추가 못함)
     * */
@@ -162,7 +159,7 @@ export class CartService {
     }
   }
 
-  getAuthCart() {
+  getAuthCart(): Observable<Cart> {
     return this.restService.GET('https://commerce-api.gollala.org/customer/auth/cart', {handleError: true});
   }
 
@@ -204,116 +201,9 @@ export class CartService {
     let cartItems: any[] = [];
     this.loadingService.start();
     this._step = 'pending';
-
-    this.getAuthCart().pipe(
-      catchError((e) => {
-        console.log(e);
-        this.error = e;
-        return throwError(e);
-      }),
-      mergeMap(cartDoc => {
-        cartItems = cartDoc.items;
-        this._customerId = cartDoc.customer;
-        this._cartId = cartDoc._id;
-        const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
-
-        return this.requestProductList(productIds);
-      }),
-      mergeMap(products => {
-        // 받아온 products 배열을 객체화
-        const memoProducts = products.reduce((result: any, product: any) => {
-          result[product.id] = product;
-          return result;
-        }, {});
-
-        /*
-        * 하나의 상품(Product Id)에 옵션 하나하나(Cart Item Id)를 넣기 위해
-        * */
-        let productCart: any = cartItems.reduce((result, cartItem) => {
-          const productId = cartItem.product;
-          const productInfo = memoProducts[productId];
-          const totalProductPrice = cartItem.quantity * productInfo.price;
-          const wsSeq = productInfo.wsSeq;
-
-          /* 카트 아이템에 대한 메모제이션 저장 */
-          this._memoProductsInfo[cartItem._id] = {
-            ...cartItem,
-            product: productInfo
-          }
-
-          const option = {
-            cartItemId: cartItem._id,
-            color: cartItem.options.color,
-            size: cartItem.options.size,
-            quantity: cartItem.quantity,
-            price: productInfo.price,
-            totalPrice: totalProductPrice,
-          };
-
-          if(result.hasOwnProperty(productId)) {
-            result[productId].totalPrice += totalProductPrice;
-
-            if (result[productId].options[cartItem._id]){
-              // 같은 옵션이 있는경우,
-              result[productId].options[cartItem._id].quantity += cartItem.quantity;
-              result[productId].options[cartItem._id].quantity += totalProductPrice;
-            } else {
-              result[productId].options[cartItem._id] = option;
-            }
-          } else {
-            const {wholesale: {name, building, floor, section}} = productInfo;
-
-            result[productId] = {
-              name: cartItem.productName,
-              productId,
-              wholesaleName: `${name}(${building} ${floor}층 ${section})`,
-              wsSeq,
-              options: {
-                [cartItem._id]: option
-              },
-              imagePath: productInfo.imgPaths[0],
-              price: productInfo.price,
-              totalPrice: totalProductPrice
-            }
-          }
-
-          return result;
-        }, {});
-
-        productCart = Object.values(productCart).map((cartItem: any) => {
-          cartItem.options = Object.values(cartItem.options);
-          return cartItem;
-        });
-
-        this.cartInfo.products = productCart;
-        this.cartInfo.productsCnt = products.length;
-        return this.getAuthExcelCart();
-      })
-    ).subscribe(
-      (customCartInfo) => {
-        this._customCartId = customCartInfo._id;
-        this.cartInfo.excels = customCartInfo.items;
-        this.cartInfo.excelsCnt = customCartInfo.items.length;
-        this.cartInfo.totalCnt = this.cartInfo.excelsCnt + this.cartInfo.productsCnt;
-        this._step = this.cartInfo.totalCnt > 0 ? 'cart' : 'empty';
-
-        /* 엑셀 주문(CustomCart) 메모제이션 생성 */
-        this._memoExcelsInfo = customCartInfo.items.reduce((result: any, item: any) => {
-          result[item._id] = item;
-          return result;
-        }, {});
-
-        this.loadingService.stop();
-        this.cartInfo$.next(this.cartInfo);
-      },
-      (error) => {
-        console.log(error);
-        this.loadingService.stop();
-        this.dialogService.alert('[에러] 상품 정보를 가져오는데 실패하였습니다.').subscribe(() => {
-          this._step = 'error';
-        });
-      }
-    );
+    this.getAuthCart().subscribe((items) => {
+      console.log(items);
+    });
   }
 
   getCartCounts() {
