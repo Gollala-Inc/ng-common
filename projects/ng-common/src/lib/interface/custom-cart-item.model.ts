@@ -1,5 +1,5 @@
 interface Wholesale {
-  description: string; // 도매 정보
+  description?: string; // 도매 정보
   type: string; // 아이디 타입
   id: string; // 아이디
   name: string; // 도매명
@@ -23,11 +23,11 @@ export interface CustomCartItem {
   size?: string; // 상품 사이즈
   options?: string; // 통합 옵션
   price?: string; // 상품 가격
-  quantity: string; // 상품 수량
+  quantity: number; // 상품 수량
   comment: string; // 비고
   others?: string[]; // 기타
-  createdAt: string; // 모델 생성일
-  updatedAt: string; // 모델 수정일
+  createdAt?: string; // 모델 생성일
+  updatedAt?: string; // 모델 수정일
 }
 
 export type CustomCartItems = CustomCartItem[];
