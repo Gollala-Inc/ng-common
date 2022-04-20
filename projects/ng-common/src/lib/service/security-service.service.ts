@@ -22,7 +22,7 @@ const cypher: Cypher = {
 })
 export class SecurityService {
 
-  private _signedIn = false;
+  private _signedIn: any = false;
   private sharedService = SharedSecurityService;
 
   oldPassword$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
@@ -50,6 +50,10 @@ export class SecurityService {
 
   get signedIn(): any {
     return this._signedIn;
+  }
+
+  get businessVerified() {
+    return this._signedIn && (this._signedIn?.businessStatus === 'completed' || this._signedIn.businessStatus === 'changed');
   }
 
   public signUpReqeust(body: any) {
