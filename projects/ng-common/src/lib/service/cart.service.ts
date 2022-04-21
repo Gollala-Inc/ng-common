@@ -5,6 +5,12 @@ import {RestService} from './rest.service';
 import {DialogService} from './dialog.service';
 import {LoadingService} from './loading.service';
 import {Cart} from "../interface/cart.model";
+import {cart} from "../mock/cart";
+import {products} from "../mock/products";
+import {GeneralCart} from "../classes/cart";
+import {GeneralCartItem} from "../classes/cart-item";
+import {CartItems} from "../interface/cart-item.model";
+import {ProductsInGeneralCart} from "../classes/product";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +38,7 @@ export class CartService {
   * */
   private _step: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-card-payment' | 'complete-v-account' = 'pending';
 
+  private _generalCart: GeneralCart = GeneralCart;
   private _customCartId!: string;
   private _cartId!: string;
   private _customerId!: string;
@@ -198,12 +205,34 @@ export class CartService {
 
 
   getCartInfo() {
-    let cartItems: any[] = [];
+    const cartItems: CartItems = cart.items;
     this.loadingService.start();
     this._step = 'pending';
+
+    const pMap = this.convertArrToObj(products, 'id');
+
+    for(let i=0; i<cartItems.length; i++) {
+      const cartItem = cartItems[i];
+      const productId = cartItem.product;
+      const product = pMap[productId];
+      new GeneralCartItem(cartItem, product);
+    }
+
+    console.log(ProductsInGeneralCart.getCartItems());
+
+    /*
     this.getAuthCart().subscribe((items) => {
       console.log(items);
     });
+     */
+  }
+
+  private convertArrToObj(array: any[], keyName: string) {
+    return array.reduce((result: any, cur: any) => {
+      const key = cur[keyName];
+      result[key] = cur;
+      return result;
+    }, {})
   }
 
   getCartCounts() {

@@ -111,7 +111,7 @@ interface ProductMetric {
   countFavorite: number;
 }
 
-interface Product {
+export interface Product {
   id: string;
   prodKey: string;
   productType: string;
