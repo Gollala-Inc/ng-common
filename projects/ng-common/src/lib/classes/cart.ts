@@ -15,17 +15,15 @@ interface WholesaleInCart {
   products: ProductInGeneralCart[];
 }
 
-interface Cart {
-  data: WholesaleInCart[];
-}
-
-export class GeneralCart {
-  static cart: Cart = {
-    data: []
+export class Cart {
+  cart: {
+    general: WholesaleInCart[]
+  } = {
+    general: []
   };
 
-  static setGeneralCart(data: WholesaleInCart[]) {
-    this.cart.data = data.sort((a,b) => {
+  public setGeneralCart(wholesales: WholesaleInCart[]) {
+    this.cart.general = wholesales.sort((a,b) => {
       const aLatestDate = a.latestDate as number;
       const bLatestDate = b.latestDate as number;
 
@@ -33,7 +31,7 @@ export class GeneralCart {
       if(bLatestDate === bLatestDate) return 0;
       return -1;
     });
-
-    console.log(this.cart.data);
   }
 }
+
+export const GeneralCart = new Cart();

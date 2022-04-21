@@ -11,6 +11,7 @@ import {GeneralCart} from "../classes/cart";
 import {GeneralCartItem} from "../classes/cart-item";
 import {CartItems} from "../interface/cart-item.model";
 import {ProductsInGeneralCart} from "../classes/product";
+import {WholesaleInGeneralCart} from '../classes/wholesale';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,10 @@ export class CartService {
   * */
   private _step: 'pending' | 'cart' | 'empty' | 'error' | 'payment' | 'complete-store-order' | 'complete-card-payment' | 'complete-v-account' = 'pending';
 
-  private _generalCart: GeneralCart = GeneralCart;
+  private generalCart = GeneralCart;
+  private wholesaleInGeneralCart = WholesaleInGeneralCart;
+  private productsInGeneralCart = ProductsInGeneralCart;
+
   private _customCartId!: string;
   private _cartId!: string;
   private _customerId!: string;
@@ -58,6 +62,7 @@ export class CartService {
     pcs: 0,
     ids: {}
   };
+
 
   cartInfo$ =  new BehaviorSubject<any>(this.cartInfo);
   error: any = null;
@@ -218,7 +223,13 @@ export class CartService {
       new GeneralCartItem(cartItem, product);
     }
 
-    console.log(ProductsInGeneralCart.getCartItems());
+    // console.log(WholesaleInGeneralCart.getWholesales());
+
+    this.productsInGeneralCart.addProductInWholesales();
+    this.wholesaleInGeneralCart.addWholesalesInCart();
+
+    // console.log(WholesaleInGeneralCart.getWholesales());
+    console.log(this.generalCart);
 
     /*
     this.getAuthCart().subscribe((items) => {

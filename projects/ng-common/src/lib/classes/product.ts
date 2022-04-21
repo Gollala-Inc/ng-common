@@ -9,14 +9,17 @@ interface ProductInGeneralCart {
   totalPrice: number;
   latestDate: number;
   cartItems: CartItems;
+  detail: Product;
 }
 
-export class ProductsInGeneralCart {
-  static products: {
+class Products {
+  private products: {
     [key: string]: ProductInGeneralCart
   } = {};
+  private memory: {[key: string]: Product} = {};
+  private wholesales = WholesaleInGeneralCart;
 
-  static addCartItemInProducts(cartItem: CartItem, product: Product) {
+   addCartItemInProducts(cartItem: CartItem, product: Product) {
     const productId = cartItem.product;
     const option = {
       cartItemId: cartItem._id,
@@ -39,14 +42,20 @@ export class ProductsInGeneralCart {
         image: product.imgPaths[0],
         totalPrice: option.totalPrice,
         cartItems: [cartItem],
-        latestDate: option.createdAt
+        latestDate: option.createdAt,
+        detail: product
       };
+      this.memory[productId] = product;
     }
-
-    WholesaleInGeneralCart.addProductInWholesales(product, this.products);
   }
 
-  static getCartItems() {
+  getProducts() {
     return this.products;
   }
+
+  addProductInWholesales() {
+    this.wholesales.addProductInWholesales(this.products);
+  }
 }
+
+export const ProductsInGeneralCart = new Products();

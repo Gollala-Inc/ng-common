@@ -1,6 +1,6 @@
 import {CartItem} from "../interface/cart-item.model";
 import {Product} from "../interface/product.model";
-import {ProductsInGeneralCart} from "./product";
+import {ProductsInGeneralCart} from './product';
 
 export class GeneralCartItem {
   private products = ProductsInGeneralCart;
