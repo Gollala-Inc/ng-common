@@ -1,6 +1,6 @@
 import {Products} from '../interface/product.model';
 
-const products: Products = [
+export const products: Products = [
   {
     id: "6041c3f229d8210007d2c4fe",
     prodKey: "2021/2991/배",
