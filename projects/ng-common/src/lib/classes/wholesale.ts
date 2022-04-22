@@ -1,67 +1,36 @@
 import {Product} from "../interface/product.model";
 import {CartItems} from "../interface/cart-item.model";
+import {GeneralCartItem} from "./cart-item";
+import {ProductInGeneralCart} from "./product";
 import {GeneralCart} from "./cart";
-import {ProductsInGeneralCart} from './product';
 
-interface ProductInGeneralCart {
-  productId: string;
-  name: string;
-  image: string;
-  totalPrice: number;
-  latestDate: number;
-  cartItems: CartItems;
-  detail: Product;
-}
-
-interface WholesaleInCart {
-  seq: string;
-  name: string;
-  address: string;
-  cartItems: CartItems;
-  products: ProductInGeneralCart[];
-  latestDate?: number;
-}
-
-class Wholesales {
-  private wholesales: {[key:string]: WholesaleInCart} = {};
+export class WholesaleInGeneralCart {
+  public id: string | null = null;
   private generalCart = GeneralCart;
+  private children: {[key: string]: ProductInGeneralCart} = {};
 
-  public addProductInWholesales(products:{[key: string]: ProductInGeneralCart}) {
-    for(const productId in products) {
-      const product = products[productId];
-      const detail = product.detail;
-      const seq = detail.wsSeq;
+  get getCartItems(): CartItems {
+    return Object.values(this.children).reduce((result: any[], p) => [...result, ...p?.cartItems], []);
+  }
 
-      if(this.wholesales[seq]) {
-        this.wholesales[seq]['products'].push(product);
-        this.wholesales[seq]['cartItems'].push(...product.cartItems);
-      } else {
-        this.wholesales[seq] = {
-          seq: detail.wsSeq,
-          name: detail.wholesale.name,
-          address: `${detail.wholesale.building} ${detail.wholesale.floor} ${detail.wholesale.section}`,
-          products: [product],
-          cartItems: [...product.cartItems]
-        }
-      }
-
-      const latestDate = this.wholesales[seq].products.reduce((result: number, product) => {
-        return result > product.latestDate ? result : product.latestDate;
-      }, 0);
-      this.wholesales[seq]['latestDate'] = latestDate;
+  constructor(
+    productInGeneralCart: ProductInGeneralCart
+  ) {
+    this.id = productInGeneralCart.getDetail()!.wsSeq;
+    if(!this.WholeSaleisSavedInMemory()) {
+      this.addChildren(productInGeneralCart);
     }
   }
 
-  public getWholesales() {
-    return this.wholesales;
+  public addChildren(productInGeneralCart: ProductInGeneralCart) {
+    this.children[productInGeneralCart.id!] = productInGeneralCart;
   }
 
-  public addWholesalesInCart() {
-    const wholesales = Object.values(this.wholesales);
-    this.generalCart.setGeneralCart(wholesales);
+  public addWholesaleItemInMemory() {
+    this.generalCart.addMemory('wholesales', this);
   }
-  // static wholesales: {[key:string]: WholesaleInCart} = {};
-  //
+
+  private WholeSaleisSavedInMemory(): boolean {
+    return this.generalCart.isSavedInMemory('wholesales', this.id!);
+  }
 }
-
-export const WholesaleInGeneralCart = new Wholesales();

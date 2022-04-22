@@ -1,36 +1,37 @@
 import {CartItem} from "../interface/cart-item.model";
-interface ProductInGeneralCart {
-  productId: string;
-  name: string;
-  image: string;
-  totalPrice: number;
-  latestDate: number;
-}
+import {GeneralCartItem} from "./cart-item";
+import {WholesaleInGeneralCart} from "./wholesale";
+import {ProductInGeneralCart} from "./product";
 
-interface WholesaleInCart {
-  seq: string;
-  name: string;
-  address: string;
-  latestDate?: number;
-  products: ProductInGeneralCart[];
+type MemoryType = 'cartItems' | 'products' | 'wholesales';
+type MemoryContent = GeneralCartItem | ProductInGeneralCart | WholesaleInGeneralCart;
+
+interface Memory {
+  cartItems: any;
+  products: any;
+  wholesales: any;
 }
 
 export class Cart {
-  cart: {
-    general: WholesaleInCart[]
-  } = {
-    general: []
-  };
+  private memory: Memory = {
+    cartItems: {},
+    products: {},
+    wholesales: {}
+  }
 
-  public setGeneralCart(wholesales: WholesaleInCart[]) {
-    this.cart.general = wholesales.sort((a,b) => {
-      const aLatestDate = a.latestDate as number;
-      const bLatestDate = b.latestDate as number;
+  constructor() {}
 
-      if(aLatestDate > bLatestDate) return 1;
-      if(bLatestDate === bLatestDate) return 0;
-      return -1;
-    });
+  public addMemory(type: MemoryType, content: MemoryContent) {
+    const id = content.id as string;
+    this.memory[type][id] = content;
+  }
+
+  public getMemory(type: MemoryType, id: string) {
+    return this.memory[type][id];
+  }
+
+  public isSavedInMemory(type: MemoryType, id: string) {
+    return !!this.memory[type][id];
   }
 }
 

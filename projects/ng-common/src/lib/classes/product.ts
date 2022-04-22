@@ -1,61 +1,59 @@
 import {CartItem, CartItems} from "../interface/cart-item.model";
-import {Product} from "../interface/product.model";
+import {Product, Products} from "../interface/product.model";
 import {WholesaleInGeneralCart} from "./wholesale";
+import {GeneralCartItem} from "./cart-item";
+import {GeneralCart} from "./cart";
 
-interface ProductInGeneralCart {
-  productId: string;
-  name: string;
-  image: string;
-  totalPrice: number;
-  latestDate: number;
-  cartItems: CartItems;
-  detail: Product;
-}
+export class ProductInGeneralCart {
+  public id: string | null = null;
+  private generalCart = GeneralCart;
+  private children: {[key: string]: GeneralCartItem} = {};
+  private detail: Product | null = null;
 
-class Products {
-  private products: {
-    [key: string]: ProductInGeneralCart
-  } = {};
-  private memory: {[key: string]: Product} = {};
-  private wholesales = WholesaleInGeneralCart;
+  get cartItems(): CartItems {
+    return Object.values(this.children).reduce((result: any[], c) => [...result, c?.getCartItem()], []);
+  }
 
-   addCartItemInProducts(cartItem: CartItem, product: Product) {
-    const productId = cartItem.product;
-    const option = {
-      cartItemId: cartItem._id,
-      name: `${cartItem.options.color} / ${cartItem.options.size}`,
-      price: product.price,
-      quantity: cartItem.quantity,
-      totalPrice: cartItem.quantity * product.price,
-      createdAt: +new Date(cartItem.createdAt)
+  constructor(
+    generalCartItem: GeneralCartItem,
+  ) {
+    this.id = generalCartItem.getProduct().id;
+    this.detail = generalCartItem.getProduct();
+
+    if(!this.ProductIsSavedInMemory()) {
+      this.addChildren(generalCartItem);
+      this.addProductInWholesale();
     }
+  }
 
+  public getDetail() {
+    return this.detail;
+  }
 
-    if(this.products[productId]) {
-      this.products[productId]['totalPrice'] += option.totalPrice;
-      this.products[productId]['latestDate'] = this.products[productId]['latestDate'] >= option.createdAt ? this.products[productId]['latestDate'] : option.createdAt;
-      this.products[productId]['cartItems'].push(cartItem);
+  public addChildren(generalCartItem: GeneralCartItem) {
+    const cartItemId = generalCartItem.getCartItem()._id;
+    this.children[cartItemId] = generalCartItem;
+  }
+
+  public addProductItemInMemory() {
+    this.generalCart.addMemory('products', this);
+  }
+
+  private ProductIsSavedInMemory(): boolean {
+    return this.generalCart.isSavedInMemory('products', this.id!);
+  }
+
+  private WholeSaleisSavedInMemory(): boolean {
+    return this.generalCart.isSavedInMemory('wholesales', this.detail!.wsSeq);
+  }
+
+  private addProductInWholesale() {
+    if(this.WholeSaleisSavedInMemory()) {
+      const wholesaleInGeneralCart = this.generalCart.getMemory('wholesales', this.detail!.wsSeq);
+      wholesaleInGeneralCart.addChildren(this);
     } else {
-      this.products[productId] = {
-        productId: productId,
-        name: product.name,
-        image: product.imgPaths[0],
-        totalPrice: option.totalPrice,
-        cartItems: [cartItem],
-        latestDate: option.createdAt,
-        detail: product
-      };
-      this.memory[productId] = product;
+      const newWholesaleInGeneralCart = new WholesaleInGeneralCart(this);
+      newWholesaleInGeneralCart.addWholesaleItemInMemory();
     }
   }
-
-  getProducts() {
-    return this.products;
-  }
-
-  addProductInWholesales() {
-    this.wholesales.addProductInWholesales(this.products);
-  }
 }
-
-export const ProductsInGeneralCart = new Products();
