@@ -17,8 +17,8 @@ import { SignupPageComponent } from './page/signup-page/signup-page.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {SecurityService} from "./service/security-service.service";
 import {InhConfigModel} from "./interface/inh-config.model";
+import { NaverScriptComponent } from './component/naver-script/naver-script.component';
 
 const createPvdersInForRoot = (config: InhConfigModel) => {
   const result = [];
@@ -51,6 +51,7 @@ const materialModules = [
     RippleDirective,
     LoginDialogComponent,
     SignupPageComponent,
+    NaverScriptComponent
   ],
   imports: [
     CommonModule,
@@ -72,7 +73,8 @@ const materialModules = [
     ReactiveFormsModule,
     ...materialModules,
     LoginDialogComponent,
-    SignupPageComponent
+    SignupPageComponent,
+    NaverScriptComponent
   ],
   entryComponents: [
     ConfirmDialogComponent,
