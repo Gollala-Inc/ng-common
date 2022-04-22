@@ -9,8 +9,12 @@ export class WholesaleInGeneralCart {
   private generalCart = GeneralCart;
   private children: {[key: string]: ProductInGeneralCart} = {};
 
-  get getCartItems(): CartItems {
+  get cartItems(): CartItems {
     return Object.values(this.children).reduce((result: any[], p) => [...result, ...p?.cartItems], []);
+  }
+
+  get latestDate(): number {
+    return this.cartItems.reduce((result, c) => Math.max(result, +new Date(c.createdAt)), 0);
   }
 
   constructor(

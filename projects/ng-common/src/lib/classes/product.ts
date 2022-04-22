@@ -14,6 +14,10 @@ export class ProductInGeneralCart {
     return Object.values(this.children).reduce((result: any[], c) => [...result, c?.getCartItem()], []);
   }
 
+  get latestDate(): number {
+    return this.cartItems.reduce((result, c) => Math.max(result, +new Date(c.createdAt)), 0);
+  }
+
   constructor(
     generalCartItem: GeneralCartItem,
   ) {
