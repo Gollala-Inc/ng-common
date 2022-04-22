@@ -10,7 +10,7 @@ import {products} from "../mock/products";
 import {GeneralCart} from "../classes/cart";
 import {GeneralCartItem} from "../classes/cart-item";
 import {CartItems} from "../interface/cart-item.model";
-import {ProductsInGeneralCart} from "../classes/product";
+import {ProductInGeneralCart} from "../classes/product";
 import {WholesaleInGeneralCart} from '../classes/wholesale';
 
 @Injectable({
@@ -41,7 +41,7 @@ export class CartService {
 
   private generalCart = GeneralCart;
   private wholesaleInGeneralCart = WholesaleInGeneralCart;
-  private productsInGeneralCart = ProductsInGeneralCart;
+  private productsInGeneralCart = ProductInGeneralCart;
 
   private _customCartId!: string;
   private _cartId!: string;
@@ -215,18 +215,20 @@ export class CartService {
     this._step = 'pending';
 
     const pMap = this.convertArrToObj(products, 'id');
+    const items: GeneralCartItem[] = [];
 
     for(let i=0; i<cartItems.length; i++) {
       const cartItem = cartItems[i];
       const productId = cartItem.product;
       const product = pMap[productId];
-      new GeneralCartItem(cartItem, product);
+      items.push(new GeneralCartItem(cartItem, product));
     }
 
+    console.log(this.generalCart);
     // console.log(WholesaleInGeneralCart.getWholesales());
 
-    this.productsInGeneralCart.addProductInWholesales();
-    this.wholesaleInGeneralCart.addWholesalesInCart();
+    // this.productsInGeneralCart.addProductInWholesales();
+    // this.wholesaleInGeneralCart.addWholesalesInCart();
 
     // console.log(WholesaleInGeneralCart.getWholesales());
     console.log(this.generalCart);
