@@ -16,6 +16,7 @@ export class CartService {
     excelsCnt: 0,
     totalCnt: 0
   });
+  cartCounts$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   get cartInfo() {
     return this.cartInfo$.getValue();
@@ -91,11 +92,10 @@ export class CartService {
       mergeMap(products => {
         productsCnt = products.length;
         return this.getAuthExcelCart();
-      }),
-      map((customCartInfo: any) => {
-        return productsCnt + customCartInfo.items.length;
       })
-    )
+    ).subscribe(((customCartInfo: any) => {
+      this.cartCounts$.next(productsCnt + customCartInfo.items.length);
+    }))
   }
 
 
