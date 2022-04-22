@@ -9,6 +9,9 @@ import {BehaviorSubject} from "rxjs";
   providedIn: 'root'
 })
 export class CartService {
+  private _customCartId!: string;
+  private _cartId!: string;
+
   cartInfo$: BehaviorSubject<CartInfo> =  new BehaviorSubject<CartInfo>({
     products: [],
     excels: [],
@@ -17,6 +20,14 @@ export class CartService {
     totalCnt: 0
   });
   cartCounts$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+
+  get customCartId() {
+    return this._customCartId;
+  }
+
+  get cartId() {
+    return this._cartId;
+  }
 
   get cartInfo() {
     return this.cartInfo$.getValue();
@@ -86,6 +97,7 @@ export class CartService {
       }),
       mergeMap(cartDoc => {
         cartItems = cartDoc.items;
+        this._cartId = cartDoc._id;
         const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
         return this.requestProductList(productIds);
       }),
@@ -94,6 +106,7 @@ export class CartService {
         return this.getAuthExcelCart();
       })
     ).subscribe(((customCartInfo: any) => {
+      this._customCartId = customCartInfo._id;
       this.cartCounts$.next(productsCnt + customCartInfo.items.length);
     }))
   }
