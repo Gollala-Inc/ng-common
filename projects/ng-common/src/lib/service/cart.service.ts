@@ -1,13 +1,26 @@
 import {Injectable} from '@angular/core';
 import {catchError, mergeMap, throwError, of, tap, map} from 'rxjs';
-import { CartItem } from "../interface/cart.model";
+import {CartInfo, CartItem} from "../interface/cart.model";
 import {Observable} from "rxjs";
 import {RestService} from './rest.service';
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  cartInfo$: BehaviorSubject<CartInfo> =  new BehaviorSubject<CartInfo>({
+    products: [],
+    excels: [],
+    productsCnt: 0,
+    excelsCnt: 0,
+    totalCnt: 0
+  });
+
+  get cartInfo() {
+    return this.cartInfo$.getValue();
+  }
+
   constructor(
     private restService: RestService,
   ) { }
