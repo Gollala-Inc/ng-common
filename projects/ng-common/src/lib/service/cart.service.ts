@@ -86,7 +86,7 @@ export class CartService {
   }
 
 
-  checkoutCustomCart(body: any) {
+  private checkoutCustomCart(body: any) {
     return this.restService.POST('https://commerce-api.gollala.org/custom_cart/checkout', {
       body,
       handleError: true
