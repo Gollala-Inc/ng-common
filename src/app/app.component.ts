@@ -21,7 +21,13 @@ export class AppComponent {
   constructor(
     private securityService: SecurityService,
     private dialogService: DialogService,
-  ) {}
+    private cartService: CartService
+  ) {
+  }
+
+  getCartInfo() {
+    this.cartService.getCartInfo();
+  }
 
   login() {
     this.dialogService.open(LoginDialogComponent, {
