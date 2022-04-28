@@ -5,12 +5,15 @@ import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {BehaviorSubject} from "rxjs";
 
+type TypeNames = 'gollala' | 'store';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
   private _customCartId!: string;
   private _cartId!: string;
+  private _selectedOrderType: BehaviorSubject<TypeNames> = new BehaviorSubject<TypeNames>('gollala');
 
   cartInfo$: BehaviorSubject<CartInfo> =  new BehaviorSubject<CartInfo>({
     products: [],
@@ -31,6 +34,10 @@ export class CartService {
 
   get cartInfo() {
     return this.cartInfo$.getValue();
+  }
+
+  get selectedOrderType() {
+    return this._selectedOrderType;
   }
 
   constructor(
