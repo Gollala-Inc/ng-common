@@ -62,7 +62,7 @@ export class CartService {
     return this.restService.GET('https://commerce-api.gollala.org/customer/auth/cart', {handleError: true});
   }
 
-  getAuthExcelCart() {
+  getAuthCustomCart() {
     return this.restService.GET('https://commerce-api.gollala.org/custom_cart/auth/me', {handleError: true})
   }
 
