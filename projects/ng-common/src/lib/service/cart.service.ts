@@ -66,6 +66,14 @@ export class CartService {
     return this.restService.GET('https://commerce-api.gollala.org/custom_cart/auth/me', {handleError: true})
   }
 
+  setCardId(id: string) {
+    this._cartId = id;
+  }
+
+  setCustomCardId(id: string) {
+    this._customCartId = id;
+  }
+
   requestProductList(ids: string[]) {
     const body = {ids};
     return this.restService.POST('/api/product/bo/productListByIds', {body, handleError: true});
