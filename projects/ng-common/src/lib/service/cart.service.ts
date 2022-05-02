@@ -110,7 +110,7 @@ export class CartService {
       }),
       mergeMap(products => {
         productsCnt = products.length;
-        return this.getAuthExcelCart();
+        return this.getAuthCustomCart();
       })
     ).subscribe(((customCartInfo: any) => {
       this._customCartId = customCartInfo._id;
