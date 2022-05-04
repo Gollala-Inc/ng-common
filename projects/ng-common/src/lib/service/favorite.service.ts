@@ -25,10 +25,14 @@ export class FavoriteService {
     });
   }
 
-  public addPersonalFavorites(body: {type: FavoriteTypes; targetId: string}) {
+  public addPersonalFavorites(body: {type: FavoriteTypes; targetId: string}): Observable<MyFavorite> {
     return this.restService.POST('https://commerce-api.gollala.org/favorite/auth', {
       body,
       handleError: true
     });
+  }
+
+  public subtractFavorite(id: string): Observable<MyFavorite> {
+    return this.restService.DELETE(`https://commerce-api.gollala.org/favorite/auth/${id}`);
   }
 }
