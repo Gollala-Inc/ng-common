@@ -94,7 +94,7 @@ export class CartService {
   }
 
   updateCustomCart(customCartItemId: string, body: any) {
-    return this.restService.PATCH(`https://commerce-api.gollala.org/cart/${this._customCartId}/${customCartItemId}`, {
+    return this.restService.PATCH(`https://commerce-api.gollala.org/custom_cart/${this._customCartId}/${customCartItemId}`, {
       body,
       handleError: true
     });
