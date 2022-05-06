@@ -205,6 +205,10 @@ export class RestService {
     return this.doRequestByMethod('PUT', url, options);
   }
 
+  public PATCH(url = '', options: any = {}) {
+    return this.doRequestByMethod('PATCH', url, options);
+  }
+
   public DELETE(url = '', options: any = {}) {
     return this.doRequestByMethod('DELETE', url, options);
   }
