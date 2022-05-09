@@ -86,6 +86,11 @@ export class CartService {
     return this.restService.POST('/api/product/bo/productListByIds', {body, handleError: true});
   }
 
+  requestPopulatedProduct(ids: string[]) {
+    const body = ids;
+    return this.restService.POST('/api/brand/product/populate', {body, handleError: true});
+  }
+
   addCustomCart(body: any) {
     return this.restService.POST('https://commerce-api.gollala.org/custom_cart/', {
       body,
