@@ -58,6 +58,13 @@ export class CartService {
     });
   }
 
+  updateCartItems(body: any) {
+    return this.restService.PATCH(`https://commerce-api.gollala.org/cart/${this._cartId}`, {
+      body,
+      handleError: true
+    })
+  }
+
   subtractCart(body: any): Observable<{_id: string; items: CartItem[]}>  {
     return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
       body,
@@ -100,6 +107,13 @@ export class CartService {
 
   updateCustomCart(customCartItemId: string, body: any) {
     return this.restService.PATCH(`https://commerce-api.gollala.org/custom_cart/${this._customCartId}/${customCartItemId}`, {
+      body,
+      handleError: true
+    });
+  }
+
+  updateCustomCartItems(body: any) {
+    return this.restService.PATCH(`https://commerce-api.gollala.org/custom_cart/${this._customCartId}`, {
       body,
       handleError: true
     });
