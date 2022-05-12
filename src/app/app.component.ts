@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 import {Subscription} from 'rxjs';
-import {DialogService, SecurityService, CartService} from "../../projects/ng-common/src/public-api";
+import {
+  DialogService,
+  SecurityService,
+  CartService,
+  SnackbarService,
+  SnackbarComponent
+} from "../../projects/ng-common/src/public-api";
 import {SharedSecurityService} from "@gollala/retail-shared";
 import {LoginDialogComponent} from "../../projects/ng-common/src/lib/component/login-dialog/login-dialog.component";
 
@@ -21,12 +27,13 @@ export class AppComponent {
   constructor(
     private securityService: SecurityService,
     private dialogService: DialogService,
-    private cartService: CartService
+    private snackbarService: SnackbarService
   ) {
+    console.log(SnackbarComponent);
   }
 
-  getCartInfo() {
-    this.cartService.getCartInfo();
+  onOpenSnackbar() {
+    this.snackbarService.open('안녕하세요');
   }
 
   login() {

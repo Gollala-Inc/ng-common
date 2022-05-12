@@ -14,6 +14,7 @@ import {NgCommonModule} from '../../projects/ng-common/src/lib/ng-common.module'
 import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {HttpInterceptorService} from "./service/http-interceptor.service";
+import {SnackbarComponent} from "../../projects/ng-common/src/lib/component/snackbar/snackbar.component";
 
 const materialModules = [
   MatButtonModule,
@@ -26,7 +27,7 @@ const materialModules = [
 @NgModule({
   declarations: [
     AppComponent,
-    AlertComponent
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
