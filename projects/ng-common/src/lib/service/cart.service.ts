@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {catchError, mergeMap, throwError, of, tap, map} from 'rxjs';
-import {CartInfo, CartItem} from "../interface/cart.model";
+import {catchError, mergeMap, throwError, of, tap} from 'rxjs';
+import {TotalCartsModel} from "../interface/cart.model";
 import {Observable} from "rxjs";
 import {RestService} from './rest.service';
 import {BehaviorSubject} from "rxjs";
+import {CartItemsModel} from "../interface/cart-item.model";
 
 type TypeNames = 'gollala' | 'store';
 
@@ -14,14 +15,8 @@ export class CartService {
   private _customCartId!: string;
   private _cartId!: string;
   private _selectedOrderType: BehaviorSubject<TypeNames> = new BehaviorSubject<TypeNames>('gollala');
-
-  cartInfo$: BehaviorSubject<CartInfo> =  new BehaviorSubject<CartInfo>({
-    products: [],
-    excels: [],
-    productsCnt: 0,
-    excelsCnt: 0,
-    totalCnt: 0
-  });
+  private _lalaCounts: number = 0;
+  private _storeCounts: number = 0;
   cartCounts$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   get customCartId() {
@@ -32,8 +27,12 @@ export class CartService {
     return this._cartId;
   }
 
-  get cartInfo() {
-    return this.cartInfo$.getValue();
+  get lalaCounts() {
+    return this._lalaCounts;
+  }
+
+  get storeCounts() {
+    return this._storeCounts;
   }
 
   get selectedOrderType() {
@@ -44,7 +43,7 @@ export class CartService {
     private restService: RestService,
   ) { }
 
-  addCart(body: any): Observable<{_id: string; items: CartItem[]}> {
+  addCart(body: any): Observable<{_id: string; items: CartItemsModel}> {
     return this.restService.POST('https://commerce-api.gollala.org/cart/add', {
       body,
       handleError: true
@@ -65,7 +64,7 @@ export class CartService {
     })
   }
 
-  subtractCart(body: any): Observable<{_id: string; items: CartItem[]}>  {
+  subtractCart(body: any): Observable<{_id: string; items: CartItemsModel}>  {
     return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
       body,
       handleError: true
@@ -139,28 +138,13 @@ export class CartService {
 
 
   getCartCounts() {
-    let cartItems:any[] = [];
-    let productsCnt = 0;
-
-    return this.getAuthCart().pipe(
-      catchError((e) => {
-        console.log(e);
-        return throwError(e);
-      }),
-      mergeMap(cartDoc => {
-        cartItems = cartDoc.items;
-        this._cartId = cartDoc._id;
-        const productIds = cartDoc.items.map((cartItem: { product: any; }) => cartItem.product);
-        return this.requestProductList(productIds);
-      }),
-      mergeMap(products => {
-        productsCnt = products.length;
-        return this.getAuthCustomCart();
-      })
-    ).subscribe(((customCartInfo: any) => {
-      this._customCartId = customCartInfo._id;
-      this.cartCounts$.next(productsCnt + customCartInfo.items.length);
-    }))
+    this.getAllCarts().subscribe(({cartItemsCount, customCartItemsCount, cart, customCart}: TotalCartsModel) => {
+      this._lalaCounts = cartItemsCount;
+      this._storeCounts = customCartItemsCount;
+      this._customCartId = cart._id;
+      this._customCartId = customCart._id;
+      this.cartCounts$.next(this._lalaCounts + this._storeCounts);
+    });
   }
 
 
