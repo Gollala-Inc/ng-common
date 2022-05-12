@@ -18,7 +18,9 @@ export * from './lib/service/cart.service';
 export * from './lib/service/order.service';
 export * from './lib/service/router.service';
 export * from './lib/service/favorite.service';
+export * from './lib/service/snackbar.service';
 export * from './lib/component/login-dialog/login-dialog.component';
+export * from './lib/component/snackbar/snackbar.component';
 export * from './lib/page/signup-page/signup-page.component';
 export * from './lib/component/naver-script/naver-script.component';
 
