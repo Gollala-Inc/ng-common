@@ -133,6 +133,10 @@ export class CartService {
     })
   }
 
+  getAllCarts() {
+    return this.restService.GET('https://commerce-api.gollala.org/customer/auth/carts', {handleError: true});
+  }
+
 
   getCartCounts() {
     let cartItems:any[] = [];
