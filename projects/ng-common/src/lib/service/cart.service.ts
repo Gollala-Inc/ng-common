@@ -47,28 +47,36 @@ export class CartService {
     return this.restService.POST('https://commerce-api.gollala.org/cart/add', {
       body,
       handleError: true
-    });
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   updateCart(cartItemId: string, body: any) {
     return this.restService.PATCH(`https://commerce-api.gollala.org/cart/${this._cartId}/${cartItemId}`, {
       body,
       handleErorr: true
-    });
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   updateCartItems(body: any) {
     return this.restService.PATCH(`https://commerce-api.gollala.org/cart/${this._cartId}`, {
       body,
       handleError: true
-    })
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   subtractCart(body: any): Observable<{_id: string; items: CartItemsModel}>  {
     return this.restService.POST('https://commerce-api.gollala.org/cart/subtract', {
       body,
       handleError: true
-    });
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   getAuthCart() {
@@ -101,35 +109,45 @@ export class CartService {
     return this.restService.POST('https://commerce-api.gollala.org/custom_cart/', {
       body,
       handleError: true
-    })
+    }).pipe(
+      tap(() => this.getCartCounts())
+    )
   }
 
   updateCustomCart(customCartItemId: string, body: any) {
     return this.restService.PATCH(`https://commerce-api.gollala.org/custom_cart/${this._customCartId}/${customCartItemId}`, {
       body,
       handleError: true
-    });
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   updateCustomCartItems(body: any) {
     return this.restService.PATCH(`https://commerce-api.gollala.org/custom_cart/${this._customCartId}`, {
       body,
       handleError: true
-    });
+    }).pipe(
+      tap(() => this.getCartCounts())
+    );
   }
 
   createCustomCart(body: any) {
     return this.restService.POST('https://commerce-api.gollala.org/custom_cart/add_from_cart', {
       body,
       handleError: true
-    })
+    }).pipe(
+      tap(() => this.getCartCounts())
+    )
   }
 
   putCustomCart(body: any) {
     return this.restService.PUT('https://commerce-api.gollala.org/custom_cart/', {
       body,
       handleError: true
-    })
+    }).pipe(
+      tap(() => this.getCartCounts())
+    )
   }
 
   getAllCarts() {
