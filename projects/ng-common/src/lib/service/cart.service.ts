@@ -159,7 +159,7 @@ export class CartService {
     this.getAllCarts().subscribe(({cartItemsCount, customCartItemsCount, cart, customCart}: TotalCartsModel) => {
       this._lalaCounts = cartItemsCount;
       this._storeCounts = customCartItemsCount;
-      this._customCartId = cart._id;
+      this._cartId = cart._id;
       this._customCartId = customCart._id;
       this.cartCounts$.next(this._lalaCounts + this._storeCounts);
     });
