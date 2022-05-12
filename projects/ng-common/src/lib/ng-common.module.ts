@@ -19,6 +19,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {InhConfigModel} from "./interface/inh-config.model";
 import { NaverScriptComponent } from './component/naver-script/naver-script.component';
+import {SnackbarComponent} from "./component/snackbar/snackbar.component";
 
 const createPvdersInForRoot = (config: InhConfigModel) => {
   const result = [];
@@ -51,7 +52,8 @@ const materialModules = [
     RippleDirective,
     LoginDialogComponent,
     SignupPageComponent,
-    NaverScriptComponent
+    NaverScriptComponent,
+    SnackbarComponent
   ],
   imports: [
     CommonModule,
@@ -74,7 +76,8 @@ const materialModules = [
     ...materialModules,
     LoginDialogComponent,
     SignupPageComponent,
-    NaverScriptComponent
+    NaverScriptComponent,
+    SnackbarComponent
   ],
   entryComponents: [
     ConfirmDialogComponent,
