@@ -26,7 +26,7 @@ export class SnackbarService {
       clearTimeout(this.reopenTimer);
       this.close();
       this.reopenTimer = setTimeout(() => {
-        this.open(message);
+        this.open(message, type);
       }, 200);
       return;
     }
