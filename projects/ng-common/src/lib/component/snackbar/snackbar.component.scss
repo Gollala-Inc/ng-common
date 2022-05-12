@@ -1,0 +1,109 @@
+.snackbar {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+
+  &.hide {
+    display: none;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.8rem;
+    position: relative;
+    background: #FDF0E8;
+    border: 0.1rem solid;
+    box-shadow: 0rem 0.2rem 1rem rgba(0, 0, 0, 0.1);
+    border-radius: 0px 0px 0.8rem 0.8rem;
+
+    &.success {
+      background: #E9F5EF;
+      border-color: #20965D !important;
+    }
+
+    &.error {
+      border-color: #EB6417 !important;
+      background: #FDF0E8 !important;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.5rem;
+      line-height: 2.172rem;
+      font-weight: 400;
+      color: #1c1c1c;
+    }
+
+    button {
+      padding: 0;
+      margin-left: 6.2rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      width: 0.7rem;
+      height: 0.7rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &.in {
+    animation: slideIn 0.2s ease-in;
+  }
+  &.out {
+    animation: slideOut 0.2s ease-out forwards;
+  }
+}
+
+@media (max-width: 760px) {
+  .snackbar {
+    width: 100vw !important;
+    top: unset;
+    bottom: 8.6rem;
+
+    .container {
+      border-radius: 0.8rem !important;
+      margin: 0 1.6rem !important;
+      padding: 1.6rem !important;
+      justify-content: center !important;
+
+      p {
+        font-weight: bold !important;
+        font-size: 1.4rem !important;
+        line-height: 2.027rem !important;
+        text-align: center !important;
+      }
+      button {
+        display: none !important;
+      }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, 2rem);
+  }
+}
