@@ -1,6 +1,5 @@
-<section class="snackbar in"
+<section *ngIf="show" [class]="'snackbar ' + animeType"
          #snackBar
-         [ngClass]="{hide: !show}"
 >
   <div class="container" [ngClass]="type">
     <p>{{message}}</p>

@@ -12,14 +12,14 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   public message: string = '';
   public show: boolean = false;
   public type!: 'success' | 'error' | 'none';
+  public animeType: string = '';
 
   closeTimer: any = null;
   autoCloseTimer:any = null;
 
   constructor(
     private snackBarService: SnackbarService
-  ){
-  }
+  ){}
 
   ngOnInit(): void {
     this.getSnackbarControl();
@@ -31,9 +31,7 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   }
 
   public onClose() {
-    this.snackBar.nativeElement.classList.remove('in');
-    this.snackBar.nativeElement.classList.add('out');
-
+    this.animeType = 'out';
     clearTimeout(this.autoCloseTimer);
     this.closeTimer = setTimeout(() => {
       this.snackBarService.close();
@@ -53,9 +51,9 @@ export class SnackbarComponent implements OnInit, OnDestroy {
       this.show = show;
       this.message = message;
       this.type = type || 'success';
+      this.animeType = 'in';
+
       if(show) {
-        this.snackBar.nativeElement.classList.remove('out');
-        this.snackBar.nativeElement.classList.add('in');
         this.autoClose();
       }
     })

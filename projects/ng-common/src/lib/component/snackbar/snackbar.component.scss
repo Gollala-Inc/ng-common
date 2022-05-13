@@ -55,9 +55,11 @@
 
   &.in {
     animation: slideIn 0.2s ease-in;
+    -webkit-animation: slideIn 0.2s ease-in;
   }
   &.out {
     animation: slideOut 0.2s ease-out forwards;
+    -webkit-animation: slideOut  0.2s ease-out forwards;
   }
 }
 
