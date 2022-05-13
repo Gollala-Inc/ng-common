@@ -11,7 +11,7 @@ export class SnackbarComponent implements OnInit, OnDestroy {
   public delay: number = 5000;
   public message: string = '';
   public show: boolean = false;
-  public type!: 'success' | 'error';
+  public type!: 'success' | 'error' | 'none';
 
   closeTimer: any = null;
   autoCloseTimer:any = null;

@@ -4,7 +4,7 @@ import {BehaviorSubject} from 'rxjs';
 interface Control {
   show: boolean;
   message: string;
-  type?: 'success' | 'error';
+  type?: 'success' | 'error' | 'none';
   delay?: number;
 }
 
@@ -42,10 +42,11 @@ export class SnackbarService {
   }
 
   close() {
-    const control = {
+    const control: Control = {
       show: false,
       delay: 5000,
-      message: ''
+      message: '',
+      type: 'none'
     };
     this.status = 'closed';
     this.control$.next(control);
