@@ -89,10 +89,12 @@
 @keyframes slideIn {
   from {
     opacity: 0;
+    left: 50%;
     transform: translate(-50%, 2rem);
   }
   to {
     opacity: 1;
+    left: 50%;
     transform: translate(-50%, 0);
   }
 }
@@ -100,10 +102,12 @@
 @keyframes slideOut {
   from {
     opacity: 1;
+    left: 50%;
     transform: translate(-50%, 0);
   }
   to {
     opacity: 0;
+    left: 50%;
     transform: translate(-50%, 2rem);
   }
 }
