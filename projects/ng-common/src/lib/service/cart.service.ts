@@ -264,7 +264,7 @@ export class CartService {
             const {wholesale: {name, building, floor, section}} = productInfo;
 
             result[productId] = {
-              name: cartItem.product.displayName,
+              name: productInfo.displayName,
               productId,
               wholesaleName: `${name}(${building} ${floor}층 ${section})`,
               wsSeq,
