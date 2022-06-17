@@ -582,7 +582,7 @@ export class CartService {
       } else {
         /* 매장방문 - 카트 아이템만 있을 경우*/
 
-        return this.createCustomCart(idsInCartItems).pipe(productListByIdsWholesaleBound
+        return this.createCustomCart(idsInCartItems).pipe(
           catchError(
             (error: any) => {
               console.log('커스텀 카트 생성 에러', error);
